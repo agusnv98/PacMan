@@ -35,25 +35,26 @@ public class JuegoPrincipal extends ApplicationAdapter {
     private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
     private boolean showBox2DDebuggerRenderer;
+
     @Override
     public void create() {
+       // Gdx.graphics.setWindowedMode(428,518);
         batch = new SpriteBatch();
-    //camara
+
+        System.out.println(Gdx.graphics.getHeight() + "soy la altura" + Gdx.graphics.getWidth());
+        //camara
         //Camera – eye in the scene, determines what the player can see, used by LibGDX to render the scene.
         //Viewport – controls how the render results from the camera are displayed to the user, be it with black bars, stretched or doing nothing at all.
         camera = new OrthographicCamera();
-        viewport = new FitViewport(WIDTH,HEIGHT, camera);
+        viewport = new FitViewport(WIDTH, HEIGHT, camera);
         camera.translate(WIDTH / 2, HEIGHT / 2);
         camera.update();
         tiledMap = new TmxMapLoader().load("map/map.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 16f, batch);
         ///////
-        stageViewport=new FitViewport(WIDTH*20,HEIGHT*20);
-        stage=new Stage(stageViewport,batch);
+        stageViewport = new FitViewport(WIDTH * 20, HEIGHT * 20);
+        stage = new Stage(stageViewport, batch);
         //////////////////////
-
-
-
 
     }
 
@@ -75,10 +76,11 @@ public class JuegoPrincipal extends ApplicationAdapter {
         stage.dispose();
 
     }
-    @Override
-    public void resize(int width, int height){
 
-        viewport.update(width,height);
-        camera.position.set(camera.viewportWidth/2,camera.viewportHeight/2,0);
+    @Override
+    public void resize(int width, int height) {
+
+        viewport.update(width, height);
+        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
     }
 }
