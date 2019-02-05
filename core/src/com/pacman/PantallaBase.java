@@ -3,11 +3,11 @@ package com.pacman;
 import com.badlogic.gdx.Screen;
 
 public abstract class PantallaBase implements Screen {
-
     protected JuegoPrincipal juegoPrincipal;
 
-    public PantallaBase(JuegoPrincipal juego) {
-        juegoPrincipal = juego;
+    public PantallaBase(JuegoPrincipal principal) {
+        juegoPrincipal= principal;
+
     }
 
     @Override
