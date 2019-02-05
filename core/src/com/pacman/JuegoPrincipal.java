@@ -17,7 +17,6 @@ public class JuegoPrincipal extends Game {
 
     @Override
     public void create() {
-        //TestGITHUB
         //batch = new SpriteBatch();
         //mapa =new Texture("mapa.jpg");
         //Procesador p = new Procesador();
