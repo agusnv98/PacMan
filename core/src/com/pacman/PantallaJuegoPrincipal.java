@@ -1,6 +1,7 @@
 package com.pacman;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -22,10 +23,9 @@ public class PantallaJuegoPrincipal extends PantallaBase {
     public void show() {
         TextureRegion imgPacMan = new TextureRegion(sprites,2,1,13,13);
         escenario = new Stage();
-        pacman = new PacMan(imgPacMan);
+        pacman = new PacMan(sprites);
         escenario.addActor(pacman);
         pacman.setPosition(100,200);
-
     }
 
     @Override
@@ -40,6 +40,11 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         escenario.act();
         escenario.draw();
     }
+
+    private void handleInput(float dt){
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){}
+    }
+
 
     @Override
     public void dispose() {
