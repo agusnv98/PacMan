@@ -37,13 +37,10 @@ public class JuegoPrincipal extends Game {
         //se va a encargar de renderizar las imagenes
         Gdx.gl.glClearColor(1f, 4, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        batch.draw(pacMan, 0, 0, 60, 60);
-        batch.draw(pacMan, 580, 420, 60, 60);
-
-        batch.end();
-
-
+        //batch.begin();
+        //batch.draw(pacMan, 0, 0, 60, 60);
+        //batch.draw(pacMan, 580, 420, 60, 60);
+        //batch.end();
     }
 
     @Override
