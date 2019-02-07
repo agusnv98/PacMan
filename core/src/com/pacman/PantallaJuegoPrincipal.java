@@ -6,26 +6,33 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.pacman.Actores.Fantasma;
 import com.pacman.Actores.PacMan;
 
 public class PantallaJuegoPrincipal extends PantallaBase {
 
     private Stage escenario;
-    private PacMan pacman;
+    //private PacMan pacman;
+    private Fantasma fantasma1,fantasma2,fantasma3,fantasma4;
     private Texture sprites;
 
     public PantallaJuegoPrincipal(JuegoPrincipal juego) {
         super(juego);
-        sprites = new Texture("spritePacMan.png");
+        sprites = new Texture("personajes/actors.png");
     }
 
     @Override
     public void show() {
-        TextureRegion imgPacMan = new TextureRegion(sprites,2,1,13,13);
         escenario = new Stage();
-        pacman = new PacMan(sprites);
-        escenario.addActor(pacman);
-        pacman.setPosition(100,200);
+        fantasma1=new Fantasma(sprites,0);
+        escenario.addActor(fantasma1);
+        fantasma1.setPosition(100,200);
+        System.out.println(fantasma1.setEstado("debilitado"));
+        //pacman = new PacMan(sprites);
+        //escenario.addActor(pacman);
+        //pacman.setPosition(100,200);
+        //System.out.println(pacman.setEstado("abajo")+"------------------------------------");
+
     }
 
     @Override
