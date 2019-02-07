@@ -1,12 +1,10 @@
 package com.pacman;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class JuegoPrincipal extends Game {
     SpriteBatch batch;
@@ -14,6 +12,11 @@ public class JuegoPrincipal extends Game {
     Texture pacMan, mapa;
     //TextureRegion mapita;
     private int largoPacMan, altoPacMan, largoPantalla, altoPantalla;
+    public final BaseDeDatos baseDeDatos;
+
+    public JuegoPrincipal(BaseDeDatos baseDeDatos) {
+        this.baseDeDatos = baseDeDatos;
+    }
 
     @Override
     public void create() {
