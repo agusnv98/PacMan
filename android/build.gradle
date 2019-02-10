@@ -89,6 +89,10 @@ task run(type: Exec) {
     commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.pacman/com.pacman.AndroidLauncher'
 }
 
+dependencies {
+    implementation 'org.jetbrains:annotations-java5:15.0'
+}
+
 // sets up the Android Eclipse project, using the old Ant based build.
 eclipse {
     // need to specify Java source sets explicitly, SpringSource Gradle Eclipse plugin

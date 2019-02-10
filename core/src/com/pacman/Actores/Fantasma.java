@@ -6,46 +6,50 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import java.util.ArrayList;
 
-public class Fantasma extends Actor {
+public class Fantasma extends Personaje {
 
     private int fantasmaId;
-
-    public static final float VEL = 30f;
     private static final float duracionFrame = 0.15f;
-    float tiempoFrame;
 
-    private ArrayList<String> estados = new ArrayList<String>() {{
-        add("izquierda");
-        add("derecha");
-        add("arriba");
-        add("abajo");
-        add("debilitado");
-        add("volviendo");
-    }};
-    private int estadoActual;
+    private Animation animVolviendo, animDebilitado;
 
-    private Animation animDer, animDebilitado,
-            animIzq, animArriba, animAbajo, animActual;
-    private TextureRegion frameActual;
-
-    private Vector2 direccion;
-
-    public Fantasma(Texture animaciones, int id) {
-        int ejeY = 20, aumento = 16;
+    public Fantasma(Texture animaciones, Rectangle respawn, int id) {
+        super(respawn);
+        //ver si implementar el estado quieto
+        this.estados.add("debilitado");
+        this.estados.add("volviendo");
+        int ejeY = 20, aumento = 16; //bases para obtener las animaciones
         //por default el id es 0
-        if (id < 0 || id >= 4) {
-            id = 0;
+        switch (id) {
+            case 1:
+                this.fantasmaId = 1;//la posicion del fantasma con id 1 no se modifica
+                break;
+            case 2:
+                this.fantasmaId = 2;
+                this.limites.setPosition(this.limites.getX()+16,this.limites.getY());
+                break;
+            case 3:
+                this.fantasmaId = 3;
+                this.limites.setPosition(this.limites.getX()-16,this.limites.getY());
+                break;
+            default:                //por defecto se crea con id 0;
+                this.fantasmaId = 0;
+                this.limites.setPosition(this.limites.getX()-16,this.limites.getY());
+                break;
         }
-        establecerAnimaciones(animaciones, ejeY + (aumento * id));
-        direccion = new Vector2(0, 0);
+        this.setPosition(this.limites.getX(),this.limites.getY()); //establezco la posicion del actor donde corresponde
+        establecerAnimaciones(animaciones, ejeY + (aumento * this.fantasmaId));
+        this.animActual= this.animDer;
+
+        direccion = new Vector2(0, 0); //hay que hacer que siempre choque contra las paredes arriba,abajo
         this.animActual = animArriba;
-        this.estadoActual = 2;
-        this.fantasmaId = id;
+        this.estadoActual = 7; //estado arriba
     }
 
     private void establecerAnimaciones(Texture animaciones, int ejeY) {
@@ -97,6 +101,9 @@ public class Fantasma extends Actor {
                     //establecer animacion volviendo;
                     break;
                 */
+                default:
+                    direccion = new Vector2(0,0);
+                    break;
             }
         } else {
             exito = false;
@@ -104,6 +111,7 @@ public class Fantasma extends Actor {
         return exito;
     }
 
+    //ver como moverlo a personaje/////////////////////////////////////////////
     @Override
     public void act(float delta) {
         tiempoFrame += delta;
@@ -114,33 +122,28 @@ public class Fantasma extends Actor {
         }
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        batch.draw(frameActual, getX(), getY());
-    }
-
     private void mover(int estado, float delta) {
         switch (this.estadoActual) {
             case 0:
                 this.direccion = new Vector2(-delta, 0);
-                System.out.println("Estado izquierda");
+                //System.out.println("Estado izquierda");
                 break;
             case 1:
                 this.direccion = new Vector2(delta, 0);
-                System.out.println("Estado derecha");
+                //System.out.println("Estado derecha");
                 break;
             case 2:
                 this.direccion = new Vector2(0, delta);
-                System.out.println("Estado arriba");
+                //System.out.println("Estado arriba");
                 break;
             case 3:
                 this.direccion = new Vector2(0, -delta);
-                System.out.println("Estado abajo");
+                //System.out.println("Estado abajo");
                 break;
             case 4:
                 //verificar el tema de la direccion
                 this.direccion = new Vector2(delta, 0);
-                System.out.println("Estado Debilitado");
+                //System.out.println("Estado Debilitado");
                 break;
             /*case 5:
                 this.direccion = new Vector2(0, 0);
@@ -148,12 +151,8 @@ public class Fantasma extends Actor {
                 break;
             */
         }
-        this.direccion.scl(VEL);
+        this.direccion.scl(VELOCIDAD);
         setPosition(getX() + this.direccion.x, getY() + this.direccion.y);
-    }
-
-    public String getEstado() {
-        return this.estados.get(this.estadoActual);
     }
 
     public int getId() {

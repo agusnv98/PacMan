@@ -6,38 +6,45 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import org.w3c.dom.css.Rect;
+
 import java.util.ArrayList;
 
-public class PacMan extends Actor {
-    public static final float VEL = 20f;
-    private static final float duracionFrame = 0.1f;
-    float tiempoFrame;
+public class PacMan extends Personaje {
+    private Animation animEvolucionado;
 
-    private ArrayList<String> estados = new ArrayList<String>() {{
-        add("quieto");
-        add("izquierda");
-        add("derecha");
-        add("arriba");
-        add("abajo");
-        add("evolucionado");
-        add("muerto");
-    }};
-    private int estadoActual;
-
-    private Animation animDer, animMuerto, animEvolucionado,
-            animIzq, animArriba, animAbajo, animActual;
-    private TextureRegion frameActual;
-
-    private Vector2 direccion;
-
-    public PacMan(Texture animaciones) {
-        establecerAnimaciones(animaciones);
-        direccion = new Vector2(0, 0);
+    public PacMan(Texture animaciones, Rectangle respawn) {
+        super(respawn);
+        this.estados.add("evolucionado");
+        this.estados.add("muerto");
+        this.estados.add("quieto");
+        this.estadoActual = 6; //estado quieto
+        this.setPosition(this.limites.getX(), this.limites.getY()); //establezco la posicion del actor donde corresponde
+        this.establecerAnimaciones(animaciones);
         this.animActual = this.animDer;
-        this.estadoActual = 0;
+
+        System.out.println("PosPacMan" + getX() + "///" + getY());
+        System.out.println("DimRec" + limites.width + "//" + limites.height);
+        System.out.println("PosRect" + limites.x + "//" + limites.y);
+    }
+
+    public Rectangle getLimites() {
+        return limites;
+    }
+
+    //ver si public o private
+    public void setXY(float pX, float pY) {
+        setPosition(pX, pY);
+        limites.setX(pX);
+        limites.setY(pY);
+    }
+
+    public Vector2 getDireccion() {
+        return this.direccion;
     }
 
     private void establecerAnimaciones(Texture animaciones) {
@@ -79,29 +86,31 @@ public class PacMan extends Actor {
         //metodo que cambia al pacman de estado y establece la animacion correspondiente al estado
         boolean exito = true;
         int pos = estados.indexOf(estado);
-        System.out.println(pos);
+        System.out.println(pos);/////////////////////////////////////////////////
         if (pos != -1 && this.estadoActual != pos) {
             this.estadoActual = pos;
             switch (this.estadoActual) {
-                //para el estado quieto (index 0, no se cambia la animacion)
-                case 1:
+                case 0:
                     this.animActual = this.animIzq;
                     break;
-                case 2:
+                case 1:
                     this.animActual = this.animDer;
                     break;
-                case 3:
+                case 2:
                     this.animActual = this.animArriba;
                     break;
-                case 4:
+                case 3:
                     this.animActual = this.animAbajo;
                     break;
-                case 5:
+                case 4:
+                    //faltan las 4 direcciones de evolucionado
                     this.animActual = this.animEvolucionado;
                     break;
-                case 6:
+                case 5:
+                    //para reiniciar la animacion hay que volvera crearla aca-------------------
                     this.animActual = this.animMuerto;
                     break;
+                //para el estado quieto (index 6, no se cambia la animacion)
             }
         } else {
             exito = false;
@@ -109,59 +118,47 @@ public class PacMan extends Actor {
         return exito;
     }
 
-    public String getEstado() {
-        return this.estados.get(this.estadoActual);
-    }
-
     @Override
     public void act(float delta) {
         tiempoFrame += delta;
         frameActual = (TextureRegion) animActual.getKeyFrame(tiempoFrame, true);
-        mover(this.estadoActual, delta);
+        moverse(this.estadoActual, delta);
         if (getX() > Gdx.graphics.getWidth() + frameActual.getRegionWidth()) {
             setPosition(0 - frameActual.getRegionWidth(), getY());
+        }else if (getX() +frameActual.getRegionWidth() < 0){
+            setPosition(Gdx.graphics.getWidth(), getY());
         }
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        batch.draw(frameActual, getX(), getY());
-    }
-
-    private void mover(int estado, float delta) {
+    private void moverse(int estado, float delta) {
         switch (this.estadoActual) {
             case 0:
-                //ver para cuando muera el tema de la animacion en setEstado y aca
-                this.direccion = new Vector2(0, 0);
-                System.out.println("Estado quieto");
+                this.direccion = new Vector2(-delta, 0);
+                //System.out.println("Estado izquierda");
                 break;
             case 1:
-                this.direccion = new Vector2(-delta, 0);
-                System.out.println("Estado izquierda");
+                this.direccion = new Vector2(delta, 0);
+                //System.out.println("Estado derecha");
                 break;
             case 2:
-                this.direccion = new Vector2(delta, 0);
-                System.out.println("Estado derecha");
+                this.direccion = new Vector2(0, delta);
+                //System.out.println("Estado arriba");
                 break;
             case 3:
-                this.direccion = new Vector2(0, delta);
-                System.out.println("Estado arriba");
+                this.direccion = new Vector2(0, -delta);
+                //System.out.println("Estado abajo");
                 break;
             case 4:
-                this.direccion = new Vector2(0, -delta);
-                System.out.println("Estado abajo");
-                break;
-            case 5:
-                //mantiene la direccion con la que venia
+                //hay que poner una animacion evolucionado por cada direccion
                 //this.direccion = new Vector2(0, 0);--------------------------------
-                System.out.println("Estado Evolucionado");
+                //System.out.println("Estado Evolucionado");
                 break;
-            case 6:
+            default:
                 this.direccion = new Vector2(0, 0);
-                System.out.println("Estado muerto");
+                //System.out.println("Estado muerto/quieto");
                 break;
         }
-        this.direccion.scl(VEL);
-        setPosition(getX() + this.direccion.x, getY() + this.direccion.y);
+        this.direccion.scl(VELOCIDAD);
+        setXY(getX() + this.direccion.x, getY() + this.direccion.y);
     }
 }
