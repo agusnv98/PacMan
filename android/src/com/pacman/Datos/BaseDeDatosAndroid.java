@@ -11,4 +11,9 @@ public class BaseDeDatosAndroid implements BaseDeDatos {
     public BaseDeDatosAndroid(Context contexto) {
         this.basedeDatos = new ServicioBD(contexto);
     }
+
+    public void leerJugador(String nombre) {
+        this.basedeDatos.getJugadorByUsuario(nombre);
+    }
 }
+

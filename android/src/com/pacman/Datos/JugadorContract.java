@@ -11,6 +11,6 @@ public class JugadorContract {
         public static final String NOMBRE_TABLA = "jugador";
         public static final String USUARIO = "usuario";
         public static final String CONTRASEÑA = "contraseña";
-        public static final String PUNTAJE = "puntaje maximo";
+        public static final String PUNTAJE = "puntajemaximo";
     }
 }
