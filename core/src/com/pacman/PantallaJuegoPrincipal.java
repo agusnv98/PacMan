@@ -62,6 +62,22 @@ public class PantallaJuegoPrincipal extends PantallaBase {
 
     @Override
     public void show() {
+        establecerCamara();
+
+        MapProperties prop = mapa.getProperties();
+        int mapWidth = prop.get("width", Integer.class);
+        int mapHeight = prop.get("height", Integer.class);
+        int tilePixelWidth = prop.get("tilewidth", Integer.class);
+        int tilePixelHeight = prop.get("tileheight", Integer.class);
+        int widthEnPx = mapWidth * tilePixelWidth;
+        int heightEnPx = mapHeight * tilePixelHeight;
+        System.out.println("Mapa" + widthEnPx + "//" + heightEnPx);
+
+        Mundo mundo = new Mundo(mapa, escenario);
+        this.pacman = mundo.getPacman();
+    }
+
+    private void establecerCamara() {
         Gdx.graphics.setWindowedMode(304, 336);
         batch = new SpriteBatch();
         System.out.println("Pantalla" + Gdx.graphics.getWidth() + "//" + Gdx.graphics.getHeight());
@@ -79,16 +95,6 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         stageViewport = new FitViewport(ANCHOENPX, ALTOENPX);
         escenario = new Stage(stageViewport, batch);
 
-        MapProperties prop = mapa.getProperties();
-        int mapWidth = prop.get("width", Integer.class);
-        int mapHeight = prop.get("height", Integer.class);
-        int tilePixelWidth = prop.get("tilewidth", Integer.class);
-        int tilePixelHeight = prop.get("tileheight", Integer.class);
-        int widthEnPx = mapWidth * tilePixelWidth;
-        int heightEnPx = mapHeight * tilePixelHeight;
-        System.out.println("Mapa" + widthEnPx + "//" + heightEnPx);
-        Mundo mundo = new Mundo(mapa, escenario);
-        this.pacman = mundo.getPacman();
     }
 
     @Override
@@ -128,49 +134,8 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
         handleInput(); //usar input adapter, o la de procesador
-        MapLayer collisionObjectLayer = mapa.getLayers().get("Wall");
-        MapObjects objects = collisionObjectLayer.getObjects();
-        // there are several other types, Rectangle is probably the most common one
-        System.out.println("Empece a analizar colisiones");
-        for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
-            Rectangle rectangle = rectangleObject.getRectangle();
-            if (Intersector.overlaps(pacman.getLimites(), rectangle)) {
-                // collision happened
-                colision(rectangle);
-            }
-        }
-        System.out.println("Termine de analizar colisiones");
         escenario.act();
         escenario.draw();
-    }
-
-    private void colision(Rectangle rectangulo) {
-        System.out.println("Colision" + "||" + pacman.getLimites().x + "//" + pacman.getLimites().y + "||" + rectangulo.getX() + "//" + (rectangulo.getY()));
-        System.out.println("ancho"+rectangulo.getWidth()+"alto"+rectangulo.getHeight());
-        Vector2 direccionPacMan = pacman.getDireccion();
-        System.out.println("Direccion" + direccionPacMan.x + "//" + direccionPacMan.y);
-        Rectangle limitesPacMan = pacman.getLimites();
-        if (direccionPacMan.x > 0) {//va hacia la derecha
-            float diferencia = (limitesPacMan.getX() + limitesPacMan.getWidth()) - rectangulo.getX();
-            pacman.setXY(limitesPacMan.getX() - diferencia, limitesPacMan.getY());
-        } else if (direccionPacMan.x < 0) {//va hacia la izquierda
-            float diferencia = (rectangulo.getX() + rectangulo.getWidth()) - limitesPacMan.getX();
-            pacman.setXY(limitesPacMan.getX() + diferencia, limitesPacMan.getY());
-        } else if (direccionPacMan.y > 0) {//va hacia arriba
-            float diferencia = (limitesPacMan.getY() + limitesPacMan.getHeight()) - rectangulo.getY();
-            pacman.setXY(limitesPacMan.getX(), limitesPacMan.getY() - diferencia);
-        } else if (direccionPacMan.y < 0) {//va hacia abajo
-            float diferencia = (rectangulo.getY() + rectangulo.getHeight()) - limitesPacMan.getY();
-            System.out.println(diferencia+"///////////////////////////////////////////");
-            pacman.setXY(limitesPacMan.getX(), limitesPacMan.getY() + diferencia);
-        }
-        //obtengo la diferencia del toque
-    }
-
-    private void reubicar(PacMan pacman, Rectangle rectangle) {
-        //verifico el choque con el rectangulo, y reubico el pacman
-        pacman.getLimites().getX();
-        pacman.getLimites().getY();
     }
 
     @Override
@@ -187,7 +152,7 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
     }
 
-    private void correctRectangle(Rectangle rectangle) {
+    /*private void correctRectangle(Rectangle rectangle) {
         //rectangle.x = rectangle.x / PPM;
         rectangle.y = rectangle.y * 2;
         //rectangle.width = rectangle.width / PPM;
@@ -209,5 +174,5 @@ public class PantallaJuegoPrincipal extends PantallaBase {
             Rectangle rectangle = rectangleObject.getRectangle();
             correctRectangle(rectangle);
         }
-    }
+    }*/
 }

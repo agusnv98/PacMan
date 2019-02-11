@@ -3,22 +3,17 @@ package com.pacman.Actores;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-
-import org.w3c.dom.css.Rect;
-
-import java.util.ArrayList;
+import com.pacman.Mundo;
 
 public class PacMan extends Personaje {
     private Animation animEvolucionado;
 
-    public PacMan(Texture animaciones, Rectangle respawn) {
-        super(respawn);
+    public PacMan(Texture animaciones, Rectangle respawn, Mundo mundo) {
+        super(respawn, mundo);
         this.estados.add("evolucionado");
         this.estados.add("muerto");
         this.estados.add("quieto");
@@ -49,27 +44,27 @@ public class PacMan extends Personaje {
 
     private void establecerAnimaciones(Texture animaciones) {
         //metodo que incializa las animaciones del PacMan
-        animIzq = new Animation(duracionFrame,
+        animIzq = new Animation<Sprite>(duracionFrame,
                 new Sprite(new TextureRegion(animaciones, 194, 58, 14, 14)),
                 new Sprite(new TextureRegion(animaciones, 179, 58, 14, 14)),
                 new Sprite(new TextureRegion(animaciones, 132, 58, 14, 14)),
                 new Sprite(new TextureRegion(animaciones, 179, 58, 14, 14)));
-        animDer = new Animation(duracionFrame,
+        animDer = new Animation<Sprite>(duracionFrame,
                 new Sprite(new TextureRegion(animaciones, 166, 58, 14, 14)),
                 new Sprite(new TextureRegion(animaciones, 149, 58, 12, 14)),
                 new Sprite(new TextureRegion(animaciones, 132, 58, 14, 14)),
                 new Sprite(new TextureRegion(animaciones, 149, 58, 12, 14)));
-        animArriba = new Animation(duracionFrame,
+        animArriba = new Animation<Sprite>(duracionFrame,
                 new Sprite(new TextureRegion(animaciones, 228, 61, 14, 9)),
                 new Sprite(new TextureRegion(animaciones, 212, 59, 14, 12)),
                 new Sprite(new TextureRegion(animaciones, 132, 58, 14, 14)),
                 new Sprite(new TextureRegion(animaciones, 212, 59, 14, 12)));
-        animAbajo = new Animation(duracionFrame,
+        animAbajo = new Animation<Sprite>(duracionFrame,
                 new Sprite(new TextureRegion(animaciones, 260, 60, 14, 14)),
                 new Sprite(new TextureRegion(animaciones, 244, 59, 14, 14)),
                 new Sprite(new TextureRegion(animaciones, 132, 58, 14, 14)),
                 new Sprite(new TextureRegion(animaciones, 244, 59, 14, 14)));
-        animMuerto = new Animation(duracionFrame,
+        animMuerto = new Animation<Sprite>(duracionFrame,
                 new Sprite(new TextureRegion(animaciones, 131, 78, 16, 8)),
                 new Sprite(new TextureRegion(animaciones, 147, 80, 16, 6)),
                 new Sprite(new TextureRegion(animaciones, 163, 81, 16, 5)),
@@ -122,15 +117,15 @@ public class PacMan extends Personaje {
     public void act(float delta) {
         tiempoFrame += delta;
         frameActual = (TextureRegion) animActual.getKeyFrame(tiempoFrame, true);
-        moverse(this.estadoActual, delta);
+        mover(delta);
         if (getX() > Gdx.graphics.getWidth() + frameActual.getRegionWidth()) {
             setPosition(0 - frameActual.getRegionWidth(), getY());
-        }else if (getX() +frameActual.getRegionWidth() < 0){
+        } else if (getX() + frameActual.getRegionWidth() < 0) {
             setPosition(Gdx.graphics.getWidth(), getY());
         }
     }
 
-    private void moverse(int estado, float delta) {
+    private void mover(float delta) {
         switch (this.estadoActual) {
             case 0:
                 this.direccion = new Vector2(-delta, 0);
@@ -160,5 +155,7 @@ public class PacMan extends Personaje {
         }
         this.direccion.scl(VELOCIDAD);
         setXY(getX() + this.direccion.x, getY() + this.direccion.y);
+        this.mundo.verificarColisionPared();
+        this.mundo.verificarColisionPildora();
     }
 }

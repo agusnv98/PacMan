@@ -3,14 +3,11 @@ package com.pacman.Actores;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-
-import java.util.ArrayList;
+import com.pacman.Mundo;
 
 public class Fantasma extends Personaje {
 
@@ -19,8 +16,8 @@ public class Fantasma extends Personaje {
 
     private Animation animVolviendo, animDebilitado;
 
-    public Fantasma(Texture animaciones, Rectangle respawn, int id) {
-        super(respawn);
+    public Fantasma(Texture animaciones, Rectangle respawn, int id, Mundo mundo) {
+        super(respawn, mundo);
         //ver si implementar el estado quieto
         this.estados.add("debilitado");
         this.estados.add("volviendo");
@@ -32,20 +29,20 @@ public class Fantasma extends Personaje {
                 break;
             case 2:
                 this.fantasmaId = 2;
-                this.limites.setPosition(this.limites.getX()+16,this.limites.getY());
+                this.limites.setPosition(this.limites.getX() + 16, this.limites.getY());
                 break;
             case 3:
                 this.fantasmaId = 3;
-                this.limites.setPosition(this.limites.getX()-16,this.limites.getY());
+                this.limites.setPosition(this.limites.getX() - 16, this.limites.getY());
                 break;
             default:                //por defecto se crea con id 0;
                 this.fantasmaId = 0;
-                this.limites.setPosition(this.limites.getX()-16,this.limites.getY());
+                this.limites.setPosition(this.limites.getX() - 16, this.limites.getY());
                 break;
         }
-        this.setPosition(this.limites.getX(),this.limites.getY()); //establezco la posicion del actor donde corresponde
+        this.setPosition(this.limites.getX(), this.limites.getY()); //establezco la posicion del actor donde corresponde
         establecerAnimaciones(animaciones, ejeY + (aumento * this.fantasmaId));
-        this.animActual= this.animDer;
+        this.animActual = this.animDer;
 
         direccion = new Vector2(0, 0); //hay que hacer que siempre choque contra las paredes arriba,abajo
         this.animActual = animArriba;
@@ -53,19 +50,19 @@ public class Fantasma extends Personaje {
     }
 
     private void establecerAnimaciones(Texture animaciones, int ejeY) {
-        animIzq = new Animation(duracionFrame,
+        animIzq = new Animation<Sprite>(duracionFrame,
                 new Sprite(new TextureRegion(animaciones, 34, ejeY, 14, 13)),
                 new Sprite(new TextureRegion(animaciones, 50, ejeY, 14, 13)));
-        animDer = new Animation(duracionFrame,
+        animDer = new Animation<Sprite>(duracionFrame,
                 new Sprite(new TextureRegion(animaciones, 2, ejeY, 14, 13)),
                 new Sprite(new TextureRegion(animaciones, 18, ejeY, 14, 13)));
-        animArriba = new Animation(duracionFrame,
+        animArriba = new Animation<Sprite>(duracionFrame,
                 new Sprite(new TextureRegion(animaciones, 66, ejeY, 14, 13)),
                 new Sprite(new TextureRegion(animaciones, 82, ejeY, 14, 13)));
-        animAbajo = new Animation(duracionFrame,
+        animAbajo = new Animation<Sprite>(duracionFrame,
                 new Sprite(new TextureRegion(animaciones, 98, ejeY, 14, 13)),
                 new Sprite(new TextureRegion(animaciones, 114, ejeY, 14, 13)));
-        animDebilitado = new Animation(duracionFrame,
+        animDebilitado = new Animation<Sprite>(duracionFrame,
                 new Sprite(new TextureRegion(animaciones, 2, 84, 14, 13)),
                 new Sprite(new TextureRegion(animaciones, 18, 84, 14, 13)),
                 new Sprite(new TextureRegion(animaciones, 34, 84, 14, 13)),
@@ -102,7 +99,7 @@ public class Fantasma extends Personaje {
                     break;
                 */
                 default:
-                    direccion = new Vector2(0,0);
+                    direccion = new Vector2(0, 0);
                     break;
             }
         } else {
@@ -111,18 +108,17 @@ public class Fantasma extends Personaje {
         return exito;
     }
 
-    //ver como moverlo a personaje/////////////////////////////////////////////
     @Override
     public void act(float delta) {
         tiempoFrame += delta;
         frameActual = (TextureRegion) animActual.getKeyFrame(tiempoFrame, true);
-        mover(this.estadoActual, delta);
+        mover(delta);
         if (getX() > Gdx.graphics.getWidth() + frameActual.getRegionWidth()) {
             setPosition(0 - frameActual.getRegionWidth(), getY());
         }
     }
 
-    private void mover(int estado, float delta) {
+    private void mover(float delta) {
         switch (this.estadoActual) {
             case 0:
                 this.direccion = new Vector2(-delta, 0);
