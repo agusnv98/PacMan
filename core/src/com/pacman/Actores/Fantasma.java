@@ -18,7 +18,6 @@ public class Fantasma extends Personaje {
 
     public Fantasma(Texture texturas, Rectangle respawn, int id, Mundo mundo) {
         super(respawn, mundo);
-        //ver si implementar el estado quieto
         this.estados.add("debilitado");
         this.estados.add("volviendo");
         int ejeY = 20, aumento = 16; //bases para obtener las animaciones

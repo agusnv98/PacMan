@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.pacman.Actores.Fantasma;
 import com.pacman.Actores.PacMan;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -46,6 +47,9 @@ public class PantallaJuegoPrincipal extends PantallaBase {
     private PacMan pacman;
     private Fantasma fantasma1, fantasma2, fantasma3, fantasma4;
 
+    private Skin skin;
+    private MiTouch touch;
+
     public PantallaJuegoPrincipal(JuegoPrincipal juego) {
         super(juego);
     }
@@ -75,6 +79,12 @@ public class PantallaJuegoPrincipal extends PantallaBase {
 
         Mundo mundo = new Mundo(mapa, escenario);
         this.pacman = mundo.getPacman();
+        //establece el gamePad
+        Gdx.input.setInputProcessor(escenario);
+        skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));//skin para los botones
+        touch = new MiTouch(40,skin,this.pacman);
+        touch.setBounds(76, 0, 140, 134);
+        escenario.addActor(touch);
     }
 
     private void establecerCamara() {
@@ -85,12 +95,11 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         //Viewport – controls how the render results from the camera are displayed to the user, be it with black bars, stretched or doing nothing at all.
         camera = new OrthographicCamera();
         viewport = new FitViewport(ANCHOENTILES, ALTOENTILES, camera);
-        camera.translate(ALTOENTILES / 2, ANCHOENTILES / 2);
+        camera.translate(ANCHOENTILES / 2, ALTOENTILES / 2);
         camera.update();
         //Cargador y renderizador del mapa
         mapa = new TmxMapLoader().load("map/map.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(mapa, 1 / 16f, batch);
-
         //modificar aca tambien para cuando entre el joysitic e info del juego
         stageViewport = new FitViewport(ANCHOENPX, ALTOENPX);
         escenario = new Stage(stageViewport, batch);
@@ -133,13 +142,14 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
-        handleInput(); //usar input adapter, o la de procesador
+        //handleInput(); //usar input adapter, o la de procesador
         escenario.act();
         escenario.draw();
     }
 
     @Override
     public void dispose() {
+        skin.dispose();
         mapa.dispose();
         tiledMapRenderer.dispose();
         escenario.dispose();
