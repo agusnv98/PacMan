@@ -16,7 +16,7 @@ public class Fantasma extends Personaje {
 
     private Animation animVolviendo, animDebilitado;
 
-    public Fantasma(Texture animaciones, Rectangle respawn, int id, Mundo mundo) {
+    public Fantasma(Texture texturas, Rectangle respawn, int id, Mundo mundo) {
         super(respawn, mundo);
         //ver si implementar el estado quieto
         this.estados.add("debilitado");
@@ -41,32 +41,29 @@ public class Fantasma extends Personaje {
                 break;
         }
         this.setPosition(this.limites.getX(), this.limites.getY()); //establezco la posicion del actor donde corresponde
-        establecerAnimaciones(animaciones, ejeY + (aumento * this.fantasmaId));
-        this.animActual = this.animDer;
-
-        direccion = new Vector2(0, 0); //hay que hacer que siempre choque contra las paredes arriba,abajo
+        establecerAnimaciones(texturas, ejeY + (aumento * this.fantasmaId));
         this.animActual = animArriba;
-        this.estadoActual = 7; //estado arriba
+        this.estadoActual = 2; //estado arriba
     }
 
-    private void establecerAnimaciones(Texture animaciones, int ejeY) {
+    private void establecerAnimaciones(Texture texturas, int ejeY) {
         animIzq = new Animation<Sprite>(duracionFrame,
-                new Sprite(new TextureRegion(animaciones, 34, ejeY, 14, 13)),
-                new Sprite(new TextureRegion(animaciones, 50, ejeY, 14, 13)));
+                new Sprite(new TextureRegion(texturas, 34, ejeY, 14, 13)),
+                new Sprite(new TextureRegion(texturas, 50, ejeY, 14, 13)));
         animDer = new Animation<Sprite>(duracionFrame,
-                new Sprite(new TextureRegion(animaciones, 2, ejeY, 14, 13)),
-                new Sprite(new TextureRegion(animaciones, 18, ejeY, 14, 13)));
+                new Sprite(new TextureRegion(texturas, 2, ejeY, 14, 13)),
+                new Sprite(new TextureRegion(texturas, 18, ejeY, 14, 13)));
         animArriba = new Animation<Sprite>(duracionFrame,
-                new Sprite(new TextureRegion(animaciones, 66, ejeY, 14, 13)),
-                new Sprite(new TextureRegion(animaciones, 82, ejeY, 14, 13)));
+                new Sprite(new TextureRegion(texturas, 66, ejeY, 14, 13)),
+                new Sprite(new TextureRegion(texturas, 82, ejeY, 14, 13)));
         animAbajo = new Animation<Sprite>(duracionFrame,
-                new Sprite(new TextureRegion(animaciones, 98, ejeY, 14, 13)),
-                new Sprite(new TextureRegion(animaciones, 114, ejeY, 14, 13)));
+                new Sprite(new TextureRegion(texturas, 98, ejeY, 14, 13)),
+                new Sprite(new TextureRegion(texturas, 114, ejeY, 14, 13)));
         animDebilitado = new Animation<Sprite>(duracionFrame,
-                new Sprite(new TextureRegion(animaciones, 2, 84, 14, 13)),
-                new Sprite(new TextureRegion(animaciones, 18, 84, 14, 13)),
-                new Sprite(new TextureRegion(animaciones, 34, 84, 14, 13)),
-                new Sprite(new TextureRegion(animaciones, 50, 84, 14, 13)));
+                new Sprite(new TextureRegion(texturas, 2, 84, 14, 13)),
+                new Sprite(new TextureRegion(texturas, 18, 84, 14, 13)),
+                new Sprite(new TextureRegion(texturas, 34, 84, 14, 13)),
+                new Sprite(new TextureRegion(texturas, 50, 84, 14, 13)));
         //animVolviendo;
     }
 
@@ -119,6 +116,7 @@ public class Fantasma extends Personaje {
     }
 
     private void mover(float delta) {
+        Rectangle pared;
         switch (this.estadoActual) {
             case 0:
                 this.direccion = new Vector2(-delta, 0);
@@ -148,7 +146,11 @@ public class Fantasma extends Personaje {
             */
         }
         this.direccion.scl(VELOCIDAD);
-        setPosition(getX() + this.direccion.x, getY() + this.direccion.y);
+        setXY(getX() + this.direccion.x,getY() + this.direccion.y);
+        pared = this.mundo.verificarColisionPared(this);
+        if (pared != null) {
+            reacomodar(pared);
+        }
     }
 
     public int getId() {

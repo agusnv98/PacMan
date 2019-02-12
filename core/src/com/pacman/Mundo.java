@@ -23,6 +23,7 @@ public class Mundo {
     private PacMan pacman;
     private ArrayList<Fantasma> listaFantasma = new ArrayList<Fantasma>();
     private List<Pildora> listaPildora = new ArrayList<Pildora>();
+    private final int cantFantasmas = 4;
 
     public Mundo(TiledMap mapa, Stage escenario) {
         sprites = new Texture("personajes/actors.png");
@@ -34,7 +35,7 @@ public class Mundo {
 
         MapLayer capaFantasma = mapa.getLayers().get("Ghost");
         Rectangle rectanguloFantasma = ((RectangleMapObject) capaFantasma.getObjects().get(0)).getRectangle();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < cantFantasmas; i++) {
             this.listaFantasma.add(new Fantasma(sprites, rectanguloFantasma, i, this));
             escenario.addActor(this.listaFantasma.get(i));
         }
@@ -58,47 +59,38 @@ public class Mundo {
         return pacman;
     }
 
-    public void verificarColisionPared() {
+    public Rectangle verificarColisionPared(Personaje personaje) {
         MapLayer capaPared = mapa.getLayers().get("Wall");
         MapObjects objetos = capaPared.getObjects();
-        System.out.println("Empece a analizar colisiones");
+        Rectangle pared = null;
+        //System.out.println("Empece a analizar colisiones con paredes");
         for (RectangleMapObject rectangleObject : objetos.getByType(RectangleMapObject.class)) {
             Rectangle rectangulo = rectangleObject.getRectangle();
-            if (Intersector.overlaps(pacman.getLimites(), rectangulo)) {
+            if (Intersector.overlaps(personaje.getLimites(), rectangulo)) {
                 // ocurrio una colision con una pared
-                System.out.println("Colision Pared" + "||" + pacman.getLimites().x + "//" + pacman.getLimites().y + "||" + rectangulo.getX() + "//" + (rectangulo.getY()));
-                System.out.println("ancho" + rectangulo.getWidth() + "alto" + rectangulo.getHeight());
-                Vector2 direccionPacMan = pacman.getDireccion();
-                System.out.println("Direccion" + direccionPacMan.x + "//" + direccionPacMan.y);
-                Rectangle limitesPacMan = pacman.getLimites();
-                if (direccionPacMan.x > 0) {//va hacia la derecha
-                    float diferencia = (limitesPacMan.getX() + limitesPacMan.getWidth()) - rectangulo.getX();
-                    pacman.setXY(limitesPacMan.getX() - diferencia, limitesPacMan.getY());
-                } else if (direccionPacMan.x < 0) {//va hacia la izquierda
-                    float diferencia = (rectangulo.getX() + rectangulo.getWidth()) - limitesPacMan.getX();
-                    pacman.setXY(limitesPacMan.getX() + diferencia, limitesPacMan.getY());
-                } else if (direccionPacMan.y > 0) {//va hacia arriba
-                    float diferencia = (limitesPacMan.getY() + limitesPacMan.getHeight()) - rectangulo.getY();
-                    pacman.setXY(limitesPacMan.getX(), limitesPacMan.getY() - diferencia);
-                } else if (direccionPacMan.y < 0) {//va hacia abajo
-                    float diferencia = (rectangulo.getY() + rectangulo.getHeight()) - limitesPacMan.getY();
-                    pacman.setXY(limitesPacMan.getX(), limitesPacMan.getY() + diferencia);
-                }
+                pared = rectangulo;
             }
         }
+        return pared;
     }
 
     public void verificarColisionPildora() {
         Pildora pildora;
-        System.out.println("Empece a analizar colisiones de pildora");
-        for (Pildora pildoraAux: this.listaPildora) {
+        //System.out.println("Empece a analizar colisiones de pildora");
+        for (Pildora pildoraAux : this.listaPildora) {
             Rectangle limites = pildoraAux.getLimites();
             if (Intersector.overlaps(pacman.getLimites(), limites)) {
                 // ocurrio una colision con una pildora
                 // obtengo la pildora
                 pildora = obtenerPildora(limites);
+                if (pildora.esGrande()) {
+                    this.pacman.setEstado("evolucionado");
+                    for (Fantasma f : this.listaFantasma) {
+                        f.setEstado("debilitado");
+                    }
+                }
                 pildora.esComida();
-                System.out.println("Colision Pildora" + "||" + pacman.getLimites().x + "//" + pacman.getLimites().y + "||" + limites.getX() + "//" + (limites.getY()));
+                //System.out.println("Colision Pildora" + "||" + pacman.getLimites().x + "//" + pacman.getLimites().y + "||" + limites.getX() + "//" + (limites.getY()));
             }
         }
     }

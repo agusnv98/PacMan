@@ -40,6 +40,10 @@ public class Pildora extends Actor {
         }
     }
 
+    public boolean esGrande() {
+        return (this.esGrande && this.valida);
+    }
+
     public int getId() {
         return this.idPildora;
     }
