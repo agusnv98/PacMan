@@ -16,36 +16,28 @@ public class MiTouch extends Touchpad {
     public void act(float delta) {
         //Este metodo se llama en toda la ejecución de la pantalla del juego
         super.act(delta);
-        System.out.println("X"+this.getKnobX()+"---j---"+this.getKnobY()+"Y");
+        System.out.println("X" + this.getKnobX() + "---j---" + this.getKnobY() + "Y");
         //System.out.println(delta + "delta de touch");
         if (isTouched()) {
             //se verifica en caso de tocarse el touchpad, si fue un lugar de direccion habil
-            if (this.getKnobX() >= 58 && this.getKnobX() <= 86 && this.getKnobY() >= 102 && this.getKnobY() <= 106) {
+            if (this.getKnobX() >= 55 && this.getKnobX() <= 86 && this.getKnobY() >= 85 && this.getKnobY() <= 110) {
                 pac.setEstado("arriba");
                 System.out.println("gg");
                 System.out.println(pac.getEstado() + "y estoy en" + pac.getDireccion());
-            } else {
-                if (this.getKnobX() >= 59 && this.getKnobX() <= 86 && this.getKnobY() >= 29 && this.getKnobY() <= 31) {
-                    pac.setEstado("abajo");
-                    System.out.println("gg");
-                    System.out.println(pac.getEstado() + "y estoy en" + pac.getDireccion());
-
-                } else {
-                    if (this.getKnobX() >= 30 && this.getKnobX() <= 34 && this.getKnobY() >= 56 && this.getKnobY() <= 82) {
-                        pac.setEstado("izquierda");
-                        System.out.println("gg");
-                        System.out.println(pac.getEstado() + "y estoy en" + pac.getDireccion());
-
-                    } else {
-                        if (this.getKnobX() >= 106 && this.getKnobX() <= 109 && this.getKnobY() >= 51 && this.getKnobY() <= 82) {
-                            pac.setEstado("derecha");
-                            System.out.println("gg");
-                            System.out.println(pac.getEstado() + "y estoy en" + pac.getDireccion());
-                        }
-                    }
-                }
+            } else if (this.getKnobX() >= 55 && this.getKnobX() <= 86 && this.getKnobY() >= 28 && this.getKnobY() <= 55) {
+                pac.setEstado("abajo");
+                System.out.println("gg");
+                System.out.println(pac.getEstado() + "y estoy en" + pac.getDireccion());
+            } else if (this.getKnobX() >= 28 && this.getKnobX() <= 55 && this.getKnobY() >= 55 && this.getKnobY() <= 86) {
+                pac.setEstado("izquierda");
+                System.out.println("gg");
+                System.out.println(pac.getEstado() + "y estoy en" + pac.getDireccion());
+            } else if (this.getKnobX() >= 85 && this.getKnobX() <= 110 && this.getKnobY() >= 55 && this.getKnobY() <= 86) {
+                pac.setEstado("derecha");
+                System.out.println("gg");
+                System.out.println(pac.getEstado() + "y estoy en" + pac.getDireccion());
             }
-        }else{
+        } else {
             pac.setEstado("quieto");
         }
     }

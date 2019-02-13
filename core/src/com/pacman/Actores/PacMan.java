@@ -19,6 +19,10 @@ public class PacMan extends Personaje {
         this.estados.add("muerto");
         this.estados.add("quieto");
         this.estados.add("evolucionado");
+        this.estados.add("diagonalArribaIzq");
+        this.estados.add("diagonalArribaDer");
+        this.estados.add("diagonalAbajoIzq");
+        this.estados.add("diagonalAbajoDer");
         this.estadoActual = 6; //estado quieto
         this.setPosition(this.limites.getX(), this.limites.getY()); //establezco la posicion del actor donde corresponde
         this.establecerAnimaciones(texturas);
@@ -75,7 +79,7 @@ public class PacMan extends Personaje {
                 case 4:
                     this.animActual = this.animMuerto;
                     break;
-                //para el estado quieto y muerto (index 5 y 6) no se cambia la animacion
+                //para el estado quieto y evolucionado (index 5 y 6) no se cambia la animacion
             }
         } else {
             exito = false;
@@ -88,6 +92,8 @@ public class PacMan extends Personaje {
         this.direccion = new Vector2(0, 0); //se crea quieto
         this.estadoActual = 2; //se crea por defecto con estado derecha
         this.animActual = this.animDer;
+        /*this.limites = new Rectangle(this.respawn.getX(), this.respawn.getY(), this.respawn.getWidth() - 3, this.respawn.getHeight() - 3);
+        this.setXY(this.limites.getX()+1.5f, this.limites.getY()+1.5f);*/
         this.limites = new Rectangle(this.respawn.getX(), this.respawn.getY(), this.respawn.getWidth() - 2, this.respawn.getHeight() - 2);
         this.setXY(this.limites.getX(), this.limites.getY());
     }
@@ -120,7 +126,20 @@ public class PacMan extends Personaje {
                 //System.out.println("Estado quieto");
                 break;
             case 6:
-                //System.out.println("Estado muerto/quieto");
+                //System.out.println("Estado evolucionado");
+            case 7:
+                this.direccion = new Vector2(-delta, delta);
+                break;
+            case 8:
+                this.direccion = new Vector2(delta, delta);
+
+                break;
+            case 9:
+                this.direccion = new Vector2(-delta, -delta);
+                break;
+            case 10:
+                this.direccion = new Vector2(delta, -delta);
+                break;
         }
         this.direccion.scl(this.VELOCIDAD);
         setXY(getX() + this.direccion.x, getY() + this.direccion.y);

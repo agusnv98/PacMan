@@ -80,10 +80,11 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         Mundo mundo = new Mundo(mapa, escenario);
         this.pacman = mundo.getPacman();
         //establece el gamePad
+
         Gdx.input.setInputProcessor(escenario);
         skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));//skin para los botones
-        touch = new MiTouch(40,skin,this.pacman);
-        touch.setBounds(76, 0, 140, 134);
+        touch = new MiTouch(15,skin,this.pacman);
+        touch.setBounds(76, 0, 140, 140);
         escenario.addActor(touch);
     }
 
@@ -142,7 +143,7 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
-        //handleInput(); //usar input adapter, o la de procesador
+//        handleInput();
         escenario.act();
         escenario.draw();
     }
