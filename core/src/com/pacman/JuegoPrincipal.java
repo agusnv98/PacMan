@@ -31,7 +31,6 @@ public class JuegoPrincipal extends Game {
         //altoPantalla = Gdx.graphics.getHeight();
         //System.out.println(largoPantalla);
         //System.out.println(altoPantalla);
-        this.baseDeDatos.leerJugador("Gaston");
         setScreen(new PantallaJuegoPrincipal(this));
     }
 

@@ -1,5 +1,6 @@
 package com.pacman.Datos;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -28,44 +29,66 @@ public class ServicioBD extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_DATOS_ENTRADA);
-        this.inicializar(db);
+        this.inicializar();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    //Metodos que ingresan algunos datos iniciales a la base de datos
-
-    private void inicializar(SQLiteDatabase db) {
-        inicializarJugador(db, new Jugador("Agustin", "reina", 1000));
-        inicializarJugador(db, new Jugador("Gaston", "1234", 2500));
-        inicializarJugador(db, new Jugador("Yaupe", "123987456", 750));
+    private void inicializar() {
+        //Metodo que ingresa algunos datos iniciales a la base de datos
+        insertarJugador(new Jugador("Agustin", "reina", 1000));
+        insertarJugador(new Jugador("Gaston", "1234", 2500));
+        insertarJugador(new Jugador("Yaupe", "123987456", 750));
     }
 
-    private long inicializarJugador(SQLiteDatabase db, Jugador jugador) {
+    public long insertarJugador(Jugador jugador) {
+        //Metodo que ingresa un nuevo jugador a la base de datos
+        SQLiteDatabase db = getWritableDatabase();
         return db.insert(JugadorContract.JugadorEntry.NOMBRE_TABLA, null, jugador.toContentValues());
     }
 
-    public void getJugadorByUsuario(String usuario) {
+    public Cursor getJugadorByUsuario(String usuario) {
+        //Metodo que realiza una consulta a la base de datos y retorna su resultado
         Cursor c = getReadableDatabase().query(JugadorContract.JugadorEntry.NOMBRE_TABLA, null, JugadorContract.JugadorEntry.USUARIO + " LIKE ?", new String[]{usuario},
                 null, null, null);
-        if (c.getColumnCount() != 0) {
-            System.out.println("NRO COL " + c.getColumnCount());
-            System.out.println("----------------------------------Consulta exitosa------------------------------------");
-            while (c.moveToNext()) {
-                System.out.println("--------------------------------ENTRO AL BUCLE---------------------------------------------");
-                System.out.println(c.getPosition());
-                String nombre = c.getString(c.getColumnIndex(JugadorContract.JugadorEntry.USUARIO));
-                System.out.println("Nombre de usuario: " + nombre);
-                String contra = c.getString(c.getColumnIndex(JugadorContract.JugadorEntry.CONTRASEÑA));
-                System.out.println("Contraseña: " + contra);
-                int puntos = c.getInt(c.getColumnIndex(JugadorContract.JugadorEntry.PUNTAJE));
-                System.out.println("Puntaje: " + puntos);
-            }
-        } else {
-            System.out.println("Consulta fallida");
+        return c;
+    }
+
+    public void mostrarBaseDatos() {
+        //Metodo que muestra todos los datos almacenados en la base de datos
+        Cursor c = getReadableDatabase().query(JugadorContract.JugadorEntry.NOMBRE_TABLA, null, null, null, null, null, null);
+        System.out.println("----------------------------------------------BASE DE DATOS PACMAN----------------------------------------");
+        while (c.moveToNext()) {
+            String nombre = c.getString(c.getColumnIndex(JugadorContract.JugadorEntry.USUARIO));
+            System.out.println("Nombre de usuario: " + nombre);
+            String contra = c.getString(c.getColumnIndex(JugadorContract.JugadorEntry.CONTRASEÑA));
+            System.out.println("Contraseña: " + contra);
+            int puntos = c.getInt(c.getColumnIndex(JugadorContract.JugadorEntry.PUNTAJE));
+            System.out.println("Puntaje: " + puntos);
+            System.out.println("---------------------------------------------------------------------");
         }
+    }
+
+    public boolean verificarJugador(Cursor c) {
+        // Metodo que verifica que el resultado de una consulta no se vacio
+        //Se utiliza para verificar que un jugador se encuntre en la base de datos
+        //Retorna true si la consulta no es vacia y, por lo tanto, el jugador se encuentra en la base de datos
+        return c.moveToNext();
+    }
+
+    public boolean verificarContraseña(Cursor c, String contraseña) {
+        //Metodo que compara la contraseña ingresada por parametro con la contraseña de un jugador de la base de datos
+        return contraseña.equals(c.getString(c.getColumnIndex(JugadorContract.JugadorEntry.CONTRASEÑA)));
+    }
+
+    public int actualizarPuntaje(String nombre, int puntaje) {
+        //Metodo que actualiza el puntaje de un jugador
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues valores = new ContentValues();
+        valores.put(JugadorContract.JugadorEntry.PUNTAJE, puntaje);
+        return db.update(JugadorContract.JugadorEntry.NOMBRE_TABLA, valores, JugadorContract.JugadorEntry.USUARIO + " Like ?", new String[]{nombre});
     }
 }
 

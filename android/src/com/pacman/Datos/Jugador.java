@@ -8,12 +8,6 @@ public class Jugador {
     private String contraseña;
     private int maxPuntaje;
 
-    public Jugador(String nombre, String contraseña) {
-        this.usuario = nombre;
-        this.contraseña = contraseña;
-        this.maxPuntaje = 0;
-    }
-
     public Jugador(String nombre, String contraseña, int puntos) {
         this.usuario = nombre;
         this.contraseña = contraseña;
