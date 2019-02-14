@@ -19,10 +19,6 @@ public class PacMan extends Personaje {
         this.estados.add("muerto");
         this.estados.add("quieto");
         this.estados.add("evolucionado");
-        this.estados.add("diagonalArribaIzq");
-        this.estados.add("diagonalArribaDer");
-        this.estados.add("diagonalAbajoIzq");
-        this.estados.add("diagonalAbajoDer");
         this.estadoActual = 6; //estado quieto
         this.setPosition(this.limites.getX(), this.limites.getY()); //establezco la posicion del actor donde corresponde
         this.establecerAnimaciones(texturas);
@@ -127,19 +123,6 @@ public class PacMan extends Personaje {
                 break;
             case 6:
                 //System.out.println("Estado evolucionado");
-            case 7:
-                this.direccion = new Vector2(-delta, delta);
-                break;
-            case 8:
-                this.direccion = new Vector2(delta, delta);
-
-                break;
-            case 9:
-                this.direccion = new Vector2(-delta, -delta);
-                break;
-            case 10:
-                this.direccion = new Vector2(delta, -delta);
-                break;
         }
         this.direccion.scl(this.VELOCIDAD);
         setXY(getX() + this.direccion.x, getY() + this.direccion.y);

@@ -95,14 +95,14 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         //Camera – eye in the scene, determines what the player can see, used by LibGDX to render the scene.
         //Viewport – controls how the render results from the camera are displayed to the user, be it with black bars, stretched or doing nothing at all.
         camera = new OrthographicCamera();
-        viewport = new FitViewport(ANCHOENTILES, ALTOENTILES, camera);
-        camera.translate(ANCHOENTILES / 2, ALTOENTILES / 2);
+        viewport = new FitViewport(19, 21, camera);
+        camera.translate(19 / 2, 21 / 2);
         camera.update();
         //Cargador y renderizador del mapa
         mapa = new TmxMapLoader().load("map/map.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(mapa, 1 / 16f, batch);
         //modificar aca tambien para cuando entre el joysitic e info del juego
-        stageViewport = new FitViewport(ANCHOENPX, ALTOENPX);
+        stageViewport = new FitViewport(304, 336);
         escenario = new Stage(stageViewport, batch);
 
     }

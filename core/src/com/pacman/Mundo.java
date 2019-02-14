@@ -28,17 +28,19 @@ public class Mundo {
     public Mundo(TiledMap mapa, Stage escenario) {
         sprites = new Texture("personajes/actors.png");
         this.mapa = mapa;
+        //PacMan
         MapLayer capaPacman = mapa.getLayers().get("Player");
         Rectangle rectanguloPacMan = ((RectangleMapObject) capaPacman.getObjects().get(0)).getRectangle();
         pacman = new PacMan(sprites, rectanguloPacMan, this);
         escenario.addActor(pacman);
-
+        //Fantasmas
         MapLayer capaFantasma = mapa.getLayers().get("Ghost");
         Rectangle rectanguloFantasma = ((RectangleMapObject) capaFantasma.getObjects().get(0)).getRectangle();
-        for (int i = 0; i < cantFantasmas; i++) {
-            this.listaFantasma.add(new Fantasma(sprites, rectanguloFantasma, i, this));
+        for (int i = 0; i < 1; i++) {
+            this.listaFantasma.add(new Fantasma(sprites, rectanguloFantasma, i + 1, this));
             escenario.addActor(this.listaFantasma.get(i));
         }
+        //Pildoras
         MapLayer capaPildoras = mapa.getLayers().get("Pill");
         for (MapObject mapObject : capaPildoras.getObjects()) {
             Rectangle rectangulo = ((RectangleMapObject) mapObject).getRectangle();
@@ -52,7 +54,10 @@ public class Mundo {
             }
             escenario.addActor(pildoraAux);
         }
-        //puerta
+        //Colisiones de Fantasmas
+
+
+        //Puerta
     }
 
     public PacMan getPacman() {
@@ -93,6 +98,53 @@ public class Mundo {
                 //System.out.println("Colision Pildora" + "||" + pacman.getLimites().x + "//" + pacman.getLimites().y + "||" + limites.getX() + "//" + (limites.getY()));
             }
         }
+    }
+
+    public MapObject verificarCambioDireccion(Fantasma fantasma) {
+        //metodo que verifica si un fantasma se encuentra en posicion para cambiar de direccion
+        //las posiciones son determinadas en el mapa en la capa ColisionFantasma
+        MapLayer capaColisiones = mapa.getLayers().get("CambioDireccion");
+        MapObject posicionCambio = null;
+        int i = 0;
+        int limite = capaColisiones.getObjects().getCount();
+        while (posicionCambio == null && i < limite) {
+            MapObject mapObject = capaColisiones.getObjects().get(i);
+            Rectangle rectangulo = ((RectangleMapObject) mapObject).getRectangle();
+            Rectangle limitesFantasma = fantasma.getLimites();
+            float limiteIzquierdo = rectangulo.getX() + (rectangulo.getWidth() / 8);
+            float limiteDerecho = rectangulo.getX() + ((rectangulo.getWidth() / 8) * 7);
+            float limiteSuperior = rectangulo.getY() + ((rectangulo.getHeight() / 8) * 7);
+            float limiteInferior = rectangulo.getY() + (rectangulo.getHeight() / 8);
+
+            boolean fantasmaEnLimiteDer = (limitesFantasma.getX() + limitesFantasma.getWidth()) >= limiteDerecho &&
+                    (limitesFantasma.getX() + limitesFantasma.getWidth()) <= (rectangulo.getX() + rectangulo.getWidth());
+            boolean fantasmaEnLimiteIzq = limitesFantasma.getX() <= limiteIzquierdo &&
+                    limitesFantasma.getX() >= rectangulo.getX();
+            boolean fantasmaEnLimiteSup = (limitesFantasma.getY() + limitesFantasma.getHeight()) <= (rectangulo.getY() + rectangulo.getHeight()) &&
+                    (limitesFantasma.getY() + limitesFantasma.getHeight()) >= limiteSuperior;
+
+            boolean fantasmaEnLimiteInf = limitesFantasma.getY() <= limiteInferior &&
+                    limitesFantasma.getX() >= rectangulo.getY();
+            /*System.out.println("limiteInf " + limiteInferior);
+            System.out.println(mapObject.getProperties().get("id", Integer.class));
+            System.out.println("Final inf Collider" + rectangulo.getY());
+            System.out.println("borde inf Fantasma" + limitesFantasma.getY());
+            System.out.println(fantasmaEnLimiteInf + "////////////////////////////////////////////////////////////");*/
+            if (fantasma.getEstado().equals("derecha") && fantasmaEnLimiteDer &&
+                    (limitesFantasma.getY() >= rectangulo.getY() && limitesFantasma.getY() <= (rectangulo.getY() + rectangulo.getHeight()))) {
+                posicionCambio = mapObject;
+            } else if (fantasma.getEstado().equals("izquierda") && fantasmaEnLimiteIzq) {
+                posicionCambio = mapObject;
+            } else if (fantasma.getEstado().equals("arriba") && fantasmaEnLimiteSup &&
+                    (limitesFantasma.getX() >= rectangulo.getX() && limitesFantasma.getX() <= (rectangulo.getX() + rectangulo.getWidth()))) {
+                posicionCambio = mapObject;
+            } else if (fantasma.getEstado().equals("abajo") && fantasmaEnLimiteInf &&
+                    (limitesFantasma.getX() >= rectangulo.getX() && limitesFantasma.getX() <= (rectangulo.getX() + rectangulo.getWidth()))) {
+                posicionCambio = mapObject;
+            }
+            i++;
+        }
+        return posicionCambio;
     }
 
     private Pildora obtenerPildora(Rectangle rectangulo) {

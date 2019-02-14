@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="19" height="21" tilewidth="16" tileheight="16" backgroundcolor="#7f7f7f" nextobjectid="257">
- <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" tilecount="16">
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="19" height="21" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#7f7f7f" nextlayerid="9" nextobjectid="335">
+ <tileset firstgid="1" name="tiles" tilewidth="16" tileheight="16" tilecount="16" columns="4">
   <image source="tiles.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="17" name="bg" tilewidth="16" tileheight="16" tilecount="1">
+ <tileset firstgid="17" name="bg" tilewidth="16" tileheight="16" tilecount="1" columns="1">
   <image source="bg.png" width="16" height="16"/>
  </tileset>
- <layer name="BG" width="19" height="21">
+ <layer id="1" name="BG" width="19" height="21">
   <data encoding="base64">
    EQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAAEQAAABEAAAARAAAA
   </data>
  </layer>
- <layer name="Tiles" width="19" height="21">
+ <layer id="2" name="Tiles" width="19" height="21">
   <data encoding="base64">
    BQAAAA0AAAANAAAADQAAAA0AAAANAAAADQAAAA0AAAANAAAACQAAAA0AAAANAAAADQAAAA0AAAANAAAADQAAAA0AAAANAAAABgAAAA4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4AAAAOAAAAAAAAAAEAAAACAAAAAAAAAAEAAAANAAAAAgAAAAAAAAADAAAAAAAAAAEAAAANAAAAAgAAAAAAAAABAAAAAgAAAAAAAAAOAAAADgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgAAAA4AAAAAAAAAAQAAAAIAAAAAAAAABAAAAAAAAAABAAAADQAAAAkAAAANAAAAAgAAAAAAAAAEAAAAAAAAAAEAAAACAAAAAAAAAA4AAAAOAAAAAAAAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAAAAAADgAAAAAAAAAAAAAAAAAAAAAAAAAOAAAABwAAAA0AAAANAAAABgAAAAAAAAAKAAAADQAAAAIAAAAAAAAAAwAAAAAAAAABAAAADQAAAAsAAAAAAAAABQAAAA0AAAANAAAACAAAAAAAAAAAAAAAAAAAAA4AAAAAAAAADgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOAAAAAAAAAA4AAAAAAAAAAAAAAAAAAAANAAAADQAAAA0AAAAIAAAAAAAAAAMAAAAAAAAABQAAAAIAAAAQAAAAAQAAAAYAAAAAAAAAAwAAAAAAAAAHAAAADQAAAA0AAAANAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA0AAAANAAAADQAAAAYAAAAAAAAABAAAAAAAAAAHAAAADQAAAA0AAAANAAAACAAAAAAAAAAEAAAAAAAAAAUAAAANAAAADQAAAA0AAAAAAAAAAAAAAAAAAAAOAAAAAAAAAA4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgAAAAAAAAAOAAAAAAAAAAAAAAAAAAAABQAAAA0AAAANAAAACAAAAAAAAAADAAAAAAAAAAEAAAANAAAACQAAAA0AAAACAAAAAAAAAAMAAAAAAAAABwAAAA0AAAANAAAABgAAAA4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4AAAAOAAAAAAAAAAEAAAAGAAAAAAAAAAEAAAANAAAAAgAAAAAAAAADAAAAAAAAAAEAAAANAAAAAgAAAAAAAAAFAAAAAgAAAAAAAAAOAAAADgAAAAAAAAAAAAAADgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgAAAAAAAAAAAAAADgAAAAoAAAACAAAAAAAAAAMAAAAAAAAABAAAAAAAAAABAAAADQAAAAkAAAANAAAAAgAAAAAAAAAEAAAAAAAAAAMAAAAAAAAAAQAAAAsAAAAOAAAAAAAAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAAAAAADgAAAAAAAAAAAAAAAAAAAAAAAAAOAAAADgAAAAAAAAABAAAADQAAAA0AAAAMAAAADQAAAAIAAAAAAAAAAwAAAAAAAAABAAAADQAAAAwAAAANAAAADQAAAAIAAAAAAAAADgAAAA4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA4AAAAHAAAADQAAAA0AAAANAAAADQAAAA0AAAANAAAADQAAAA0AAAANAAAADQAAAA0AAAANAAAADQAAAA0AAAANAAAADQAAAA0AAAAIAAAA
   </data>
  </layer>
- <objectgroup name="Wall">
+ <objectgroup id="3" name="Wall">
   <object id="1" x="0" y="0" width="304" height="16"/>
   <object id="2" x="144" y="16" width="16" height="32"/>
   <object id="3" x="32" y="32" width="32" height="16"/>
@@ -76,16 +76,16 @@
   <object id="255" x="256" y="112" width="48" height="16"/>
   <object id="256" x="256" y="176" width="48" height="16"/>
  </objectgroup>
- <objectgroup name="Gate">
+ <objectgroup id="4" name="Gate" visible="0">
   <object id="57" x="144" y="128" width="16" height="16"/>
  </objectgroup>
- <objectgroup name="Player">
+ <objectgroup id="5" name="Player" visible="0">
   <object id="58" x="144" y="240" width="16" height="16"/>
  </objectgroup>
- <objectgroup name="Ghost">
+ <objectgroup id="6" name="Ghost" visible="0">
   <object id="60" x="144" y="144" width="16" height="16"/>
  </objectgroup>
- <objectgroup name="Pill">
+ <objectgroup id="7" name="Pill" visible="0">
   <object id="61" x="16" y="16" width="16" height="16"/>
   <object id="62" x="32" y="16" width="16" height="16"/>
   <object id="63" x="48" y="16" width="16" height="16"/>
@@ -252,5 +252,332 @@
   <object id="248" x="240" y="304" width="16" height="16"/>
   <object id="249" x="256" y="304" width="16" height="16"/>
   <object id="250" x="272" y="304" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="8" name="CambioDireccion">
+  <object id="258" type="dosDir" x="144" y="112" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda"/>
+   </properties>
+  </object>
+  <object id="261" type="dosDir" x="272" y="16" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="abajo/izquierda"/>
+   </properties>
+  </object>
+  <object id="262" type="tresDir" x="192" y="144" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/arriba/abajo"/>
+   </properties>
+  </object>
+  <object id="266" type="cuatroDir" x="224" y="144" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/abajo/izquierda/derecha"/>
+   </properties>
+  </object>
+  <object id="268" type="tresDir" x="160" y="112" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/arriba"/>
+   </properties>
+  </object>
+  <object id="269" type="tresDir" x="128" y="112" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/arriba"/>
+   </properties>
+  </object>
+  <object id="270" type="dosDir" x="96" y="112" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/abajo"/>
+   </properties>
+  </object>
+  <object id="271" type="tresDir" x="272" y="48" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="izquierda/arriba/abajo"/>
+   </properties>
+  </object>
+  <object id="272" type="cuatroDir" x="64" y="144" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/abajo/izquierda/derecha"/>
+   </properties>
+  </object>
+  <object id="273" type="dosDir" x="160" y="16" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="abajo/derecha"/>
+   </properties>
+  </object>
+  <object id="274" type="dosDir" x="192" y="80" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/izquierda"/>
+   </properties>
+  </object>
+  <object id="276" type="tresDir" x="160" y="48" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/arriba"/>
+   </properties>
+  </object>
+  <object id="277" type="tresDir" x="192" y="48" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/abajo"/>
+   </properties>
+  </object>
+  <object id="278" type="dosDir" x="160" y="80" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="abajo/derecha"/>
+   </properties>
+  </object>
+  <object id="279" type="dosDir" x="192" y="112" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="abajo/izquierda"/>
+   </properties>
+  </object>
+  <object id="280" type="tresDir" x="224" y="16" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/abajo"/>
+   </properties>
+  </object>
+  <object id="281" type="cuatroDir" x="224" y="48" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/abajo/izquierda/derecha"/>
+   </properties>
+  </object>
+  <object id="282" type="tresDir" x="96" y="144" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="izquierda/arriba/abajo"/>
+   </properties>
+  </object>
+  <object id="284" type="dosDir" x="272" y="80" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/izquierda"/>
+   </properties>
+  </object>
+  <object id="285" type="tresDir" x="224" y="80" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/arriba/abajo"/>
+   </properties>
+  </object>
+  <object id="286" type="dosDir" x="128" y="16" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="abajo/izquierda"/>
+   </properties>
+  </object>
+  <object id="287" type="tresDir" x="64" y="16" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/abajo"/>
+   </properties>
+  </object>
+  <object id="288" type="dosDir" x="16" y="16" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="abajo/derecha"/>
+   </properties>
+  </object>
+  <object id="289" type="tresDir" x="16" y="48" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/arriba/abajo"/>
+   </properties>
+  </object>
+  <object id="291" type="dosDir" x="16" y="80" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/derecha"/>
+   </properties>
+  </object>
+  <object id="292" type="cuatroDir" x="64" y="48" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/abajo/izquierda/derecha"/>
+   </properties>
+  </object>
+  <object id="293" type="tresDir" x="128" y="48" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/arriba"/>
+   </properties>
+  </object>
+  <object id="294" type="tresDir" x="96" y="48" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/abajo"/>
+   </properties>
+  </object>
+  <object id="295" type="dosDir" x="96" y="80" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/derecha"/>
+   </properties>
+  </object>
+  <object id="296" type="dosDir" x="128" y="80" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="abajo/izquierda"/>
+   </properties>
+  </object>
+  <object id="297" type="tresDir" x="64" y="80" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="izquierda/arriba/abajo"/>
+   </properties>
+  </object>
+  <object id="298" type="tresDir" x="192" y="176" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="izquierda/arriba/abajo"/>
+   </properties>
+  </object>
+  <object id="299" type="tresDir" x="96" y="176" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/arriba/abajo"/>
+   </properties>
+  </object>
+  <object id="300" type="cuatroDir" x="224" y="208" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/abajo/izquierda/derecha"/>
+   </properties>
+  </object>
+  <object id="301" type="cuatroDir" x="64" y="208" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/abajo/izquierda/derecha"/>
+   </properties>
+  </object>
+  <object id="302" type="tresDir" x="96" y="208" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/arriba"/>
+   </properties>
+  </object>
+  <object id="303" type="tresDir" x="192" y="208" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/arriba"/>
+   </properties>
+  </object>
+  <object id="304" type="dosDir" x="128" y="208" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="abajo/izquierda"/>
+   </properties>
+  </object>
+  <object id="305" type="dosDir" x="160" y="208" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="abajo/derecha"/>
+   </properties>
+  </object>
+  <object id="306" type="dosDir" x="272" y="208" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="abajo/izquierda"/>
+   </properties>
+  </object>
+  <object id="307" type="tresDir" x="224" y="240" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="izquierda/arriba/abajo"/>
+   </properties>
+  </object>
+  <object id="308" type="dosDir" x="272" y="240" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/izquierda"/>
+   </properties>
+  </object>
+  <object id="309" type="tresDir" x="192" y="240" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/abajo"/>
+   </properties>
+  </object>
+  <object id="310" type="tresDir" x="160" y="240" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/arriba"/>
+   </properties>
+  </object>
+  <object id="312" type="tresDir" x="128" y="240" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/arriba"/>
+   </properties>
+  </object>
+  <object id="313" type="tresDir" x="96" y="240" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/abajo"/>
+   </properties>
+  </object>
+  <object id="314" type="tresDir" x="64" y="240" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/arriba/abajo"/>
+   </properties>
+  </object>
+  <object id="315" type="dosDir" x="16" y="208" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/abajo"/>
+   </properties>
+  </object>
+  <object id="316" type="dosDir" x="16" y="240" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/derecha"/>
+   </properties>
+  </object>
+  <object id="317" type="dosDir" x="256" y="240" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/abajo"/>
+   </properties>
+  </object>
+  <object id="319" type="dosDir" x="32" y="240" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="abajo/izquierda"/>
+   </properties>
+  </object>
+  <object id="321" type="dosDir" x="64" y="272" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/izquierda"/>
+   </properties>
+  </object>
+  <object id="322" type="tresDir" x="32" y="272" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/arriba"/>
+   </properties>
+  </object>
+  <object id="323" type="dosDir" x="16" y="272" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/abajo"/>
+   </properties>
+  </object>
+  <object id="324" type="dosDir" x="96" y="272" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/derecha"/>
+   </properties>
+  </object>
+  <object id="325" type="dosDir" x="128" y="272" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="abajo/izquierda"/>
+   </properties>
+  </object>
+  <object id="326" type="dosDir" x="192" y="272" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/izquierda"/>
+   </properties>
+  </object>
+  <object id="327" type="dosDir" x="224" y="272" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/derecha"/>
+   </properties>
+  </object>
+  <object id="328" type="dosDir" x="272" y="272" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="abajo/izquierda"/>
+   </properties>
+  </object>
+  <object id="329" type="tresDir" x="256" y="272" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/arriba"/>
+   </properties>
+  </object>
+  <object id="330" type="dosDir" x="160" y="272" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/abajo"/>
+   </properties>
+  </object>
+  <object id="331" type="dosDir" x="16" y="304" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/derecha"/>
+   </properties>
+  </object>
+  <object id="332" type="tresDir" x="128" y="304" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/arriba"/>
+   </properties>
+  </object>
+  <object id="333" type="tresDir" x="160" y="304" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="derecha/izquierda/arriba"/>
+   </properties>
+  </object>
+  <object id="334" type="dosDir" x="272" y="304" width="16" height="16">
+   <properties>
+    <property name="direcciones" value="arriba/izquierda"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

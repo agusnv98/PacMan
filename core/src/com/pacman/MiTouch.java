@@ -16,7 +16,7 @@ public class MiTouch extends Touchpad {
     public void act(float delta) {
         //Este metodo se llama en toda la ejecución de la pantalla del juego
         super.act(delta);
-        System.out.println("X" + this.getKnobX() + "---j---" + this.getKnobY() + "Y");
+        //System.out.println("X" + this.getKnobX() + "---j---" + this.getKnobY() + "Y");
         //System.out.println(delta + "delta de touch");
         if (isTouched()) {
             //se verifica en caso de tocarse el touchpad, si fue un lugar de direccion habil
