@@ -2,85 +2,122 @@ package com.pacman;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.pacman.Botones.MiTouch;
+
+import java.awt.Color;
+
+import javax.swing.plaf.basic.BasicArrowButton;
+
 
 public class JuegoPrincipal extends ApplicationAdapter {
 
-    private OrthographicCamera camera;
-    private final float WIDTH = 19.0f;
-    private final float HEIGHT = 23.0f;
-    private FitViewport viewport;
+    public PantallaJuegoPrincipal jugando;
+    private Stage menu;
+    private Skin skin;
+    private TextButton jugar, opciones, salir;
+    private Texture titulo;
     private SpriteBatch batch;
-    private TiledMap tiledMap;
-    private OrthogonalTiledMapRenderer tiledMapRenderer;
-    ////
-    private FitViewport stageViewport;
-    private Stage stage;
-    private World world;
-    private Box2DDebugRenderer box2DDebugRenderer;
-    private boolean showBox2DDebuggerRenderer;
+    private Table buttons;
+    private Sprite sprite;
+    private Label cabecera;
+
+
 
     @Override
-    public void create() {
-       // Gdx.graphics.setWindowedMode(428,518);
-        batch = new SpriteBatch();
+    public void create() {//se ejecuta cuando se llama al juego
 
-        System.out.println(Gdx.graphics.getHeight() + "soy la altura" + Gdx.graphics.getWidth());
-        //camara
-        //Camera – eye in the scene, determines what the player can see, used by LibGDX to render the scene.
-        //Viewport – controls how the render results from the camera are displayed to the user, be it with black bars, stretched or doing nothing at all.
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(WIDTH, HEIGHT, camera);
-        camera.translate(WIDTH / 2, HEIGHT / 2);
-        camera.update();
-        tiledMap = new TmxMapLoader().load("map/map.tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 16f, batch);
-        ///////
-        stageViewport = new FitViewport(WIDTH * 20, HEIGHT * 20);
-        stage = new Stage(stageViewport, batch);
-        //////////////////////
+        Gdx.graphics.setWindowedMode(428, 518);
+        batch = new SpriteBatch();
+        //titulo= new Texture("title.png");
+        menu = new Stage(new FitViewport(428, 518));
+        skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));//skin para los botones
+
+        //Creo la cabecera
+        //Label.LabelStyle labelStyle=new Label.LabelStyle(,Color.ORANGE);
+        cabecera = new Label("PAC MAN", skin);
+        cabecera.setSize(100, 100);
+        cabecera.setPosition(340, 300);
+        cabecera.setAlignment(Align.top);
+        cabecera.setFontScale(2, 2);
+
+
+        //Creamos los botones
+        jugar = new TextButton(" Jugar ", skin);
+        opciones = new TextButton(" Opciones ", skin);
+        salir = new TextButton(" Salir ", skin);
+        buttons = new Table();
+        buttons.setFillParent(true);//redimensiona el tamaño de la tabla al del stage
+        buttons.add(cabecera).height(50).width(200).padBottom(60);
+        buttons.row();
+        buttons.add(jugar).height(50).width(200).padBottom(30);
+        buttons.row();
+        buttons.add(opciones).height(50).width(200).padBottom(30);
+        buttons.row();
+        buttons.add(salir).height(50).width(200).padBottom(30);
+
+        //Funcionalidad al Boton jugar
+        jugar.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                jugar.setText("gg");
+            }
+        });
+        Gdx.input.setInputProcessor(menu);
+        //menu.addActor(derecha);
+        //menu.addActor(cabecera);
+        menu.addActor(buttons);
+        //TouchPad
+        MiTouch touch =new MiTouch(60,skin);
+        touch.setBounds(100,0,140,134);
+        //
+        //BasicArrowButton a=new BasicArrowButton();
+
+        menu.addActor(touch);
+
 
     }
 
+
+    public void show() {
+        Gdx.input.setInputProcessor(menu);
+    }
+
+
+
+
     @Override
     public void render() {
-        camera.update();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
-        stage.draw();
 
+        menu.act();
+        menu.draw();
     }
 
     @Override
     public void dispose() {
-        tiledMap.dispose();
-        tiledMapRenderer.dispose();
-        stage.dispose();
+        menu.dispose();
+        skin.dispose();
+
 
     }
 
     @Override
     public void resize(int width, int height) {
 
-        viewport.update(width, height);
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+
     }
 }

@@ -26,6 +26,7 @@ public class PantallaJuegoPrincipal extends PantallaBase {
     @Override
     public void hide() {
         escenario.dispose();
+
     }
 
     @Override
