@@ -35,9 +35,13 @@ public class Pildora extends Actor {
     public void esComida() {
         if (this.valida) {
             this.valida = false;
-            System.out.println("La pildora fue comida");
+            //System.out.println("La pildora fue comida");
             this.remove();
         }
+    }
+
+    public boolean esValida() {
+        return this.valida;
     }
 
     public boolean esGrande() {

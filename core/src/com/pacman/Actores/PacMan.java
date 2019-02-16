@@ -12,18 +12,18 @@ import com.pacman.Mundo;
 
 public class PacMan extends Personaje {
     private Animation animMuerto;
-    private boolean muerto = false;
+    private boolean evolucionado = false;
+    private int cantVidas = 3;
 
     public PacMan(Texture texturas, Rectangle respawn, Mundo mundo) {
         super(respawn, mundo);
         this.estados.add("muerto");
         this.estados.add("quieto");
         this.estados.add("evolucionado");
-        this.estadoActual = 6; //estado quieto
+        this.estadoActual = 5; //estado quieto
         this.setPosition(this.limites.getX(), this.limites.getY()); //establezco la posicion del actor donde corresponde
         this.establecerAnimaciones(texturas);
         this.animActual = this.animDer;
-
         System.out.println("PosPacMan" + getX() + "///" + getY());
         System.out.println("DimRec" + this.limites.width + "//" + this.limites.height);
         System.out.println("PosRect" + this.limites.x + "//" + this.limites.y);
@@ -31,24 +31,11 @@ public class PacMan extends Personaje {
 
     @Override
     public void act(float delta) {
-        this.tiempoFrame += delta;
-        if (this.estadoActual != 4) {                  //se verifica si pacman esta muerto (estado 5)
-            this.frameActual = (TextureRegion) this.animActual.getKeyFrame(this.tiempoFrame);
+        if (this.cantVidas > 0) {
+            super.act(delta);
         } else {
-            if (!muerto) {
-                this.tiempoFrame = 0;
-                this.muerto = true;
-            }
-            this.frameActual = (TextureRegion) this.animActual.getKeyFrame(this.tiempoFrame);
-            if (this.animActual.isAnimationFinished(tiempoFrame)) {
-                revivir();
-            }
-        }
-        mover(delta);
-        if (getX() > Gdx.graphics.getWidth() + this.frameActual.getRegionWidth()) {
-            setPosition(0 - this.frameActual.getRegionWidth(), getY());
-        } else if (getX() + this.frameActual.getRegionWidth() < 0) {
-            setPosition(Gdx.graphics.getWidth(), getY());
+            //hay que hacer que salga la pantalla de game over
+            System.out.println("Fin del Juego");
         }
     }
 
@@ -76,6 +63,9 @@ public class PacMan extends Personaje {
                     this.animActual = this.animMuerto;
                     break;
                 //para el estado quieto y evolucionado (index 5 y 6) no se cambia la animacion
+                case 6:
+                    this.evolucionado = true;
+                    break;
             }
         } else {
             exito = false;
@@ -83,18 +73,16 @@ public class PacMan extends Personaje {
         return exito;
     }
 
-    private void revivir() {
-        muerto = false;
+    protected void revivir() {
+        super.revivir();
+        this.evolucionado = false;
+        this.cantVidas--;
         this.direccion = new Vector2(0, 0); //se crea quieto
         this.estadoActual = 2; //se crea por defecto con estado derecha
         this.animActual = this.animDer;
-        /*this.limites = new Rectangle(this.respawn.getX(), this.respawn.getY(), this.respawn.getWidth() - 3, this.respawn.getHeight() - 3);
-        this.setXY(this.limites.getX()+1.5f, this.limites.getY()+1.5f);*/
-        this.limites = new Rectangle(this.respawn.getX(), this.respawn.getY(), this.respawn.getWidth() - 2, this.respawn.getHeight() - 2);
-        this.setXY(this.limites.getX(), this.limites.getY());
     }
 
-    private void mover(float delta) {
+    protected void mover(float delta) {
         Rectangle pared;
         switch (this.estadoActual) {
             case 0:
@@ -123,18 +111,29 @@ public class PacMan extends Personaje {
                 break;
             case 6:
                 //System.out.println("Estado evolucionado");
+
         }
-        this.direccion.scl(this.VELOCIDAD);
+        if (this.estadoActual != 6) {
+            // el estado evolucionado mantiene la direccion,
+            // por lo tanto si el estado actual es evolucionado, no se debe volver a escalar la direccion
+            this.direccion.scl(this.VELOCIDAD);
+        }
         setXY(getX() + this.direccion.x, getY() + this.direccion.y);
         pared = this.mundo.verificarColisionPared(this);
         if (pared != null) {
             reacomodar(pared);
         }
         this.mundo.verificarColisionPildora();
+        if (this.mundo.verificarColsionFantasma()) {
+            //System.out.println(this.getEstado());
+            this.setEstado("muerto");
+        } else {
+            //System.out.println("No murio por chocar a un fantasma, o no se encontro con uno");
+        }
     }
 
-    public Vector2 getDireccion() {
-        return this.direccion;
+    public boolean estaEvolucionado() {
+        return this.evolucionado;
     }
 
     private void establecerAnimaciones(Texture texturas) {
@@ -196,6 +195,4 @@ public class PacMan extends Personaje {
         frames.add(new Sprite(new TextureRegion(texturas, 274, 76, 16, 10)));
         return frames;
     }
-
-
 }

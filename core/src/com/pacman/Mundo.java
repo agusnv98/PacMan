@@ -1,5 +1,8 @@
 package com.pacman;
 
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -19,11 +22,13 @@ import java.util.List;
 public class Mundo {
 
     private TiledMap mapa;
-    private Texture sprites; //ver si corresponde aca
+    private Texture sprites;
     private PacMan pacman;
     private ArrayList<Fantasma> listaFantasma = new ArrayList<Fantasma>();
     private List<Pildora> listaPildora = new ArrayList<Pildora>();
     private final int cantFantasmas = 4;
+    private Sound sonidoPildora, sonidoPildoraGrande;
+    private AssetManager manager;
 
     public Mundo(TiledMap mapa, Stage escenario) {
         sprites = new Texture("personajes/actors.png");
@@ -37,7 +42,7 @@ public class Mundo {
         MapLayer capaFantasma = mapa.getLayers().get("Ghost");
         Rectangle rectanguloFantasma = ((RectangleMapObject) capaFantasma.getObjects().get(0)).getRectangle();
         for (int i = 0; i < 1; i++) {
-            this.listaFantasma.add(new Fantasma(sprites, rectanguloFantasma, i + 1, this));
+            this.listaFantasma.add(new Fantasma(sprites, rectanguloFantasma, i, this));
             escenario.addActor(this.listaFantasma.get(i));
         }
         //Pildoras
@@ -54,10 +59,23 @@ public class Mundo {
             }
             escenario.addActor(pildoraAux);
         }
-        //Colisiones de Fantasmas
+        establecerSonido();
+    }
 
+    private void establecerSonido() {
+        manager = new AssetManager();
+        manager.load("sounds/big_pill.ogg", Sound.class);
+        manager.load("sounds/clear.ogg", Sound.class);
+        manager.load("sounds/ghost_die.ogg", Sound.class);
+        manager.load("sounds/pacman_die.ogg", Sound.class);
+        manager.load("sounds/pill.ogg", Sound.class);
+        manager.load("sounds/pac-mans-park-block-plaza-super-smash-bros-3ds.ogg", Music.class);
+        manager.load("sounds/u-got-that-full-version-mmv.ogg", Music.class);
+        manager.finishLoading();
+    }
 
-        //Puerta
+    public AssetManager getManager() {
+        return this.manager;
     }
 
     public PacMan getPacman() {
@@ -81,70 +99,36 @@ public class Mundo {
 
     public void verificarColisionPildora() {
         Pildora pildora;
+        boolean seguir = true;
+        int i = 0, length = this.listaPildora.size();
         //System.out.println("Empece a analizar colisiones de pildora");
-        for (Pildora pildoraAux : this.listaPildora) {
+        Pildora pildoraAux;
+        while (seguir && i < length) {
+            pildoraAux = this.listaPildora.get(i);
             Rectangle limites = pildoraAux.getLimites();
             if (Intersector.overlaps(pacman.getLimites(), limites)) {
                 // ocurrio una colision con una pildora
                 // obtengo la pildora
                 pildora = obtenerPildora(limites);
-                if (pildora.esGrande()) {
-                    this.pacman.setEstado("evolucionado");
-                    for (Fantasma f : this.listaFantasma) {
-                        f.setEstado("debilitado");
+                if (pildora.esValida()) {
+                    if (pildora.esGrande()) {
+                        this.pacman.setEstado("evolucionado");
+                        for (Fantasma f : this.listaFantasma) {
+                            f.setEstado("debilitado");
+                        }
+                        sonidoPildoraGrande = manager.get("sounds/big_pill.ogg");
+                        sonidoPildoraGrande.play();
+                    } else {
+                        sonidoPildora = manager.get("sounds/pill.ogg");
+                        sonidoPildora.play();
                     }
                 }
                 pildora.esComida();
+                seguir = false;
                 //System.out.println("Colision Pildora" + "||" + pacman.getLimites().x + "//" + pacman.getLimites().y + "||" + limites.getX() + "//" + (limites.getY()));
-            }
-        }
-    }
-
-    public MapObject verificarCambioDireccion(Fantasma fantasma) {
-        //metodo que verifica si un fantasma se encuentra en posicion para cambiar de direccion
-        //las posiciones son determinadas en el mapa en la capa ColisionFantasma
-        MapLayer capaColisiones = mapa.getLayers().get("CambioDireccion");
-        MapObject posicionCambio = null;
-        int i = 0;
-        int limite = capaColisiones.getObjects().getCount();
-        while (posicionCambio == null && i < limite) {
-            MapObject mapObject = capaColisiones.getObjects().get(i);
-            Rectangle rectangulo = ((RectangleMapObject) mapObject).getRectangle();
-            Rectangle limitesFantasma = fantasma.getLimites();
-            float limiteIzquierdo = rectangulo.getX() + (rectangulo.getWidth() / 8);
-            float limiteDerecho = rectangulo.getX() + ((rectangulo.getWidth() / 8) * 7);
-            float limiteSuperior = rectangulo.getY() + ((rectangulo.getHeight() / 8) * 7);
-            float limiteInferior = rectangulo.getY() + (rectangulo.getHeight() / 8);
-
-            boolean fantasmaEnLimiteDer = (limitesFantasma.getX() + limitesFantasma.getWidth()) >= limiteDerecho &&
-                    (limitesFantasma.getX() + limitesFantasma.getWidth()) <= (rectangulo.getX() + rectangulo.getWidth());
-            boolean fantasmaEnLimiteIzq = limitesFantasma.getX() <= limiteIzquierdo &&
-                    limitesFantasma.getX() >= rectangulo.getX();
-            boolean fantasmaEnLimiteSup = (limitesFantasma.getY() + limitesFantasma.getHeight()) <= (rectangulo.getY() + rectangulo.getHeight()) &&
-                    (limitesFantasma.getY() + limitesFantasma.getHeight()) >= limiteSuperior;
-
-            boolean fantasmaEnLimiteInf = limitesFantasma.getY() <= limiteInferior &&
-                    limitesFantasma.getX() >= rectangulo.getY();
-            /*System.out.println("limiteInf " + limiteInferior);
-            System.out.println(mapObject.getProperties().get("id", Integer.class));
-            System.out.println("Final inf Collider" + rectangulo.getY());
-            System.out.println("borde inf Fantasma" + limitesFantasma.getY());
-            System.out.println(fantasmaEnLimiteInf + "////////////////////////////////////////////////////////////");*/
-            if (fantasma.getEstado().equals("derecha") && fantasmaEnLimiteDer &&
-                    (limitesFantasma.getY() >= rectangulo.getY() && limitesFantasma.getY() <= (rectangulo.getY() + rectangulo.getHeight()))) {
-                posicionCambio = mapObject;
-            } else if (fantasma.getEstado().equals("izquierda") && fantasmaEnLimiteIzq) {
-                posicionCambio = mapObject;
-            } else if (fantasma.getEstado().equals("arriba") && fantasmaEnLimiteSup &&
-                    (limitesFantasma.getX() >= rectangulo.getX() && limitesFantasma.getX() <= (rectangulo.getX() + rectangulo.getWidth()))) {
-                posicionCambio = mapObject;
-            } else if (fantasma.getEstado().equals("abajo") && fantasmaEnLimiteInf &&
-                    (limitesFantasma.getX() >= rectangulo.getX() && limitesFantasma.getX() <= (rectangulo.getX() + rectangulo.getWidth()))) {
-                posicionCambio = mapObject;
             }
             i++;
         }
-        return posicionCambio;
     }
 
     private Pildora obtenerPildora(Rectangle rectangulo) {
@@ -156,5 +140,73 @@ public class Mundo {
             }
         }
         return pildora;
+    }
+
+    public MapObject verificarCambioDireccion(Fantasma fantasma) {
+        //metodo que verifica si un fantasma se encuentra en posicion para cambiar de direccion
+        //las posiciones son determinadas en el mapa en la capa ColisionFantasma
+        MapLayer capaColisiones = mapa.getLayers().get("CambioDireccion");
+        MapObject posicionCambio = null;
+        Vector2 direccionFantasma = fantasma.getDireccion();
+        Rectangle limitesFantasma = fantasma.getLimites();
+        int i = 0, limite = capaColisiones.getObjects().getCount();
+        System.out.println(fantasma.getEstado());
+        while (posicionCambio == null && i < limite) {
+            MapObject mapObject = capaColisiones.getObjects().get(i);
+            Rectangle rectangulo = ((RectangleMapObject) mapObject).getRectangle();
+            float limiteIzquierdo = rectangulo.getX() + (rectangulo.getWidth() / 8);
+            float limiteDerecho = rectangulo.getX() + ((rectangulo.getWidth() / 8) * 7);
+            float limiteSuperior = rectangulo.getY() + ((rectangulo.getHeight() / 8) * 7);
+            float limiteInferior = rectangulo.getY() + (rectangulo.getHeight() / 8);
+
+            boolean fantasmaEnLimiteDer = (limitesFantasma.getX() + limitesFantasma.getWidth()) >= limiteDerecho &&
+                    (limitesFantasma.getX() + limitesFantasma.getWidth()) <= (rectangulo.getX() + rectangulo.getWidth());
+            boolean fantasmaEnLimiteIzq = limitesFantasma.getX() <= limiteIzquierdo &&
+                    limitesFantasma.getX() >= rectangulo.getX();
+            boolean fantasmaEnLimiteSup = (limitesFantasma.getY() + limitesFantasma.getHeight()) <= (rectangulo.getY() + rectangulo.getHeight()) &&
+                    (limitesFantasma.getY() + limitesFantasma.getHeight()) >= limiteSuperior;
+            boolean fantasmaEnLimiteInf = limitesFantasma.getY() <= limiteInferior &&
+                    limitesFantasma.getY() >= rectangulo.getY();
+            /*System.out.println("limiteSup " + limiteSuperior);
+            System.out.println(mapObject.getProperties().get("id", Integer.class));
+            System.out.println("Final sup Collider" + (rectangulo.getY() + rectangulo.getHeight()));
+            System.out.println("borde sup Fantasma" + (limitesFantasma.getY() + limitesFantasma.getHeight()));
+            System.out.println("BordeIzqFantasma" + limitesFantasma.getX());
+            System.out.println("BordeIzqRect" + rectangulo.getX() + "BordeDer" + (rectangulo.getX() + rectangulo.getWidth()));
+            System.out.println(fantasmaEnLimiteSup + "////////////////////////////////////////////////////////////");*/
+            if (direccionFantasma.x > 0 && fantasmaEnLimiteDer &&
+                    (limitesFantasma.getY() >= rectangulo.getY() && limitesFantasma.getY() <= (rectangulo.getY() + rectangulo.getHeight()))) {
+                posicionCambio = mapObject;
+            } else if (direccionFantasma.x < 0 && fantasmaEnLimiteIzq &&
+                    (limitesFantasma.getY() >= rectangulo.getY() && limitesFantasma.getY() <= (rectangulo.getY() + rectangulo.getHeight()))) {
+                posicionCambio = mapObject;
+            } else if (direccionFantasma.y > 0 && fantasmaEnLimiteSup &&
+                    (limitesFantasma.getX() >= rectangulo.getX() && limitesFantasma.getX() <= (rectangulo.getX() + rectangulo.getWidth()))) {
+                posicionCambio = mapObject;
+            } else if (direccionFantasma.y < 0 && fantasmaEnLimiteInf &&
+                    (limitesFantasma.getX() >= rectangulo.getX() && limitesFantasma.getX() <= (rectangulo.getX() + rectangulo.getWidth()))) {
+                posicionCambio = mapObject;
+            }
+            i++;
+        }
+        return posicionCambio;
+    }
+
+    public boolean verificarColsionFantasma() {
+        int cantFantasmas = this.listaFantasma.size(), i = 0;
+        boolean exito = false;
+        Fantasma fantasma;
+        while (!exito && i < cantFantasmas) {
+            fantasma = this.listaFantasma.get(i);
+            if (Intersector.overlaps(this.pacman.getLimites(), fantasma.getLimites())) {
+                if (this.pacman.estaEvolucionado()) {
+                    fantasma.setEstado("muerto");
+                } else {
+                    exito = true;
+                }
+            }
+            i++;
+        }
+        return exito;
     }
 }

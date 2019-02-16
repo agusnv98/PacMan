@@ -1,5 +1,6 @@
 package com.pacman.Actores;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -32,14 +33,48 @@ public abstract class Personaje extends Actor {
         add("abajo");
     }};
 
+    protected boolean muerto = false;
+
     public Personaje(Rectangle respawn, Mundo mundo) {
         //ver el tema de las animaciones, aunque no se podria implementar aca
         this.mundo = mundo;
-        this.respawn = respawn;
+        this.respawn = respawn; //se guarda la posicion a donde debe revivir el personaje
         this.direccion = new Vector2(0, 0); //se crea quieto
         this.estadoActual = 2; //se crea por defecto con estado izquierda
-        //this.limites = new Rectangle(this.respawn.getX()+1.5f, this.respawn.getY()+1.5f, this.respawn.getWidth()-3, this.respawn.getHeight()-3);
         this.limites = new Rectangle(this.respawn.getX(), this.respawn.getY(), this.respawn.getWidth() - 2, this.respawn.getHeight() - 2);
+    }
+
+    @Override
+    public void act(float delta) {
+        this.tiempoFrame += delta;
+        if (!this.getEstado().equals("muerto")) {    //si el fantasma no esta muerto se carga la animacion que este
+            this.frameActual = (TextureRegion) this.animActual.getKeyFrame(this.tiempoFrame);
+        } else {
+            //si el fantasma esta muerto se analiza si hay que reiniciar la animacion de muerte o continuar con su reproduccion
+            if (!this.muerto) {
+                this.tiempoFrame = 0;
+                this.muerto = true;
+            }
+            this.frameActual = (TextureRegion) this.animActual.getKeyFrame(this.tiempoFrame);
+            if (this.animActual.isAnimationFinished(tiempoFrame)) {
+                //una vez que la animacion de muerte del fantasma termina, revive
+                revivir();
+            }
+        }
+        mover(delta);
+        if (getX() > Gdx.graphics.getWidth() + this.frameActual.getRegionWidth()) {
+            setPosition(0 - this.frameActual.getRegionWidth(), getY());
+        } else if (getX() + this.frameActual.getRegionWidth() < 0) {
+            setPosition(Gdx.graphics.getWidth(), getY());
+        }
+    }
+
+    protected abstract void mover(float delta);
+
+    protected void revivir() {
+        this.muerto = false;
+        this.limites = new Rectangle(this.respawn.getX(), this.respawn.getY(), this.respawn.getWidth() - 2, this.respawn.getHeight() - 2);
+        this.setXY(this.limites.getX(), this.limites.getY());
     }
 
     public abstract boolean setEstado(String estado);
@@ -77,11 +112,11 @@ public abstract class Personaje extends Actor {
             this.setXY(limitesPersonaje.getX() + diferenciaHorizontal, limitesPersonaje.getY() + diferenciaVertical);
         } else if (this.direccion.y > 0) {//va hacia arriba
             diferenciaVertical = (limitesPersonaje.getY() + limitesPersonaje.getHeight()) - pared.getY();
-            diferenciaHorizontal=choqueVertical(limitesPersonaje,pared);
+            diferenciaHorizontal = choqueVertical(limitesPersonaje, pared);
             this.setXY(limitesPersonaje.getX() + diferenciaHorizontal, limitesPersonaje.getY() - diferenciaVertical);
         } else if (this.direccion.y < 0) {//va hacia abajo
             diferenciaVertical = (pared.getY() + pared.getHeight()) - limitesPersonaje.getY();
-            diferenciaHorizontal=choqueVertical(limitesPersonaje,pared);
+            diferenciaHorizontal = choqueVertical(limitesPersonaje, pared);
             this.setXY(limitesPersonaje.getX() + diferenciaHorizontal, limitesPersonaje.getY() + diferenciaVertical);
         }
     }
@@ -97,17 +132,17 @@ public abstract class Personaje extends Actor {
         float tercioInf = limitesPersonaje.getY() + (limitesPersonaje.getHeight() / 3);
 
         if (pared.getY() <= (limitesPersonaje.getY() + limitesPersonaje.getHeight()) && pared.getY() >= tercioSup) {
-            System.out.println("Choco en la esquina superior del lado derecho, corrigiendo");
+            //System.out.println("Choco en la esquina superior del lado derecho, corrigiendo");
             diferenciaVertical = (tercioSup - pared.getY()) / 2;
-            System.out.println(diferenciaVertical);
+            //System.out.println(diferenciaVertical);
         } else {
             float bordeSupPared = pared.getY() + pared.getHeight();
             if (bordeSupPared <= tercioInf && bordeSupPared >= limitesPersonaje.getY()) {
-                System.out.println("Choco en la esquina inferior del lado derecho, corrigiendo");
+                //System.out.println("Choco en la esquina inferior del lado derecho, corrigiendo");
                 diferenciaVertical = (tercioInf - (pared.getY() + pared.getHeight())) / 2;
-                System.out.println(diferenciaVertical);
+                //System.out.println(diferenciaVertical);
             } else {
-                System.out.println("Choco en el tercio central derecho, no corrijo");
+                //System.out.println("Choco en el tercio central derecho, no corrijo");
             }
         }
         return diferenciaVertical;
@@ -125,20 +160,24 @@ public abstract class Personaje extends Actor {
 
         float bordeDerPared = pared.getX() + pared.getWidth();
         if (bordeDerPared <= tercioIzq && bordeDerPared >= limitesPersonaje.getX()) {
-            System.out.println("Choco en la esquina superior izquierda, corrigiendo");
+            //System.out.println("Choco en la esquina superior izquierda, corrigiendo");
             diferenciaHorizontal = (tercioIzq - bordeDerPared) / 2;
-            System.out.println(diferenciaHorizontal);
+            //System.out.println(diferenciaHorizontal);
         } else if (pared.getX() <= (limitesPersonaje.getX() + limitesPersonaje.getWidth()) && pared.getX() >= tercioDer) {
-            System.out.println("Choco en la esquina superior derecha, corrigiendo");
+            // System.out.println("Choco en la esquina superior derecha, corrigiendo");
             diferenciaHorizontal = (tercioDer - pared.getX()) / 2;
-            System.out.println(diferenciaHorizontal);
+            //System.out.println(diferenciaHorizontal);
         } else {
-            System.out.println("Choco en el tercio central superior, no corrijo");
+            //System.out.println("Choco en el tercio central superior, no corrijo");
         }
         return diferenciaHorizontal;
     }
 
     public Rectangle getLimites() {
-        return limites;
+        return this.limites;
+    }
+
+    public Vector2 getDireccion() {
+        return this.direccion;
     }
 }

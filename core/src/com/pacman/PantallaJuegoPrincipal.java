@@ -2,6 +2,7 @@ package com.pacman;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
@@ -42,13 +43,13 @@ public class PantallaJuegoPrincipal extends PantallaBase {
 
     private Mundo mundo;
 
-    //Elementos Visuales //Irian en el manager del juego
+    //Elementos Visuales
     private Texture sprites;
     private PacMan pacman;
-    private Fantasma fantasma1, fantasma2, fantasma3, fantasma4;
 
     private Skin skin;
     private MiTouch touch;
+    private Music sonidoJuego;
 
     public PantallaJuegoPrincipal(JuegoPrincipal juego) {
         super(juego);
@@ -75,23 +76,28 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         int tilePixelHeight = prop.get("tileheight", Integer.class);
         int widthEnPx = mapWidth * tilePixelWidth;
         int heightEnPx = mapHeight * tilePixelHeight;
-        System.out.println("Mapa" + widthEnPx + "//" + heightEnPx);
+        //System.out.println("Mapa" + widthEnPx + "//" + heightEnPx);
 
         Mundo mundo = new Mundo(mapa, escenario);
         this.pacman = mundo.getPacman();
-        //establece el gamePad
 
+        //se establece el gamePad
         Gdx.input.setInputProcessor(escenario);
         skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));//skin para los botones
         touch = new MiTouch(15,skin,this.pacman);
         touch.setBounds(76, 0, 140, 140);
         escenario.addActor(touch);
+
+        //se establecen los sonidos
+        /*sonidoJuego = mundo.getManager().get("sounds/u-got-that-full-version-mmv.ogg");
+        sonidoJuego.setLooping(true);
+        onidoJuego.play();*/
     }
 
     private void establecerCamara() {
         Gdx.graphics.setWindowedMode(304, 336);
         batch = new SpriteBatch();
-        System.out.println("Pantalla" + Gdx.graphics.getWidth() + "//" + Gdx.graphics.getHeight());
+        //System.out.println("Pantalla" + Gdx.graphics.getWidth() + "//" + Gdx.graphics.getHeight());
         //Camera – eye in the scene, determines what the player can see, used by LibGDX to render the scene.
         //Viewport – controls how the render results from the camera are displayed to the user, be it with black bars, stretched or doing nothing at all.
         camera = new OrthographicCamera();
@@ -104,7 +110,6 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         //modificar aca tambien para cuando entre el joysitic e info del juego
         stageViewport = new FitViewport(304, 336);
         escenario = new Stage(stageViewport, batch);
-
     }
 
     @Override
@@ -143,7 +148,7 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
-//        handleInput();
+        //handleInput();
         escenario.act();
         escenario.draw();
     }
