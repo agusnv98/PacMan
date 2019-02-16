@@ -41,7 +41,7 @@ public class Mundo {
         //Fantasmas
         MapLayer capaFantasma = mapa.getLayers().get("Ghost");
         Rectangle rectanguloFantasma = ((RectangleMapObject) capaFantasma.getObjects().get(0)).getRectangle();
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 4; i++) {
             this.listaFantasma.add(new Fantasma(sprites, rectanguloFantasma, i, this));
             escenario.addActor(this.listaFantasma.get(i));
         }
