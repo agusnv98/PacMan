@@ -158,7 +158,7 @@ public class Fantasma extends Personaje {
 
     protected void revivir() {
         super.revivir();
-        this.debilitado = false;
+            this.debilitado = false;
         this.setEstado("arriba");
     }
 
@@ -273,5 +273,9 @@ public class Fantasma extends Personaje {
 
     public int getId() {
         return this.fantasmaId;
+    }
+
+    public boolean estaDebilitado(){
+        return this.debilitado;
     }
 }

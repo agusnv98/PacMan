@@ -29,9 +29,11 @@ public class Mundo {
     private final int cantFantasmas = 4;
     private Sound sonidoPildora, sonidoPildoraGrande;
     private AssetManager manager;
+    private float anchoMapa;
 
     public Mundo(TiledMap mapa, Stage escenario) {
         sprites = new Texture("personajes/actors.png");
+        this.anchoMapa = escenario.getCamera().viewportWidth;
         this.mapa = mapa;
         //PacMan
         MapLayer capaPacman = mapa.getLayers().get("Player");
@@ -80,6 +82,10 @@ public class Mundo {
 
     public PacMan getPacman() {
         return pacman;
+    }
+
+    public float getAncho() {
+        return this.anchoMapa;
     }
 
     public Rectangle verificarColisionPared(Personaje personaje) {
@@ -199,7 +205,7 @@ public class Mundo {
         while (!exito && i < cantFantasmas) {
             fantasma = this.listaFantasma.get(i);
             if (Intersector.overlaps(this.pacman.getLimites(), fantasma.getLimites())) {
-                if (this.pacman.estaEvolucionado()) {
+                if (this.pacman.estaEvolucionado() && fantasma.estaDebilitado()) {
                     fantasma.setEstado("muerto");
                 } else {
                     exito = true;

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public abstract class Personaje extends Actor {
 
-    protected static final float VELOCIDAD = 35f;
+    protected static final float VELOCIDAD = 38f;
     protected static final float duracionFrame = 0.1f;
     protected float tiempoFrame;
 
@@ -62,10 +62,10 @@ public abstract class Personaje extends Actor {
             }
         }
         mover(delta);
-        if (getX() > Gdx.graphics.getWidth() + this.frameActual.getRegionWidth()) {
+        if (getX() > mundo.getAncho() + this.frameActual.getRegionWidth()) {
             setPosition(0 - this.frameActual.getRegionWidth(), getY());
         } else if (getX() + this.frameActual.getRegionWidth() < 0) {
-            setPosition(Gdx.graphics.getWidth(), getY());
+            setPosition(mundo.getAncho(), getY());
         }
     }
 
@@ -95,51 +95,50 @@ public abstract class Personaje extends Actor {
     }
 
     public void reacomodar(Rectangle pared) {
-        //System.out.println("Colision  Personaje X=" + this.limites.getX() + "// Y= " + this.limites.getY() + "|| Pared X = " + pared.getX() + "//" + (pared.getY()));
-        //System.out.println("Ancho pared" + pared.getWidth() + "Alto" + pared.getHeight());
-        //System.out.println("Direccion" + this.direccion.x + "//" + this.direccion.y);
-        float diferenciaHorizontal = 0; //obtiene cuantas unidadades en el ejeX se superpuso el personaje sobre la pared
-        float diferenciaVertical = 0; //obtiene cuantas unidades en el ejeY se superpuso el personaje sobre la pared
-        Rectangle limitesPersonaje = this.limites;
+        //System.out.println("Colision  Personaje X = " + this.limites.getX() + "// Y = " + this.limites.getY() + "|| Pared X = " + pared.getX() + " // Pared Y = " + (pared.getY()));
+        //System.out.println("Ancho pared " + pared.getWidth() + " //Alto " + pared.getHeight());
+        //System.out.println("Direccion Personaje X = " + this.direccion.x + " // Y = " + this.direccion.y);
+        float diferenciaHorizontal; //obtiene cuantas unidadades en el ejeX se superpuso el personaje sobre la pared
+        float diferenciaVertical; //obtiene cuantas unidades en el ejeY se superpuso el personaje sobre la pared
         if (this.direccion.x > 0) {//va hacia la derecha
-            diferenciaHorizontal = (limitesPersonaje.getX() + limitesPersonaje.getWidth()) - pared.getX();
-            diferenciaVertical = choqueLateral(limitesPersonaje, pared);
-            this.setXY(limitesPersonaje.getX() - diferenciaHorizontal, limitesPersonaje.getY() + diferenciaVertical);
+            diferenciaHorizontal = (this.limites.getX() + this.limites.getWidth()) - pared.getX();
+            diferenciaVertical = choqueLateral(pared);
+            this.setXY(this.limites.getX() - diferenciaHorizontal, this.limites.getY() + diferenciaVertical);
             //System.out.println("DifH"+diferenciaHorizontal+"/"+"DifV"+diferenciaVertical);
         } else if (this.direccion.x < 0) {//va hacia la izquierda
-            diferenciaHorizontal = (pared.getX() + pared.getWidth()) - limitesPersonaje.getX();
-            diferenciaVertical = choqueLateral(limitesPersonaje, pared);
-            this.setXY(limitesPersonaje.getX() + diferenciaHorizontal, limitesPersonaje.getY() + diferenciaVertical);
+            diferenciaHorizontal = (pared.getX() + pared.getWidth()) - this.limites.getX();
+            diferenciaVertical = choqueLateral(pared);
+            this.setXY(this.limites.getX() + diferenciaHorizontal, this.limites.getY() + diferenciaVertical);
         } else if (this.direccion.y > 0) {//va hacia arriba
-            diferenciaVertical = (limitesPersonaje.getY() + limitesPersonaje.getHeight()) - pared.getY();
-            diferenciaHorizontal = choqueVertical(limitesPersonaje, pared);
-            this.setXY(limitesPersonaje.getX() + diferenciaHorizontal, limitesPersonaje.getY() - diferenciaVertical);
+            diferenciaVertical = (this.limites.getY() + this.limites.getHeight()) - pared.getY();
+            diferenciaHorizontal = choqueVertical(pared);
+            this.setXY(this.limites.getX() + diferenciaHorizontal, this.limites.getY() - diferenciaVertical);
         } else if (this.direccion.y < 0) {//va hacia abajo
-            diferenciaVertical = (pared.getY() + pared.getHeight()) - limitesPersonaje.getY();
-            diferenciaHorizontal = choqueVertical(limitesPersonaje, pared);
-            this.setXY(limitesPersonaje.getX() + diferenciaHorizontal, limitesPersonaje.getY() + diferenciaVertical);
+            diferenciaVertical = (pared.getY() + pared.getHeight()) - this.limites.getY();
+            diferenciaHorizontal = choqueVertical(pared);
+            this.setXY(this.limites.getX() + diferenciaHorizontal, this.limites.getY() + diferenciaVertical);
         }
     }
 
-    private float choqueLateral(Rectangle limitesPersonaje, Rectangle pared) {
+    private float choqueLateral(Rectangle pared) {
         float diferenciaVertical = 0;
 
         //determino si el personaje choco en la esquina superior por el lado derecho/izquierdo
         //se define como colision al tercio superior del personaje
-        float tercioSup = (limitesPersonaje.getY() + (limitesPersonaje.getHeight() / 3) * 2);
+        float tercioSup = (this.limites.getY() + ((this.limites.getHeight() / 3) * 2));
         //determino si el personaje choco en la esquina inferior por lado derecho/izquierdo
         //se define como colision al tercio inferior del personaje
-        float tercioInf = limitesPersonaje.getY() + (limitesPersonaje.getHeight() / 3);
+        float tercioInf = this.limites.getY() + (this.limites.getHeight() / 3);
 
-        if (pared.getY() <= (limitesPersonaje.getY() + limitesPersonaje.getHeight()) && pared.getY() >= tercioSup) {
+        if (pared.getY() <= (this.limites.getY() + this.limites.getHeight()) && pared.getY() >= tercioSup) {
+            diferenciaVertical = (tercioSup - pared.getY()) / 2;                     //obtiene un valor negativo (tercioInf<=bordeSupPared)
             //System.out.println("Choco en la esquina superior del lado derecho, corrigiendo");
-            diferenciaVertical = (tercioSup - pared.getY()) / 2;
             //System.out.println(diferenciaVertical);
         } else {
             float bordeSupPared = pared.getY() + pared.getHeight();
-            if (bordeSupPared <= tercioInf && bordeSupPared >= limitesPersonaje.getY()) {
+            if (bordeSupPared <= tercioInf && bordeSupPared >= this.limites.getY()) {
+                diferenciaVertical = (tercioInf - bordeSupPared) / 2;                //obtiene un valor positivo (tercioInf>=bordeSupPared)
                 //System.out.println("Choco en la esquina inferior del lado derecho, corrigiendo");
-                diferenciaVertical = (tercioInf - (pared.getY() + pared.getHeight())) / 2;
                 //System.out.println(diferenciaVertical);
             } else {
                 //System.out.println("Choco en el tercio central derecho, no corrijo");
@@ -148,24 +147,24 @@ public abstract class Personaje extends Actor {
         return diferenciaVertical;
     }
 
-    private float choqueVertical(Rectangle limitesPersonaje, Rectangle pared) {
+    private float choqueVertical(Rectangle pared) {
         float diferenciaHorizontal = 0;
 
         //determino si el personaje choco en la esquina izquierda por el lado superior/inferior
         //se define como colision al tercio izquierdo del personaje
-        float tercioIzq = limitesPersonaje.getX() + (limitesPersonaje.getWidth() / 3);
+        float tercioIzq = this.limites.getX() + (this.limites.getWidth() / 3);
         //determino si el personaje choco en la esquina derecha por el lado superior/inferior
         //se define como colision al tercio derecho del personaje
-        float tercioDer = limitesPersonaje.getX() + ((limitesPersonaje.getHeight() / 3) * 2);
+        float tercioDer = this.limites.getX() + ((this.limites.getWidth() / 3) * 2);
 
         float bordeDerPared = pared.getX() + pared.getWidth();
-        if (bordeDerPared <= tercioIzq && bordeDerPared >= limitesPersonaje.getX()) {
-            //System.out.println("Choco en la esquina superior izquierda, corrigiendo");
+        if (bordeDerPared <= tercioIzq && bordeDerPared >= this.limites.getX()) {
             diferenciaHorizontal = (tercioIzq - bordeDerPared) / 2;
+            //System.out.println("Choco en la esquina superior izquierda, corrigiendo");
             //System.out.println(diferenciaHorizontal);
-        } else if (pared.getX() <= (limitesPersonaje.getX() + limitesPersonaje.getWidth()) && pared.getX() >= tercioDer) {
-            // System.out.println("Choco en la esquina superior derecha, corrigiendo");
+        } else if (pared.getX() <= (this.limites.getX() + this.limites.getWidth()) && pared.getX() >= tercioDer) {
             diferenciaHorizontal = (tercioDer - pared.getX()) / 2;
+            //System.out.println("Choco en la esquina superior derecha, corrigiendo");
             //System.out.println(diferenciaHorizontal);
         } else {
             //System.out.println("Choco en el tercio central superior, no corrijo");
