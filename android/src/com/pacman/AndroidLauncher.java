@@ -13,4 +13,13 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new JuegoPrincipal(new BaseDeDatosAndroid(getApplicationContext())), config);
 	}
+import com.pacman.Datos.BaseDeDatosAndroid;
+
+public class AndroidLauncher extends AndroidApplication {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+        initialize(new JuegoPrincipal(new BaseDeDatosAndroid(getApplicationContext())), config);
+    }
 }
