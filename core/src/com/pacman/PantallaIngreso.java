@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
-public class PantallaRegistro extends PantallaBase {
+public class PantallaIngreso extends PantallaBase {
 
     private BaseDeDatos bd;
 
@@ -25,7 +25,7 @@ public class PantallaRegistro extends PantallaBase {
     private Table campos;
     private BitmapFont fuente;
 
-    public PantallaRegistro(JuegoPrincipal juego, BaseDeDatos bd) {
+    public PantallaIngreso(JuegoPrincipal juego, BaseDeDatos bd) {
         super(juego);
         this.bd = bd;
     }
@@ -42,7 +42,7 @@ public class PantallaRegistro extends PantallaBase {
         this.contrasenaTextField.setPasswordMode(true);
         this.contrasenaTextField.setPasswordCharacter('•');
         this.boton = new TextButton("Ingresar datos", this.skin);
-        this.boton.addListener(new BotonRegistroListener(this.escenario, this.skin, this.bd, this.usuarioTextField, this.contrasenaTextField));
+        this.boton.addListener(new BotonIngresoListener(this.escenario, this.skin, this.bd, this.usuarioTextField, this.contrasenaTextField));
         this.campos = new Table();
         this.campos.setFillParent(true);
         this.campos.add(this.usuarioTextField).height(50).width(200).padBottom(30);
@@ -59,7 +59,7 @@ public class PantallaRegistro extends PantallaBase {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.batch.begin();
-        this.fuente.draw(this.batch, "REGISTRE SU USUARIO", 235, 425);
+        this.fuente.draw(this.batch, "INGRESE SUS DATOS", 235, 425);
         this.batch.end();
         this.escenario.act();
         this.escenario.draw();

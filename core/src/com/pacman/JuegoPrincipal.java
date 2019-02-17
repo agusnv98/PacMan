@@ -12,6 +12,6 @@ public class JuegoPrincipal extends Game {
 
     @Override
     public void create() {
-        setScreen(new PantallaRegistro(this, this.baseDeDatos));
+        setScreen(new PantallaIngreso(this, this.baseDeDatos));
     }
 }

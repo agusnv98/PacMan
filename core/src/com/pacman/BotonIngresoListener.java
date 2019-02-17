@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
-public class BotonRegistroListener extends InputListener {
+public class BotonIngresoListener extends InputListener {
 
     private Stage escenario;
     private Skin skin;
@@ -16,7 +16,7 @@ public class BotonRegistroListener extends InputListener {
     private TextField usuarioTextField;
     private TextField contrasenaTextField;
 
-    public BotonRegistroListener(Stage escenario, Skin skin, BaseDeDatos bd, TextField campoUsuario, TextField campoContra) {
+    public BotonIngresoListener(Stage escenario, Skin skin, BaseDeDatos bd, TextField campoUsuario, TextField campoContra) {
         this.escenario = escenario;
         this.skin = skin;
         this.bd = bd;
@@ -28,10 +28,10 @@ public class BotonRegistroListener extends InputListener {
         Dialog ventana = new Dialog("", this.skin);
         TextButton boton = new TextButton("Ok", this.skin);
         ventana.button(boton);
-        if (this.bd.crearJugador(this.usuarioTextField.getText(), this.contrasenaTextField.getText())) {
-            ventana.text("Jugador creado");
+        if (this.bd.logIn(this.usuarioTextField.getText(), this.contrasenaTextField.getText())) {
+            ventana.text("Bienvenido");
         } else {
-            ventana.text("El jugador ya existe");
+            ventana.text("Ocurrio un error, reingrese sus datos");
         }
         ventana.show(this.escenario);
         return true;
