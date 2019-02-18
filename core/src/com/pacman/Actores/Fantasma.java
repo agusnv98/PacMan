@@ -29,6 +29,7 @@ public class Fantasma extends Personaje {
         //se agregan los estados propios del fantasma
         this.estados.add("debilitado");
         this.estados.add("muerto");
+        this.estados.add("finDebilitado");
         int ejeY = 20, aumento = 16;                       //bases para obtener las animaciones
         //por default el id del fantasma es 0
         switch (id) {
@@ -64,10 +65,14 @@ public class Fantasma extends Personaje {
         //metodo que cambia al fantasma de estado y establece la animacion correspondiente al estado
         //el metodo retorna true si se pudo cambiar el estado, false en caso contrario
         boolean exito = true;
-        int pos = estados.indexOf(estado);
+        int pos = estados.indexOf(estado), estadoAnterior = this.estadoActual;
         //System.out.println(pos);
         if (pos != -1 && this.estadoActual != pos && !this.inicioAnimMuerto) {
             this.estadoActual = pos;
+            if (getEstado().equals("finDebilitado")) {
+                this.debilitado = false;
+                this.estadoActual = estadoAnterior;
+            }
             //si el fantasma esta debilitado entonces no se debe cambiar la animacion
             //solo cambia el estado para el movimiento
             if (!this.debilitado) {
@@ -90,7 +95,7 @@ public class Fantasma extends Personaje {
                         this.debilitado = true;
                         break;
                 }
-            } else if (this.estadoActual == 5) {
+            } else if (getEstado().equals("muerto")) {
                 //si el fantasma esta debilitado y se establecio el estado muerto, se carga la animacion de muerte
                 this.animActual = this.animMuerto;
             }

@@ -18,7 +18,12 @@ public class PantallaFinDelJuego extends PantallaBase {
 
     public PantallaFinDelJuego(final JuegoPrincipal juego) {
         super(juego);
-        //modificar lo del viweport hacer que el texto cuadre
+    }
+
+    @Override
+    public void show() {
+        //metodo que se ejecuta cuando se muestra por primera vez la aplicacion
+        //modificar lo del viweport hacer que el texto cuadre----------------------------------------
         establecerCamara();
         this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
         this.fuente = new BitmapFont();
@@ -35,11 +40,6 @@ public class PantallaFinDelJuego extends PantallaBase {
         this.reiniciar.setPosition((304 / 2) - (this.reiniciar.getWidth() / 2), (336 / 2) - (this.reiniciar.getWidth() / 2));
 
         this.escenario.addActor(this.reiniciar);
-    }
-
-    @Override
-    public void show() {
-        //metodo que se ejecuta cuando se muestra por primera vez la aplicacion
         Gdx.input.setInputProcessor(this.escenario);
     }
 

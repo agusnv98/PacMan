@@ -15,6 +15,7 @@ public class PacMan extends Personaje {
     private Animation animMuerto;
     private boolean evolucionado = false;
     private int cantVidas = 3;
+    long comienzoEvolucion, tiempoEvolucionado;
 
     public PacMan(Texture texturas, Rectangle respawn, Mundo mundo) {
         super(respawn, mundo);
@@ -33,12 +34,21 @@ public class PacMan extends Personaje {
 
     @Override
     public void act(float delta) {
+        if (this.evolucionado) {
+            this.tiempoEvolucionado = (System.currentTimeMillis() - this.comienzoEvolucion);
+            System.out.println("timepoEvolucionado" + tiempoEvolucionado);
+            if (tiempoEvolucionado >= 15000) {
+                System.out.println("Termino Evolucion" + tiempoEvolucionado);
+                this.mundo.terminoEvolucion();
+                this.evolucionado = false;
+            }
+        }
         if (this.cantVidas > 0) {
             //si el PacMan un tiene vidas, sigue el juego
             super.act(delta);
         } else {
             //si no tiene vidas, se notifica al mundo que termina el juego
-            this.mundo.setFinDelJuego();
+            this.mundo.setFinDelJuego(0);
             System.out.println("Fin del Juego");
         }
     }
@@ -74,6 +84,7 @@ public class PacMan extends Personaje {
                     case 6:
                         //se establece la condicion evolucionado
                         this.evolucionado = true;
+                        this.comienzoEvolucion = System.currentTimeMillis();
                         break;
                 }
             }
@@ -86,11 +97,17 @@ public class PacMan extends Personaje {
     protected void revivir() {
         //metodo que se ejecuta cuando termina la animacion de muerte del PacMan
         super.revivir();
-        this.evolucionado = false;
+        if (this.evolucionado) {
+            //si el PacMan estaba evolucionado, se le dice al mundo que ya no esta mas el estado evolucionado
+            this.mundo.terminoEvolucion();
+            this.evolucionado = false;
+        }
         this.cantVidas--;
         this.direccion = new Vector2(0, 0);   //revive quieto
         this.estadoActual = 2;                      //revive con estado el estado derecha
         this.animActual = this.animDer;             //revive con la animacion derecha
+        this.tiempoEvolucionado = 0;
+        this.comienzoEvolucion = 0;
     }
 
     protected void mover(float delta) {
@@ -149,6 +166,10 @@ public class PacMan extends Personaje {
 
     public boolean estaEvolucionado() {
         return this.evolucionado;
+    }
+
+    public int getCantVidas(){
+        return this.cantVidas;
     }
 
     private void establecerAnimaciones(Texture texturas) {

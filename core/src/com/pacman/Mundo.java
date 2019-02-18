@@ -31,7 +31,8 @@ public class Mundo {
     private List<Pildora> listaPildora = new ArrayList<Pildora>();
     private MapLayer capaCambiosDir;
     private final int cantFantasmas = 4;
-    private boolean finDelJuego = false; //variable utilizada para indicar que el juego finalizo
+    //variable utilizada para indicar que el juego finalizo (-1 el juego no finalizo, 0 el juegador perdio, 1 el juegador gano)
+    private int finDelJuego = -1;
     private int puntaje;
     private Sound sonidoPildora, sonidoPildoraGrande;
     private AssetManager manager;
@@ -142,6 +143,11 @@ public class Mundo {
             }
             i++;
         }
+        if (length <= 0) { //si no hay pildoras para analizar, el jugador gano
+            System.out.println("Gano el juego");
+            this.setFinDelJuego(1);
+        }
+
     }
 
     private Pildora obtenerPildora(Rectangle rectangulo) {
@@ -244,12 +250,17 @@ public class Mundo {
         return exito;
     }
 
-    public void setFinDelJuego() {
+    public synchronized void setFinDelJuego(int condicion) {
         //metodo utilizado para indicarle al mundo que el juego finalizo
-        this.finDelJuego = true;
+        //si condicion = 0, el jugador perdio
+        //si condicion = 1, el jugador gano
+        //solo se va a actualizar la condicion del juego si es la primera vez que se establece
+        if (this.finDelJuego == -1 && condicion >= 0 && condicion <= 1) {
+            this.finDelJuego = condicion;
+        }
     }
 
-    public boolean getFinDelJuego() {
+    public int getEstadoJuego() {
         //metodo utilizado para saber si el juego finalizo
         return this.finDelJuego;
     }
@@ -260,5 +271,11 @@ public class Mundo {
 
     private void modificarPuntaje(int puntos) {
         this.puntaje = this.getPuntaje() + puntos;
+    }
+
+    public void terminoEvolucion() {
+        for (Fantasma fantasma : this.listaFantasma) {
+            fantasma.setEstado("finDebilitado");
+        }
     }
 }

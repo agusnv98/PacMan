@@ -78,11 +78,13 @@ public abstract class PantallaBase implements Screen {
         this.mapa = new TmxMapLoader().load("map/map.tmx");
         MapProperties prop = mapa.getProperties();
         this.anchoEnTiles = prop.get("width", Integer.class);
-        this.altoEnTiles = prop.get("height", Integer.class) + 4;
+        this.altoEnTiles = prop.get("height", Integer.class) + 2;
         int tilePixelWidth = prop.get("tilewidth", Integer.class);
         int tilePixelHeight = prop.get("tileheight", Integer.class);
         this.anchoEnPx = this.anchoEnTiles * tilePixelWidth;
         this.altoEnPx = this.altoEnTiles * tilePixelHeight;
+        System.out.println("Pantalla px ancho "+anchoEnPx+" Alto "+altoEnPx);
+        System.out.println("Pantalla tiles ancho "+anchoEnTiles+" Alto "+altoEnTiles);
 
         //se establece el tamaño de la pantalla
         Gdx.graphics.setWindowedMode((int) this.anchoEnPx, (int) this.altoEnPx);
