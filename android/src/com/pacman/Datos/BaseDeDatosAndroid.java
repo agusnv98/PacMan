@@ -47,12 +47,15 @@ public class BaseDeDatosAndroid implements BaseDeDatos {
     }
 
     @Override
-    public void actualizarPuntaje(String nombre, int puntos) {
+    public boolean actualizarPuntaje(String nombre, int puntos) {
+        boolean resultado=false;
         if (this.basedeDatos.actualizarPuntaje(nombre, puntos)) {
+            resultado=true;
             System.out.println("-----------------------------Puntaje del jugador " + nombre + " actualizado a " + puntos + " puntos----------------------------------");
         } else {
             System.out.println("------------------------------------Error al actualizar el puntaje de " + nombre + "----------------------------------------");
         }
+        return resultado;
     }
 
     public void mostrarDatos() {

@@ -18,8 +18,9 @@ public class BaseDeDatosDesktop implements BaseDeDatos {
     }
 
     @Override
-    public void actualizarPuntaje(String nombre, int puntos) {
+    public boolean actualizarPuntaje(String nombre, int puntos) {
         Gdx.app.log("BaseDeDatosDesktop", "Se intento acceder a la base de datos de escritorio");
+        return false;
     }
 
     @Override

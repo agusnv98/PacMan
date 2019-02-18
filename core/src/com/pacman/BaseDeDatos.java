@@ -6,7 +6,7 @@ public interface BaseDeDatos {
 
     public boolean logIn(String nombre, String contraseña);
 
-    public void actualizarPuntaje(String nombre, int puntos);
+    public boolean actualizarPuntaje(String nombre, int puntos);
 
     public void mostrarDatos();
 }
