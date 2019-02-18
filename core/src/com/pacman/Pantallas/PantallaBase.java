@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.pacman.JuegoPrincipal;
 
@@ -29,6 +30,7 @@ public abstract class PantallaBase implements Screen {
     protected SpriteBatch batch;
     protected OrthogonalTiledMapRenderer tiledMapRenderer;
     protected FitViewport stageViewport;
+    protected Skin skin;
 
     //Mapa y Escenario
     protected TiledMap mapa;
@@ -84,8 +86,8 @@ public abstract class PantallaBase implements Screen {
         int tilePixelHeight = prop.get("tileheight", Integer.class);
         this.anchoEnPx = this.anchoEnTiles * tilePixelWidth;
         this.altoEnPx = this.altoEnTiles * tilePixelHeight;
-        System.out.println("Pantalla px ancho "+anchoEnPx+" Alto "+altoEnPx);
-        System.out.println("Pantalla tiles ancho "+anchoEnTiles+" Alto "+altoEnTiles);
+        //System.out.println("Pantalla px ancho "+anchoEnPx+" Alto "+altoEnPx);
+        //System.out.println("Pantalla tiles ancho "+anchoEnTiles+" Alto "+altoEnTiles);
 
         //se establece el tamaño de la pantalla
         Gdx.graphics.setWindowedMode((int) this.anchoEnPx, (int) this.altoEnPx);

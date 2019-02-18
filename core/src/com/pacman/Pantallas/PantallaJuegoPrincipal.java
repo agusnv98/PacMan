@@ -28,7 +28,6 @@ public class PantallaJuegoPrincipal extends PantallaBase {
     private TextArea puntajePantalla;
     private Texture sprites;
 
-    private Skin skin;
     private Gamepad touch;
     private Sound sonidoJuego;
     private AssetManager manager;
