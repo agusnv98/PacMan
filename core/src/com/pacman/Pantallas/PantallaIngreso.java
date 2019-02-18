@@ -17,8 +17,6 @@ public class PantallaIngreso extends PantallaBase {
 
     private BaseDeDatos bd;
 
-    private Skin skin;
-
     private TextField usuarioTextField;
     private TextField contrasenaTextField;
     private TextButton boton;
@@ -41,7 +39,7 @@ public class PantallaIngreso extends PantallaBase {
         this.contrasenaTextField.setPasswordMode(true);
         this.contrasenaTextField.setPasswordCharacter('•');
         this.boton = new TextButton("Ingresar datos", this.skin);
-        this.boton.addListener(new BotonIngresoListener(this.escenario, this.skin, this.bd, this.usuarioTextField, this.contrasenaTextField));
+        this.boton.addListener(new BotonIngresoListener(this.escenario, this.skin, this.bd, this.usuarioTextField, this.contrasenaTextField, this.juego));
         this.campos = new Table();
         this.campos.setFillParent(true);
         this.campos.add(this.usuarioTextField).height(50).width(200).padBottom(30);
@@ -58,7 +56,7 @@ public class PantallaIngreso extends PantallaBase {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.batch.begin();
-        this.fuente.draw(this.batch, "INGRESE SUS DATOS", (304 / 2) - (this.fuente.getRegion().getRegionWidth() / 3), 336);
+        this.fuente.draw(this.batch, "INGRESE SUS DATOS", (this.anchoEnPx / 2) - (this.fuente.getRegion().getRegionWidth() / 3.3f), this.altoEnPx-30);
         this.batch.end();
         this.escenario.act();
         this.escenario.draw();
@@ -70,11 +68,12 @@ public class PantallaIngreso extends PantallaBase {
 
     @Override
     public void hide() {
-        this.escenario.dispose();
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override
     public void dispose() {
         this.escenario.dispose();
+        skin.dispose();
     }
 }

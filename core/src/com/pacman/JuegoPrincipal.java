@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.pacman.Pantallas.PantallaFinDelJuego;
 import com.pacman.Pantallas.PantallaIngreso;
 import com.pacman.Pantallas.PantallaJuegoPrincipal;
+import com.pacman.Pantallas.PantallaMenu;
 import com.pacman.Pantallas.PantallaRegistro;
 
 public class JuegoPrincipal extends Game {
@@ -15,6 +16,7 @@ public class JuegoPrincipal extends Game {
     private PantallaFinDelJuego pantallaFinDelJuego;
     private PantallaIngreso pantallaIngreso;
     private PantallaRegistro pantallaRegistro;
+    private PantallaMenu pantallaMenu;
 
     public JuegoPrincipal(BaseDeDatos baseDeDatos) {
         this.baseDeDatos = baseDeDatos;
@@ -28,7 +30,20 @@ public class JuegoPrincipal extends Game {
         this.pantallaFinDelJuego = new PantallaFinDelJuego(this);
         this.pantallaIngreso = new PantallaIngreso(this, baseDeDatos);
         this.pantallaRegistro = new PantallaRegistro(this, baseDeDatos);
-        setScreen(this.pantallaIngreso);
+        this.pantallaMenu = new PantallaMenu(this);
+        setScreen(this.pantallaMenu);
+    }
+
+    public PantallaMenu getPantallaMenu() {
+        return pantallaMenu;
+    }
+
+    public PantallaIngreso getPantallaIngreso() {
+        return this.pantallaIngreso;
+    }
+
+    public PantallaRegistro getPantallaRegistro() {
+        return this.pantallaRegistro;
     }
 
     public PantallaFinDelJuego getPantallaFinDelJuego() {
