@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 public class ServicioBD extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
@@ -60,7 +62,7 @@ public class ServicioBD extends SQLiteOpenHelper {
 
     public void mostrarBaseDatos() {
         //Metodo que muestra todos los datos almacenados en la base de datos
-        Cursor c = getReadableDatabase().query(JugadorContract.JugadorEntry.NOMBRE_TABLA, null, null, null, null, null, null);
+        Cursor c = getReadableDatabase().query(JugadorContract.JugadorEntry.NOMBRE_TABLA, null, null, null, null, null, JugadorContract.JugadorEntry.PUNTAJE + " DESC");
         System.out.println("----------------------------------------------BASE DE DATOS PACMAN----------------------------------------");
         while (c.moveToNext()) {
             String nombre = c.getString(c.getColumnIndex(JugadorContract.JugadorEntry.USUARIO));
@@ -71,6 +73,17 @@ public class ServicioBD extends SQLiteOpenHelper {
             System.out.println("Puntaje: " + puntos);
             System.out.println("---------------------------------------------------------------------");
         }
+    }
+
+    public ArrayList obtenerDatos() {
+        //Metodo que retorna una lista ordenada con los nombres de todos los jugadores y sus puntajes
+        ArrayList lista = new ArrayList();
+        Cursor c = getReadableDatabase().query(JugadorContract.JugadorEntry.NOMBRE_TABLA, null, null, null, null, null, JugadorContract.JugadorEntry.PUNTAJE + " DESC");
+        while (c.moveToNext()) {
+            lista.add(c.getString(c.getColumnIndex(JugadorContract.JugadorEntry.USUARIO)));
+            lista.add(c.getInt(c.getColumnIndex(JugadorContract.JugadorEntry.PUNTAJE)));
+        }
+        return lista;
     }
 
     public boolean verificarJugador(Cursor c) {

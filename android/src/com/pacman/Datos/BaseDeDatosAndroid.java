@@ -5,6 +5,8 @@ import android.database.Cursor;
 
 import com.pacman.BaseDeDatos;
 
+import java.util.ArrayList;
+
 public class BaseDeDatosAndroid implements BaseDeDatos {
 
     private final ServicioBD basedeDatos;
@@ -48,9 +50,9 @@ public class BaseDeDatosAndroid implements BaseDeDatos {
 
     @Override
     public boolean actualizarPuntaje(String nombre, int puntos) {
-        boolean resultado=false;
+        boolean resultado = false;
         if (this.basedeDatos.actualizarPuntaje(nombre, puntos)) {
-            resultado=true;
+            resultado = true;
             System.out.println("-----------------------------Puntaje del jugador " + nombre + " actualizado a " + puntos + " puntos----------------------------------");
         } else {
             System.out.println("------------------------------------Error al actualizar el puntaje de " + nombre + "----------------------------------------");
@@ -60,6 +62,10 @@ public class BaseDeDatosAndroid implements BaseDeDatos {
 
     public void mostrarDatos() {
         this.basedeDatos.mostrarBaseDatos();
+    }
+
+    public ArrayList obtenerDatos() {
+        return this.basedeDatos.obtenerDatos();
     }
 }
 
