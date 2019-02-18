@@ -1,6 +1,10 @@
 package com.pacman;
 
 import com.badlogic.gdx.Game;
+import com.pacman.Pantallas.PantallaFinDelJuego;
+import com.pacman.Pantallas.PantallaIngreso;
+import com.pacman.Pantallas.PantallaJuegoPrincipal;
+import com.pacman.Pantallas.PantallaRegistro;
 
 public class JuegoPrincipal extends Game {
     //clase principal sobre la que se establece el juegp
@@ -9,6 +13,8 @@ public class JuegoPrincipal extends Game {
 
     private PantallaJuegoPrincipal pantallaJuegoPrincipal;
     private PantallaFinDelJuego pantallaFinDelJuego;
+    private PantallaIngreso pantallaIngreso;
+    private PantallaRegistro pantallaRegistro;
 
     public JuegoPrincipal(BaseDeDatos baseDeDatos) {
         this.baseDeDatos = baseDeDatos;
@@ -20,7 +26,9 @@ public class JuegoPrincipal extends Game {
         //en este se inicializan las pantallas y se establece la pantalla principal
         this.pantallaJuegoPrincipal = new PantallaJuegoPrincipal(this);
         this.pantallaFinDelJuego = new PantallaFinDelJuego(this);
-        setScreen(this.pantallaJuegoPrincipal);
+        this.pantallaIngreso = new PantallaIngreso(this, baseDeDatos);
+        this.pantallaRegistro = new PantallaRegistro(this, baseDeDatos);
+        setScreen(this.pantallaIngreso);
     }
 
     public PantallaFinDelJuego getPantallaFinDelJuego() {

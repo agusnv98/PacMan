@@ -1,4 +1,4 @@
-package com.pacman;
+package com.pacman.Pantallas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.pacman.JuegoPrincipal;
 
 public abstract class PantallaBase implements Screen {
     //clase abstracta que establece la estructura de las pantallas que se van a utilizar en el juego

@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class ServicioBD extends SQLiteOpenHelper {
 
+    private SQLiteDatabase db;
+
     // Versión de la base de datos
     private static final int VERSION_BD = 1;
 
@@ -28,6 +30,7 @@ public class ServicioBD extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        this.db = db;
         db.execSQL(SQL_DATOS_ENTRADA);
         this.inicializar();
     }
@@ -45,7 +48,6 @@ public class ServicioBD extends SQLiteOpenHelper {
 
     public long insertarJugador(Jugador jugador) {
         //Metodo que ingresa un nuevo jugador a la base de datos
-        SQLiteDatabase db = getWritableDatabase();
         return db.insert(JugadorContract.JugadorEntry.NOMBRE_TABLA, null, jugador.toContentValues());
     }
 

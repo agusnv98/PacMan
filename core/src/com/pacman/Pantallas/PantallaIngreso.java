@@ -1,4 +1,4 @@
-package com.pacman;
+package com.pacman.Pantallas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,14 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.pacman.BaseDeDatos;
+import com.pacman.BotonIngresoListener;
+import com.pacman.JuegoPrincipal;
 
-public class PantallaRegistro extends PantallaBase {
+public class PantallaIngreso extends PantallaBase {
 
     private BaseDeDatos bd;
 
-    private SpriteBatch batch;
-
-    private Stage escenario;
     private Skin skin;
 
     private TextField usuarioTextField;
@@ -25,15 +25,14 @@ public class PantallaRegistro extends PantallaBase {
     private Table campos;
     private BitmapFont fuente;
 
-    public PantallaRegistro(JuegoPrincipal juego, BaseDeDatos bd) {
+    public PantallaIngreso(JuegoPrincipal juego, BaseDeDatos bd) {
         super(juego);
         this.bd = bd;
     }
 
     @Override
     public void show() {
-        this.escenario = new Stage();
-        this.batch = new SpriteBatch();
+        establecerCamara();
         this.fuente = new BitmapFont();
         this.fuente.setColor(0, 204, 204, 1);
         this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
@@ -42,7 +41,7 @@ public class PantallaRegistro extends PantallaBase {
         this.contrasenaTextField.setPasswordMode(true);
         this.contrasenaTextField.setPasswordCharacter('•');
         this.boton = new TextButton("Ingresar datos", this.skin);
-        this.boton.addListener(new BotonRegistroListener(this.escenario, this.skin, this.bd, this.usuarioTextField, this.contrasenaTextField));
+        this.boton.addListener(new BotonIngresoListener(this.escenario, this.skin, this.bd, this.usuarioTextField, this.contrasenaTextField));
         this.campos = new Table();
         this.campos.setFillParent(true);
         this.campos.add(this.usuarioTextField).height(50).width(200).padBottom(30);
@@ -59,7 +58,7 @@ public class PantallaRegistro extends PantallaBase {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.batch.begin();
-        this.fuente.draw(this.batch, "REGISTRE SU USUARIO", 235, 425);
+        this.fuente.draw(this.batch, "INGRESE SUS DATOS", (304 / 2) - (this.fuente.getRegion().getRegionWidth() / 3), 336);
         this.batch.end();
         this.escenario.act();
         this.escenario.draw();
