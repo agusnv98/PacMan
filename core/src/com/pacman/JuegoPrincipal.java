@@ -1,19 +1,14 @@
 package com.pacman;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-
 
 public class JuegoPrincipal extends Game {
-    SpriteBatch batch;
-    //el spirte se va a encargar de mostrar las cosas por pantalla
-    Texture pacMan, mapa;
-    //TextureRegion mapita;
-    private int largoPacMan, altoPacMan, largoPantalla, altoPantalla;
+    //clase principal sobre la que se establece el juegp
+    //en esta se crean las diferentes pantallas y recibe la base de datos con la que se operara en el juego
     public final BaseDeDatos baseDeDatos;
+
+    private PantallaJuegoPrincipal pantallaJuegoPrincipal;
+    private PantallaFinDelJuego pantallaFinDelJuego;
 
     public JuegoPrincipal(BaseDeDatos baseDeDatos) {
         this.baseDeDatos = baseDeDatos;
@@ -21,30 +16,20 @@ public class JuegoPrincipal extends Game {
 
     @Override
     public void create() {
-        //batch = new SpriteBatch();
-        //mapa =new Texture("mapa.jpg");
-        //Procesador p = new Procesador();
-        //Gdx.input.setInputProcessor(p);
-        //pacMan = new Texture("pacMan.png");
-        //largoPacMan = pacMan.getWidth();
-        //altoPacMan = pacMan.getHeight();
-        //largoPantalla = Gdx.graphics.getWidth();
-        //altoPantalla = Gdx.graphics.getHeight();
-        //System.out.println(largoPantalla);
-        //System.out.println(altoPantalla);
-        setScreen(new PantallaJuegoPrincipal(this));
+        //Metodo que se llama cuando la aplicación es creada (antes de iniciar el game loop)
+        //en este se inicializan las pantallas y se establece la pantalla principal
+        this.pantallaJuegoPrincipal = new PantallaJuegoPrincipal(this);
+        this.pantallaFinDelJuego = new PantallaFinDelJuego(this);
+        setScreen(this.pantallaJuegoPrincipal);
     }
 
-
-    @Override
-    public void render() {
-        //se va a encargar de renderizar las imagenes
-        Gdx.gl.glClearColor(1f, 4, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //batch.begin();
-        //batch.draw(pacMan, 0, 0, 60, 60);
-        //batch.draw(pacMan, 580, 420, 60, 60);
-        //batch.end();
+    public PantallaFinDelJuego getPantallaFinDelJuego() {
+        return this.pantallaFinDelJuego;
     }
+
+    public PantallaJuegoPrincipal getPantallaJuegoPrincipal() {
+        return this.pantallaJuegoPrincipal;
+    }
+
 }
 

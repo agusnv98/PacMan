@@ -2,119 +2,94 @@ package com.pacman;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.pacman.Actores.Fantasma;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.pacman.Actores.PacMan;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class PantallaJuegoPrincipal extends PantallaBase {
-    //Dimensiones mapa
-    private final float ANCHOENTILES = 19.0f;
-    private final float ALTOENTILES = 21.0f;//setear para entrada de joystick y vidas y score
-    private final float ANCHOENPX = 304.0f;
-    private final float ALTOENPX = 336;
-
-    //Aspectos de visualizacion
-    private OrthographicCamera camera;
-    private FitViewport viewport;
-    private SpriteBatch batch;
-    private OrthogonalTiledMapRenderer tiledMapRenderer;
-    private FitViewport stageViewport;
-
-    //Mapa y Escenario
-    private TiledMap mapa;
-    private Stage escenario;
+    //pantalla que se encarga de crear la partida que se va a jugar,
+    // estableciendo la camara, los sonidos, el gamepad y el elemento que muestra el puntaje por pantalla
 
     private Mundo mundo;
-
-    //Elementos Visuales
-    private Texture sprites;
     private PacMan pacman;
 
+    //Elementos Visuales
+    private TextArea puntajePantalla;
+    private Texture sprites;
+
     private Skin skin;
-    private MiTouch touch;
-    private Music sonidoJuego;
+    private Gamepad touch;
+    private Sound sonidoJuego;
+    private AssetManager manager;
 
     public PantallaJuegoPrincipal(JuegoPrincipal juego) {
         super(juego);
     }
 
-    /*MapProperties prop = tiledMap.getProperties();
-        int mapWidth = prop.get("width", Integer.class);
-        int mapHeight = prop.get("height", Integer.class);
-        int tilePixelWidth = prop.get("tilewidth", Integer.class);
-        int tilePixelHeight = prop.get("tileheight", Integer.class);
-
-        int widthEnPx = mapWidth * tilePixelWidth;
-        int heightEnPx = mapHeight * tilePixelHeight;
-        System.out.println(widthEnPx + "//" + heightEnPx);*/
-
     @Override
     public void show() {
-        establecerCamara();
+        //metodo que se ejecuta cuando se muestra por primera vez la aplicacion
 
-        MapProperties prop = mapa.getProperties();
-        int mapWidth = prop.get("width", Integer.class);
-        int mapHeight = prop.get("height", Integer.class);
-        int tilePixelWidth = prop.get("tilewidth", Integer.class);
-        int tilePixelHeight = prop.get("tileheight", Integer.class);
-        int widthEnPx = mapWidth * tilePixelWidth;
-        int heightEnPx = mapHeight * tilePixelHeight;
+        establecerCamara();             //se establece la camara
+        establecerSonido();             //se establecen los sonidos del juego
         //System.out.println("Mapa" + widthEnPx + "//" + heightEnPx);
 
-        Mundo mundo = new Mundo(mapa, escenario);
-        this.pacman = mundo.getPacman();
+        this.mundo = new Mundo(this.mapa, this.escenario, this.manager);
+        this.pacman = this.mundo.getPacman();
 
         //se establece el gamePad
         Gdx.input.setInputProcessor(escenario);
-        skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));//skin para los botones
-        touch = new MiTouch(15,skin,this.pacman);
-        touch.setBounds(76, 0, 140, 140);
-        escenario.addActor(touch);
+        this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));//skin para los botones
+        this.touch = new Gamepad(15, this.skin, this.pacman);
+        this.touch.setBounds(76, 0, 140, 140);
+        this.escenario.addActor(this.touch);
 
-        //se establecen los sonidos
-        /*sonidoJuego = mundo.getManager().get("sounds/u-got-that-full-version-mmv.ogg");
-        sonidoJuego.setLooping(true);
-        onidoJuego.play();*/
+        //se inicia la reproduccion del sonido del juego
+        this.sonidoJuego = this.manager.get("sounds/pac-mans-park-block-plaza-super-smash-bros-3ds.ogg");
+        this.sonidoJuego.setLooping(0,true);
+        this.sonidoJuego.play();
+
+        //se establece el elemento que muestra el puntaje por pantalla
+        this.puntajePantalla = new TextArea("Score: ", skin);
+        this.puntajePantalla.setPosition(200, 350);
+        this.escenario.addActor(puntajePantalla);
     }
 
-    private void establecerCamara() {
-        Gdx.graphics.setWindowedMode(304, 336);
-        batch = new SpriteBatch();
-        //System.out.println("Pantalla" + Gdx.graphics.getWidth() + "//" + Gdx.graphics.getHeight());
-        //Camera – eye in the scene, determines what the player can see, used by LibGDX to render the scene.
-        //Viewport – controls how the render results from the camera are displayed to the user, be it with black bars, stretched or doing nothing at all.
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(19, 21, camera);
-        camera.translate(19 / 2, 21 / 2);
-        camera.update();
-        //Cargador y renderizador del mapa
-        mapa = new TmxMapLoader().load("map/map.tmx");
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(mapa, 1 / 16f, batch);
-        //modificar aca tambien para cuando entre el joysitic e info del juego
-        stageViewport = new FitViewport(304, 336);
-        escenario = new Stage(stageViewport, batch);
+    public void actualizarScore() {
+        this.puntajePantalla.setText("Puntaje:" + this.mundo.getPuntaje());
+        System.out.println(this.puntajePantalla.getText());
+    }
+
+    @Override
+    protected void establecerCamara() {
+        //metodo que utiliza al meotodo de la clase padre y agrega al renderizador del mapa, para que se muestre por pantalla
+        super.establecerCamara();
+        this.tiledMapRenderer = new OrthogonalTiledMapRenderer(mapa, 1 / 16f, this.batch);
+    }
+
+    private void establecerSonido() {
+        //metodo que carga los sonidos que se van a usar en el juego
+        this.manager = new AssetManager();
+        this.manager.load("sounds/big_pill.ogg", Sound.class);
+        this.manager.load("sounds/clear.ogg", Sound.class);
+        this.manager.load("sounds/ghost_die.ogg", Sound.class);
+        this.manager.load("sounds/pacman_die.ogg", Sound.class);
+        this.manager.load("sounds/pill.ogg", Sound.class);
+        this.manager.load("sounds/pac-mans-park-block-plaza-super-smash-bros-3ds.ogg", Sound.class);
+        this.manager.finishLoading();
     }
 
     @Override
     public void hide() {
-        escenario.dispose();
+        //metodo que se ejecuta cuando se minimiza la aplicacion
+        Gdx.input.setInputProcessor(null);
     }
 
     private boolean handleInput() {
@@ -143,52 +118,47 @@ public class PantallaJuegoPrincipal extends PantallaBase {
 
     @Override
     public void render(float delta) {
-        camera.update();
+        //metodo que se ejecuta en cada frame del juego
+        //es el encargado de verificar si el juego termino o no, ademas
+        //de hacer que los elementos en el escenario actuen y se dibujen por pantalla
+        this.camera.update();
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
-        //handleInput();
-        escenario.act();
-        escenario.draw();
+        this.tiledMapRenderer.setView(this.camera);
+        this.tiledMapRenderer.render();
+        //handleInput();asdadasdadadsdddddddddddddddddddddddddddddddddddddd
+        //si el juego finalizo, se establece la transicion a la pantalla de fin del juego
+        //caso contrario continua con la ejecucuion del juego
+        if (this.mundo.getFinDelJuego()) {
+            escenario.addAction(Actions.sequence(
+                    Actions.delay(0.30f),
+                    Actions.run(new Runnable() {
+                        @Override
+                        public void run() {
+                            juego.setScreen(juego.getPantallaFinDelJuego());
+                        }
+                    })
+            ));
+        }
+        actualizarScore();
+        this.escenario.act();
+        this.escenario.draw();
     }
 
     @Override
     public void dispose() {
-        skin.dispose();
-        mapa.dispose();
-        tiledMapRenderer.dispose();
-        escenario.dispose();
-        sprites.dispose();
+        //metodo que se ejecuta cuando se cierra la aplicacion y elimina los recursos innecesarios
+        this.skin.dispose();
+        this.mapa.dispose();
+        this.tiledMapRenderer.dispose();
+        this.escenario.dispose();
+        this.sprites.dispose();
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height);
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        //metodo que se llama cuando las dimensiones de la pantalla cambian
+        this.viewport.update(width, height);
+        this.camera.position.set(this.camera.viewportWidth / 2, this.camera.viewportHeight / 2, 0);
     }
-
-    /*private void correctRectangle(Rectangle rectangle) {
-        //rectangle.x = rectangle.x / PPM;
-        rectangle.y = rectangle.y * 2;
-        //rectangle.width = rectangle.width / PPM;
-        //rectangle.height = rectangle.height / PPM;
-    }
-
-    private void corregir() {
-        MapLayer collisionObjectLayer = mapa.getLayers().get("Wall");
-        MapObjects objects = collisionObjectLayer.getObjects();
-        // there are several other types, Rectangle is probably the most common one
-        for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
-            Rectangle rectangle = rectangleObject.getRectangle();
-            correctRectangle(rectangle);
-        }
-        collisionObjectLayer = mapa.getLayers().get("Player");
-        objects = collisionObjectLayer.getObjects();
-        // there are several other types, Rectangle is probably the most common one
-        for (RectangleMapObject rectangleObject : objects.getByType(RectangleMapObject.class)) {
-            Rectangle rectangle = rectangleObject.getRectangle();
-            correctRectangle(rectangle);
-        }
-    }*/
 }

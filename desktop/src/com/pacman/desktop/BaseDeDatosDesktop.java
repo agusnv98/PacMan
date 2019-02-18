@@ -6,12 +6,12 @@ import com.pacman.BaseDeDatos;
 public class BaseDeDatosDesktop implements BaseDeDatos {
 
     @Override
-    public void crearJugador(String nombre, String contraseña) {
+    public void crearJugador(String nombre, String contrasena) {
         Gdx.app.log("BaseDeDatosDesktop", "Se intento acceder a la base de datos de escritorio");
     }
 
     @Override
-    public void logIn(String nombre, String contraseña) {
+    public void logIn(String nombre, String contrasena) {
         Gdx.app.log("BaseDeDatosDesktop", "Se intento acceder a la base de datos de escritorio");
     }
 
