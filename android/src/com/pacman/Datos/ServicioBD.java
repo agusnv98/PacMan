@@ -83,12 +83,18 @@ public class ServicioBD extends SQLiteOpenHelper {
         return contraseña.equals(c.getString(c.getColumnIndex(JugadorContract.JugadorEntry.CONTRASEÑA)));
     }
 
-    public int actualizarPuntaje(String nombre, int puntaje) {
-        //Metodo que actualiza el puntaje de un jugador
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues valores = new ContentValues();
-        valores.put(JugadorContract.JugadorEntry.PUNTAJE, puntaje);
-        return db.update(JugadorContract.JugadorEntry.NOMBRE_TABLA, valores, JugadorContract.JugadorEntry.USUARIO + " Like ?", new String[]{nombre});
+    public boolean actualizarPuntaje(String nombre, int puntaje) {
+        //Metodo que actualiza el puntaje de un jugador si el nuevo puntaje supera al anterior
+        boolean resultado = false;
+        Cursor c = getJugadorByUsuario(nombre);
+        if (puntaje > c.getInt(c.getColumnIndex(JugadorContract.JugadorEntry.PUNTAJE))) {
+            SQLiteDatabase wdb = getWritableDatabase();
+            ContentValues valores = new ContentValues();
+            valores.put(JugadorContract.JugadorEntry.PUNTAJE, puntaje);
+            wdb.update(JugadorContract.JugadorEntry.NOMBRE_TABLA, valores, JugadorContract.JugadorEntry.USUARIO + " Like ?", new String[]{nombre});
+            resultado = true;
+        }
+        return resultado;
     }
 }
 
