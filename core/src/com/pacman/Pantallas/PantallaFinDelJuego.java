@@ -14,7 +14,6 @@ public class PantallaFinDelJuego extends PantallaBase {
     //pantalla que indica que finalizo el juego y da la posibilidad de reiniciar la partida
 
     private BitmapFont fuente;
-    private Skin skin;
     private TextButton reiniciar;
 
     public PantallaFinDelJuego(final JuegoPrincipal juego) {
@@ -38,7 +37,7 @@ public class PantallaFinDelJuego extends PantallaBase {
             }
         });
         this.reiniciar.setSize(152, 50);
-        this.reiniciar.setPosition((304 / 2) - (this.reiniciar.getWidth() / 2), (336 / 2) - (this.reiniciar.getWidth() / 2));
+        this.reiniciar.setPosition((anchoEnPx / 2) - (this.reiniciar.getWidth() / 2), (altoEnPx / 2) - (this.reiniciar.getWidth() / 2));
 
         this.escenario.addActor(this.reiniciar);
         Gdx.input.setInputProcessor(this.escenario);
@@ -54,6 +53,7 @@ public class PantallaFinDelJuego extends PantallaBase {
     public void dispose() {
         //metodo que se ejecuta cuando se cierra la aplicacion y elimina los recursos innecesarios
         this.escenario.dispose();
+        skin.dispose();
     }
 
     @Override
@@ -62,7 +62,9 @@ public class PantallaFinDelJuego extends PantallaBase {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.batch.begin();
-        this.fuente.draw(this.batch, "Fin del Juego", (this.anchoEnPx / 2) - (this.reiniciar.getWidth() / 2), (this.altoEnPx / 2) - (this.reiniciar.getWidth() / 2));
+        this.fuente.draw(this.batch, "Fin del Juego", (this.anchoEnPx / 2)-45, (this.altoEnPx / 2)+30);
+        this.fuente.draw(this.batch, "Puntaje: ", (this.anchoEnPx / 2)-60, (this.altoEnPx / 2)+10);
+        this.fuente.draw(this.batch, "000000", (this.anchoEnPx / 2)+5, (this.altoEnPx / 2)+10);
         this.batch.end();
         this.escenario.act();
         this.escenario.draw();
