@@ -8,8 +8,12 @@ import java.util.ArrayList;
 public class BaseDeDatosDesktop implements BaseDeDatos {
 
     @Override
+    public void inicializar() {
+        Gdx.app.log("BaseDeDatosDesktop", "Se intento acceder a la base de datos de escritorio");
+    }
 
-    public boolean crearJugador(String nombre, String contrasena) {
+    @Override
+    public boolean crearJugador(String nombre, String contrasena, int puntos) {
         Gdx.app.log("BaseDeDatosDesktop", "Se intento acceder a la base de datos de escritorio");
         return false;
     }
@@ -31,6 +35,7 @@ public class BaseDeDatosDesktop implements BaseDeDatos {
         Gdx.app.log("BaseDeDatosDesktop", "Se intento acceder a la base de datos de escritorio");
     }
 
+    @Override
     public ArrayList obtenerDatos() {
         Gdx.app.log("BaseDeDatosDesktop", "Se intento acceder a la base de datos de escritorio");
         return new ArrayList();

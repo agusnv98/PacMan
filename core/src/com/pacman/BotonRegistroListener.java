@@ -28,7 +28,7 @@ public class BotonRegistroListener extends InputListener {
         Dialog ventana = new Dialog("", this.skin);
         TextButton boton = new TextButton("Ok", this.skin);
         ventana.button(boton);
-        if (this.bd.crearJugador(this.usuarioTextField.getText(), this.contrasenaTextField.getText())) {
+        if (this.bd.crearJugador(this.usuarioTextField.getText(), this.contrasenaTextField.getText(), 0)) {
             ventana.text("Jugador creado");
         } else {
             ventana.text("El jugador ya existe");

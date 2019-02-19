@@ -49,7 +49,7 @@ public class PantallaRanking extends PantallaBase {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.batch.begin();
-        this.fuente.draw(this.batch, "RANKINGS", (304/2)-(this.fuente.getRegion().getRegionWidth()/6), 336);
+        this.fuente.draw(this.batch, "RANKING", (304/2)-(this.fuente.getRegion().getRegionWidth()/6), 336);
         this.batch.end();
         this.escenario.act();
         this.escenario.draw();
