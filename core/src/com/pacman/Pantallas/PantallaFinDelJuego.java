@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.pacman.JuegoPrincipal;
 
 public class PantallaFinDelJuego extends PantallaBase {
@@ -15,6 +16,7 @@ public class PantallaFinDelJuego extends PantallaBase {
 
     private BitmapFont fuente;
     private TextButton reiniciar;
+    private I18NBundle traductor;
 
     public PantallaFinDelJuego(final JuegoPrincipal juego) {
         super(juego);
@@ -29,7 +31,10 @@ public class PantallaFinDelJuego extends PantallaBase {
         this.fuente = new BitmapFont();
         this.fuente.setColor(Color.CYAN);
 
-        this.reiniciar = new TextButton("Reiniciar", skin);
+        //carga de archivo de traduccion
+        traductor = I18NBundle.createBundle(Gdx.files.internal("idiomas/idioma"));
+
+        this.reiniciar = new TextButton(traductor.get("pantallaFinDelJuego.reiniciar"), skin);
         this.reiniciar.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -62,9 +67,9 @@ public class PantallaFinDelJuego extends PantallaBase {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.batch.begin();
-        this.fuente.draw(this.batch, "Fin del Juego", (this.anchoEnPx / 2)-45, (this.altoEnPx / 2)+30);
-        this.fuente.draw(this.batch, "Puntaje: ", (this.anchoEnPx / 2)-60, (this.altoEnPx / 2)+10);
-        this.fuente.draw(this.batch, "000000", (this.anchoEnPx / 2)+5, (this.altoEnPx / 2)+10);
+        this.fuente.draw(this.batch, traductor.get("pantallaFinDelJuego.fin"), (this.anchoEnPx / 2) - 45, (this.altoEnPx / 2) + 30);
+        this.fuente.draw(this.batch, traductor.get("pantallaFinDelJuego.puntaje"), (this.anchoEnPx / 2) - 60, (this.altoEnPx / 2) + 10);
+        this.fuente.draw(this.batch, "000000", (this.anchoEnPx / 2) + 5, (this.altoEnPx / 2) + 10);
         this.batch.end();
         this.escenario.act();
         this.escenario.draw();

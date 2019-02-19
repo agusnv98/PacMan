@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.pacman.Actores.PacMan;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.pacman.Gamepad;
@@ -31,6 +32,8 @@ public class PantallaJuegoPrincipal extends PantallaBase {
     private Gamepad touch;
     private Sound sonidoJuego;
     private AssetManager manager;
+
+    private I18NBundle traductor;
 
     public PantallaJuegoPrincipal(JuegoPrincipal juego) {
         super(juego);
@@ -66,10 +69,13 @@ public class PantallaJuegoPrincipal extends PantallaBase {
 
         //se obtienen los sprites para mostrar las vidas
         this.sprites = new Texture("personajes/actors.png");
+
+        //carga de archivo de traduccion
+        traductor = I18NBundle.createBundle(Gdx.files.internal("idiomas/idioma"));
     }
 
     public void actualizarScore() {
-        this.puntajePantalla.setText("Puntaje:" + this.mundo.getPuntaje());
+        this.puntajePantalla.setText(traductor.get("pantallaJuegoPrincipal.puntaje") + this.mundo.getPuntaje());
         //System.out.println(this.puntajePantalla.getText());
     }
 

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.pacman.JuegoPrincipal;
 
 public class PantallaMenu extends PantallaBase {
@@ -33,14 +34,17 @@ public class PantallaMenu extends PantallaBase {
         //Label.LabelStyle labelStyle=new Label.LabelStyle(,Color.ORANGE);
         cabecera = new Label("PAC MAN", skin);
         cabecera.setSize(100, 100);
-        cabecera.setPosition(altoEnPx/2, 300);
+        cabecera.setPosition(altoEnPx / 2, 300);
         cabecera.setAlignment(Align.top);
         cabecera.setFontScale(2, 2);
 
+        //carga de archivo de traduccion
+        I18NBundle traductor = I18NBundle.createBundle(Gdx.files.internal("idiomas/idioma"));
+
         //se crean los botones
-        jugar = new TextButton(" Jugar ", skin);
-        opciones = new TextButton(" Opciones ", skin);
-        salir = new TextButton(" Salir ", skin);
+        jugar = new TextButton(traductor.get("pantallaMenu.jugar"), skin);
+        opciones = new TextButton(traductor.get("pantallaMenu.opciones"), skin);
+        salir = new TextButton(traductor.get("pantallaMenu.salir"), skin);
         buttons = new Table();
         buttons.setFillParent(true);     //redimensiona el tamaño de la tabla al del stage
         buttons.add(cabecera).height(50).width(200).padBottom(60);

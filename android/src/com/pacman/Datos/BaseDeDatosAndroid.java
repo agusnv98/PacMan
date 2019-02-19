@@ -3,6 +3,7 @@ package com.pacman.Datos;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.badlogic.gdx.utils.XmlReader;
 import com.pacman.BaseDeDatos;
 
 public class BaseDeDatosAndroid implements BaseDeDatos {

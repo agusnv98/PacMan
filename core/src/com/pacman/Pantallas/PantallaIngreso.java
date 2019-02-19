@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.pacman.BaseDeDatos;
 import com.pacman.BotonIngresoListener;
 import com.pacman.JuegoPrincipal;
@@ -22,6 +23,7 @@ public class PantallaIngreso extends PantallaBase {
     private TextButton boton;
     private Table campos;
     private BitmapFont fuente;
+    private I18NBundle traductor;
 
     public PantallaIngreso(JuegoPrincipal juego, BaseDeDatos bd) {
         super(juego);
@@ -30,15 +32,17 @@ public class PantallaIngreso extends PantallaBase {
 
     @Override
     public void show() {
+        //carga de archivo de traduccion
+        traductor = I18NBundle.createBundle(Gdx.files.internal("idiomas/idioma"));
         establecerCamara();
         this.fuente = new BitmapFont();
         this.fuente.setColor(0, 204, 204, 1);
         this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
-        this.usuarioTextField = new TextField("Usuario", this.skin);
-        this.contrasenaTextField = new TextField("Contrasena", this.skin);
+        this.usuarioTextField = new TextField(traductor.get("pantallaIngreso/Registro.usuario"), this.skin);
+        this.contrasenaTextField = new TextField(traductor.get("pantallaIngreso/Registro.contrasena"), this.skin);
         this.contrasenaTextField.setPasswordMode(true);
         this.contrasenaTextField.setPasswordCharacter('•');
-        this.boton = new TextButton("Ingresar datos", this.skin);
+        this.boton = new TextButton(traductor.get("pantallaIngreso/Registro.botonIngreso"), this.skin);
         this.boton.addListener(new BotonIngresoListener(this.escenario, this.skin, this.bd, this.usuarioTextField, this.contrasenaTextField, this.juego));
         this.campos = new Table();
         this.campos.setFillParent(true);
@@ -56,7 +60,7 @@ public class PantallaIngreso extends PantallaBase {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.batch.begin();
-        this.fuente.draw(this.batch, "INGRESE SUS DATOS", (this.anchoEnPx / 2) - (this.fuente.getRegion().getRegionWidth() / 3.3f), this.altoEnPx-30);
+        this.fuente.draw(this.batch, traductor.get("pantallaIngreso.titulo"), (this.anchoEnPx / 2) - (this.fuente.getRegion().getRegionWidth() / 3.3f), this.altoEnPx - 30);
         this.batch.end();
         this.escenario.act();
         this.escenario.draw();
