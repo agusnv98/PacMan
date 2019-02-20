@@ -8,8 +8,11 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.pacman.JuegoPrincipal;
@@ -31,6 +34,7 @@ public abstract class PantallaBase implements Screen {
     protected SpriteBatch batch;
     protected OrthogonalTiledMapRenderer tiledMapRenderer;
     protected Skin skin;
+    protected TextButton retroceso;
 
     //Mapa y Escenario
     protected TiledMap mapa;
@@ -46,6 +50,18 @@ public abstract class PantallaBase implements Screen {
     @Override
     public void show() {
         //metodo que se ejecuta cuando se muestra por primera vez la aplicacion
+
+        establecerCamara();             //se establece la camara
+        this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
+        this.retroceso = new TextButton("<", this.skin);
+        //Funcionalidad del Boton retroceso
+        this.retroceso.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                juego.setScreen(juego.getPantallaMenu());
+            }
+        });
+        this.retroceso.setPosition(10, altoEnPx - 10 - retroceso.getHeight());
+        this.escenario.addActor(retroceso);
 
         //carga de archivo de traduccion
         traductor = I18NBundle.createBundle(Gdx.files.internal("idiomas/idioma"));

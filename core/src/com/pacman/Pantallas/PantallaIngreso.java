@@ -20,7 +20,7 @@ public class PantallaIngreso extends PantallaBase {
     private BaseDeDatos bd;
 
     private TextField usuarioTextField, contrasenaTextField;
-    private TextButton ingreso, registro, retroceso;
+    private TextButton ingreso, registro;
     private Label titulo;
     private Table tabla;
 
@@ -32,8 +32,6 @@ public class PantallaIngreso extends PantallaBase {
     @Override
     public void show() {
         super.show();
-        establecerCamara();
-        this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
         this.titulo = new Label(traductor.get("pantallaIngreso.titulo"), skin);
         this.titulo.setFontScale(1f);
         this.usuarioTextField = new TextField(traductor.get("pantallaIngreso/Registro.usuario"), this.skin);
@@ -50,14 +48,6 @@ public class PantallaIngreso extends PantallaBase {
                 juego.setScreen(juego.getPantallaRegistro());
             }
         });
-        this.retroceso = new TextButton("<", this.skin);
-
-        //Funcionalidad del Boton retroceso
-        this.retroceso.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                juego.setScreen(juego.getPantallaMenu());
-            }
-        });
 
         this.tabla = new Table();
         this.tabla.setFillParent(true);
@@ -72,8 +62,6 @@ public class PantallaIngreso extends PantallaBase {
         this.tabla.add(this.registro).align(Align.right);
         Gdx.input.setInputProcessor(this.escenario);
         this.escenario.addActor(tabla);
-        this.retroceso.setPosition(10, altoEnPx - 10 - retroceso.getHeight());
-        this.escenario.addActor(retroceso);
     }
 
 

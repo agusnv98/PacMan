@@ -43,7 +43,6 @@ public class PantallaJuegoPrincipal extends PantallaBase {
     public void show() {
         //metodo que se ejecuta cuando se muestra por primera vez la aplicacion
         super.show();
-        establecerCamara();             //se establece la camara
         establecerSonido();             //se establecen los sonidos del juego
         //System.out.println("Mapa" + widthEnPx + "//" + heightEnPx);
 
@@ -52,7 +51,6 @@ public class PantallaJuegoPrincipal extends PantallaBase {
 
         //se establece el gamePad
         Gdx.input.setInputProcessor(escenario);
-        this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));//skin para los botones
         this.touch = new Gamepad(15, this.skin, this.pacman);
         this.touch.setBounds(76, 0, 140, 140);
         this.escenario.addActor(this.touch);
@@ -69,6 +67,9 @@ public class PantallaJuegoPrincipal extends PantallaBase {
 
         //se obtienen los sprites para mostrar las vidas
         this.sprites = new Texture("personajes/actors.png");
+
+        //se modifica la posicion del boton de retroceso
+        this.retroceso.setPosition(10, altoEnPx - retroceso.getHeight());
     }
 
     public void actualizarScore() {
@@ -99,6 +100,7 @@ public class PantallaJuegoPrincipal extends PantallaBase {
     public void hide() {
         //metodo que se ejecuta cuando se minimiza la aplicacion
         Gdx.input.setInputProcessor(null);
+        sonidoJuego.stop();
     }
 
     @Override
@@ -115,7 +117,7 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         Batch batch = this.escenario.getBatch();
         batch.begin();
         for (int i = 0; i < cantVidas; i++) {
-            batch.draw(new TextureRegion(sprites, 179, 58, 14, 14), 1 + i, 21, 1, 1);
+            batch.draw(new TextureRegion(sprites, 179, 58, 14, 14), 8f+ i, 21, 1, 1);
         }
         batch.end();
         //si el juego finalizo (estado 0 o 1), se establece la transicion a la pantalla de fin del juego
@@ -127,7 +129,6 @@ public class PantallaJuegoPrincipal extends PantallaBase {
                     Actions.run(new Runnable() {
                         @Override
                         public void run() {
-                            sonidoJuego.stop();
                             juego.setScreen(juego.getPantallaFinDelJuego());
                         }
                     })

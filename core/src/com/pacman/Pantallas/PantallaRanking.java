@@ -23,7 +23,6 @@ public class PantallaRanking extends PantallaBase {
     private Table tabla;
     private Label cabecera;
     private ScrollPane panel;
-    private TextButton retroceso;
 
     public PantallaRanking(JuegoPrincipal juego, BaseDeDatos bd) {
         super(juego);
@@ -33,8 +32,6 @@ public class PantallaRanking extends PantallaBase {
     @Override
     public void show() {
         super.show();
-        establecerCamara();
-        this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
         this.tabla = new Table(this.skin);
         this.tabla.align(Align.center);
         this.tabla.setFillParent(true);
@@ -51,21 +48,12 @@ public class PantallaRanking extends PantallaBase {
                 this.tabla.row();
             }
         }
-        this.retroceso = new TextButton("<", this.skin);
-        //Funcionalidad del Boton retroceso
-        this.retroceso.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                juego.setScreen(juego.getPantallaMenu());
-            }
-        });
 
         Table container = new Table(this.skin);
         container.setFillParent(true);
         container.add(this.panel).expand().fill();
         container.row();
         this.escenario.addActor(container);
-        this.retroceso.setPosition(10, altoEnPx - 10 - retroceso.getHeight());
-        this.escenario.addActor(retroceso);
         Gdx.input.setInputProcessor(this.escenario);
     }
 

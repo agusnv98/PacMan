@@ -21,7 +21,7 @@ import com.pacman.JuegoPrincipal;
 public class PantallaFinDelJuego extends PantallaBase {
     //pantalla que indica que finalizo el juego y da la posibilidad de reiniciar la partida
 
-    private TextButton reiniciar, retroceso;
+    private TextButton reiniciar;
     private Label titulo, palabraPuntaje, puntaje, palabraJugador, nombreJugador;
     private Table tabla;
     private BaseDeDatos baseDeDatos;
@@ -37,8 +37,6 @@ public class PantallaFinDelJuego extends PantallaBase {
         //modificar lo del viweport hacer que el texto cuadre----------------------------------------
         String[] datosPartida = juego.getDatosPartida();
         super.show();
-        establecerCamara();
-        this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
         this.titulo = new Label(traductor.get("pantallaFinDelJuego.fin"), skin);
         this.titulo.setFontScale(1.5f);
         this.palabraJugador = new Label(traductor.get("pantallaFinDelJuego.jugador"), skin);
@@ -53,14 +51,6 @@ public class PantallaFinDelJuego extends PantallaBase {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 juego.setScreen(juego.getPantallaJuegoPrincipal());
-            }
-        });
-
-        this.retroceso = new TextButton("<", this.skin);
-        //Funcionalidad del Boton retroceso
-        this.retroceso.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                juego.setScreen(juego.getPantallaMenu());
             }
         });
 
