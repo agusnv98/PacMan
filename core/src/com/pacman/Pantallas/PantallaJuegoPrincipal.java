@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.pacman.Actores.PacMan;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.pacman.Gamepad;
@@ -39,7 +40,7 @@ public class PantallaJuegoPrincipal extends PantallaBase {
     @Override
     public void show() {
         //metodo que se ejecuta cuando se muestra por primera vez la aplicacion
-
+        super.show();
         establecerCamara();             //se establece la camara
         establecerSonido();             //se establecen los sonidos del juego
         //System.out.println("Mapa" + widthEnPx + "//" + heightEnPx);
@@ -69,7 +70,7 @@ public class PantallaJuegoPrincipal extends PantallaBase {
     }
 
     public void actualizarScore() {
-        this.puntajePantalla.setText("Puntaje:" + this.mundo.getPuntaje());
+        this.puntajePantalla.setText(traductor.get("pantallaJuegoPrincipal.puntaje") + this.mundo.getPuntaje());
         //System.out.println(this.puntajePantalla.getText());
     }
 
@@ -98,30 +99,6 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         Gdx.input.setInputProcessor(null);
     }
 
-    private boolean handleInput() {
-        boolean presiono = false;
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            presiono = true;
-            pacman.setEstado("izquierda");
-        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            presiono = true;
-            pacman.setEstado("derecha");
-        } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            presiono = true;
-            pacman.setEstado("arriba");
-        } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            presiono = true;
-            pacman.setEstado("abajo");
-        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            presiono = true;
-            pacman.setEstado("muerto");
-        } else {
-            //System.out.println("Ninguna");
-            pacman.setEstado("quieto");
-        }
-        return presiono;
-    }
-
     @Override
     public void render(float delta) {
         //metodo que se ejecuta en cada frame del juego
@@ -139,7 +116,6 @@ public class PantallaJuegoPrincipal extends PantallaBase {
             batch.draw(new TextureRegion(sprites, 179, 58, 14, 14), 1 + i, 21, 1, 1);
         }
         batch.end();
-        //handleInput();asdadasdadadsdddddddddddddddddddddddddddddddddddddd
         //si el juego finalizo (estado 0 o 1), se establece la transicion a la pantalla de fin del juego
         //caso contrario continua con la ejecucuion del juego
         if (this.mundo.getEstadoJuego() != -1) {
@@ -166,12 +142,5 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         this.tiledMapRenderer.dispose();
         this.escenario.dispose();
         this.sprites.dispose();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        //metodo que se llama cuando las dimensiones de la pantalla cambian
-        this.viewport.update(width, height);
-        this.camera.position.set(this.camera.viewportWidth / 2, this.camera.viewportHeight / 2, 0);
     }
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.badlogic.gdx.utils.XmlReader;
 import com.pacman.BaseDeDatos;
 
 import java.util.ArrayList;

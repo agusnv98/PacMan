@@ -32,13 +32,6 @@ public class ServicioBD extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
-
-    /*private void inicializar() {
-
-        insertarJugador(new Jugador("Agustin", "reina", 1000));
-        insertarJugador(new Jugador("Gaston", "1234", 2500));
-        insertarJugador(new Jugador("Yaupe", "123987456", 750));
-    }*/
 }
 
 

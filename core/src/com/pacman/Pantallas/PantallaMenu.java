@@ -2,8 +2,6 @@ package com.pacman.Pantallas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -16,9 +14,7 @@ import com.pacman.JuegoPrincipal;
 public class PantallaMenu extends PantallaBase {
 
     private TextButton jugar, opciones, salir;
-    private Texture titulo;
     private Table buttons;
-    private Sprite sprite;
     private Label cabecera;
 
     public PantallaMenu(JuegoPrincipal juego) {
@@ -27,20 +23,21 @@ public class PantallaMenu extends PantallaBase {
 
     @Override
     public void show() {
+        super.show();
         establecerCamara();
         skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));//skin para los botones
         //se crea la cabecera
         //Label.LabelStyle labelStyle=new Label.LabelStyle(,Color.ORANGE);
         cabecera = new Label("PAC MAN", skin);
         cabecera.setSize(100, 100);
-        cabecera.setPosition(altoEnPx/2, 300);
+        cabecera.setPosition(altoEnPx / 2, 300);
         cabecera.setAlignment(Align.top);
         cabecera.setFontScale(2, 2);
 
         //se crean los botones
-        jugar = new TextButton(" Jugar ", skin);
-        opciones = new TextButton(" Opciones ", skin);
-        salir = new TextButton(" Salir ", skin);
+        jugar = new TextButton(traductor.get("pantallaMenu.jugar"), skin);
+        opciones = new TextButton(traductor.get("pantallaMenu.opciones"), skin);
+        salir = new TextButton(traductor.get("pantallaMenu.salir"), skin);
         buttons = new Table();
         buttons.setFillParent(true);     //redimensiona el tamaño de la tabla al del stage
         buttons.add(cabecera).height(50).width(200).padBottom(60);
@@ -51,7 +48,7 @@ public class PantallaMenu extends PantallaBase {
         buttons.row();
         buttons.add(salir).height(50).width(200).padBottom(30);
 
-        //Funcionalidad al Boton jugar
+        //Funcionalidad del Boton jugar
         jugar.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 juego.setScreen(juego.getPantallaIngreso());
