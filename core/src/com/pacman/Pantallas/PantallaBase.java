@@ -8,8 +8,11 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.pacman.JuegoPrincipal;
@@ -27,11 +30,11 @@ public abstract class PantallaBase implements Screen {
 
     //Aspectos de visualizacion
     protected OrthographicCamera camera;
-    protected FitViewport viewport;
+    protected FitViewport viewport,stageViewport;
     protected SpriteBatch batch;
     protected OrthogonalTiledMapRenderer tiledMapRenderer;
-    protected FitViewport stageViewport;
     protected Skin skin;
+    protected TextButton retroceso;
 
     //Mapa y Escenario
     protected TiledMap mapa;
@@ -48,6 +51,18 @@ public abstract class PantallaBase implements Screen {
     public void show() {
         //metodo que se ejecuta cuando se muestra por primera vez la aplicacion
 
+        establecerCamara();             //se establece la camara
+        this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
+        this.retroceso = new TextButton("<", this.skin);
+        //Funcionalidad del Boton retroceso
+        this.retroceso.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                juego.setScreen(juego.getPantallaMenu());
+            }
+        });
+        this.retroceso.setPosition(10, altoEnPx - 10 - retroceso.getHeight());
+        this.escenario.addActor(retroceso);
+
         //carga de archivo de traduccion
         traductor = I18NBundle.createBundle(Gdx.files.internal("idiomas/idioma"));
     }
@@ -60,8 +75,10 @@ public abstract class PantallaBase implements Screen {
     @Override
     public void resize(int width, int height) {
         //metodo que se llama cuando las dimensiones de la pantalla cambian
-        this.viewport.update(width, height);
-        this.camera.position.set(this.camera.viewportWidth / 2, this.camera.viewportHeight / 2, 0);
+
+        // se redimensiona el viewport del escenario y se acomoda la camara
+        escenario.getViewport().update(width, height, true);
+
     }
 
     @Override
@@ -79,6 +96,7 @@ public abstract class PantallaBase implements Screen {
         //metodo que se ejecuta cuando se minimiza la aplicacion
     }
 
+
     @Override
     public void dispose() {
         //metodo que se ejecuta cuando se cierra la aplicacion y elimina los recursos innecesarios
@@ -91,7 +109,7 @@ public abstract class PantallaBase implements Screen {
         this.mapa = new TmxMapLoader().load("map/map.tmx");
         MapProperties prop = mapa.getProperties();
         this.anchoEnTiles = prop.get("width", Integer.class);
-        this.altoEnTiles = prop.get("height", Integer.class) + 2;
+        this.altoEnTiles = (prop.get("height", Integer.class) + 2);
         int tilePixelWidth = prop.get("tilewidth", Integer.class);
         int tilePixelHeight = prop.get("tileheight", Integer.class);
         this.anchoEnPx = this.anchoEnTiles * tilePixelWidth;
@@ -100,7 +118,7 @@ public abstract class PantallaBase implements Screen {
         //System.out.println("Pantalla tiles ancho "+anchoEnTiles+" Alto "+altoEnTiles);
 
         //se establece el tamaño de la pantalla
-        Gdx.graphics.setWindowedMode((int) this.anchoEnPx, (int) this.altoEnPx);
+        Gdx.graphics.setWindowedMode(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         //camara – se determina lo que se puede ver, y se usa para renderizar las imagenes
         //viewport – controla como se muestra lo renderizaro por la camara
