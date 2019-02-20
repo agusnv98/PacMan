@@ -5,9 +5,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.pacman.JuegoPrincipal;
 
@@ -15,8 +17,7 @@ public class PantallaFinDelJuego extends PantallaBase {
     //pantalla que indica que finalizo el juego y da la posibilidad de reiniciar la partida
 
     private BitmapFont fuente;
-    private TextButton reiniciar;
-    private I18NBundle traductor;
+    private TextButton reiniciar, retroceso;
 
     public PantallaFinDelJuego(final JuegoPrincipal juego) {
         super(juego);
@@ -26,15 +27,14 @@ public class PantallaFinDelJuego extends PantallaBase {
     public void show() {
         //metodo que se ejecuta cuando se muestra por primera vez la aplicacion
         //modificar lo del viweport hacer que el texto cuadre----------------------------------------
+        super.show();
         establecerCamara();
         this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
         this.fuente = new BitmapFont();
         this.fuente.setColor(Color.CYAN);
 
-        //carga de archivo de traduccion
-        traductor = I18NBundle.createBundle(Gdx.files.internal("idiomas/idioma"));
-
         this.reiniciar = new TextButton(traductor.get("pantallaFinDelJuego.reiniciar"), skin);
+        //Funcionalidad al Boton reiniciar
         this.reiniciar.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -43,8 +43,18 @@ public class PantallaFinDelJuego extends PantallaBase {
         });
         this.reiniciar.setSize(152, 50);
         this.reiniciar.setPosition((anchoEnPx / 2) - (this.reiniciar.getWidth() / 2), (altoEnPx / 2) - (this.reiniciar.getWidth() / 2));
-
         this.escenario.addActor(this.reiniciar);
+
+        this.retroceso = new TextButton("<", this.skin);
+        //Funcionalidad del Boton retroceso
+        this.retroceso.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                juego.setScreen(juego.getPantallaMenu());
+            }
+        });
+        this.retroceso.setPosition(10, altoEnPx - 10 - retroceso.getHeight());
+        this.escenario.addActor(retroceso);
+
         Gdx.input.setInputProcessor(this.escenario);
     }
 

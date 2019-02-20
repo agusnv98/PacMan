@@ -10,6 +10,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.pacman.JuegoPrincipal;
 
@@ -36,6 +37,9 @@ public abstract class PantallaBase implements Screen {
     protected TiledMap mapa;
     protected Stage escenario;
 
+    //Traductor
+    protected I18NBundle traductor;
+
     public PantallaBase(JuegoPrincipal juego) {
         this.juego = juego;
     }
@@ -43,6 +47,9 @@ public abstract class PantallaBase implements Screen {
     @Override
     public void show() {
         //metodo que se ejecuta cuando se muestra por primera vez la aplicacion
+
+        //carga de archivo de traduccion
+        traductor = I18NBundle.createBundle(Gdx.files.internal("idiomas/idioma"));
     }
 
     @Override
@@ -52,6 +59,9 @@ public abstract class PantallaBase implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        //metodo que se llama cuando las dimensiones de la pantalla cambian
+        this.viewport.update(width, height);
+        this.camera.position.set(this.camera.viewportWidth / 2, this.camera.viewportHeight / 2, 0);
     }
 
     @Override

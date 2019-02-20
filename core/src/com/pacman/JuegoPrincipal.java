@@ -1,6 +1,7 @@
 package com.pacman;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.pacman.Pantallas.PantallaFinDelJuego;
 import com.pacman.Pantallas.PantallaIngreso;
 import com.pacman.Pantallas.PantallaJuegoPrincipal;
@@ -24,6 +25,7 @@ public class JuegoPrincipal extends Game {
 
     @Override
     public void create() {
+        Gdx.input.setCatchBackKey(true);
         //Metodo que se llama cuando la aplicación es creada (antes de iniciar el game loop)
         //en este se inicializan las pantallas y se establece la pantalla principal
         this.pantallaJuegoPrincipal = new PantallaJuegoPrincipal(this);

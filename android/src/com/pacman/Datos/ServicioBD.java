@@ -48,7 +48,7 @@ public class ServicioBD extends SQLiteOpenHelper {
 
     public long insertarJugador(Jugador jugador) {
         //Metodo que ingresa un nuevo jugador a la base de datos
-        return db.insert(JugadorContract.JugadorEntry.NOMBRE_TABLA, null, jugador.toContentValues());
+        return this.db.insert(JugadorContract.JugadorEntry.NOMBRE_TABLA, null, jugador.toContentValues());
     }
 
     public Cursor getJugadorByUsuario(String usuario) {

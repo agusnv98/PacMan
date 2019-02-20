@@ -3,12 +3,12 @@ package com.pacman.Pantallas;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.pacman.BaseDeDatos;
 import com.pacman.BotonRegistroListener;
@@ -20,10 +20,9 @@ public class PantallaRegistro extends PantallaBase {
 
     private TextField usuarioTextField;
     private TextField contrasenaTextField;
-    private TextButton boton;
+    private TextButton ingreso,retroceso;
     private Table campos;
     private BitmapFont fuente;
-    private I18NBundle traductor;
 
     public PantallaRegistro(JuegoPrincipal juego, BaseDeDatos bd) {
         super(juego);
@@ -32,8 +31,7 @@ public class PantallaRegistro extends PantallaBase {
 
     @Override
     public void show() {
-        //carga de archivo de traduccion
-        traductor = I18NBundle.createBundle(Gdx.files.internal("idiomas/idioma"));
+        super.show();
         establecerCamara();
         this.fuente = new BitmapFont();
         this.fuente.setColor(0, 204, 204, 1);
@@ -42,17 +40,26 @@ public class PantallaRegistro extends PantallaBase {
         this.contrasenaTextField = new TextField(traductor.get("pantallaIngreso/Registro.contrasena"), this.skin);
         this.contrasenaTextField.setPasswordMode(true);
         this.contrasenaTextField.setPasswordCharacter('•');
-        this.boton = new TextButton(traductor.get("pantallaIngreso/Registro.botonIngreso"), this.skin);
-        this.boton.addListener(new BotonRegistroListener(this.escenario, this.skin, this.bd, this.usuarioTextField, this.contrasenaTextField, this.juego));
+        this.ingreso = new TextButton(traductor.get("pantallaIngreso/Registro.botonIngreso"), this.skin);
+        this.ingreso.addListener(new BotonRegistroListener(this.escenario, this.skin, this.bd, this.usuarioTextField, this.contrasenaTextField, this.juego));
+        this.retroceso = new TextButton("<", this.skin);
+        //Funcionalidad del Boton retroceso
+        this.retroceso.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                juego.setScreen(juego.getPantallaMenu());
+            }
+        });
         this.campos = new Table();
         this.campos.setFillParent(true);
         this.campos.add(this.usuarioTextField).height(50).width(200).padBottom(30);
         this.campos.row();
         this.campos.add(this.contrasenaTextField).height(50).width(200).padBottom(30);
         this.campos.row();
-        this.campos.add(this.boton).height(50).width(200).padBottom(30);
+        this.campos.add(this.ingreso).height(50).width(200).padBottom(30);
         Gdx.input.setInputProcessor(this.escenario);
         this.escenario.addActor(campos);
+        this.retroceso.setPosition(10, altoEnPx - 10 - retroceso.getHeight());
+        this.escenario.addActor(retroceso);
     }
 
     @Override
@@ -64,10 +71,6 @@ public class PantallaRegistro extends PantallaBase {
         this.batch.end();
         this.escenario.act();
         this.escenario.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
     }
 
     @Override

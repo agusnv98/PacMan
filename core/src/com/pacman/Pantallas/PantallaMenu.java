@@ -2,8 +2,6 @@ package com.pacman.Pantallas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -11,15 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.I18NBundle;
 import com.pacman.JuegoPrincipal;
 
 public class PantallaMenu extends PantallaBase {
 
     private TextButton jugar, opciones, salir;
-    private Texture titulo;
     private Table buttons;
-    private Sprite sprite;
     private Label cabecera;
 
     public PantallaMenu(JuegoPrincipal juego) {
@@ -28,6 +23,7 @@ public class PantallaMenu extends PantallaBase {
 
     @Override
     public void show() {
+        super.show();
         establecerCamara();
         skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));//skin para los botones
         //se crea la cabecera
@@ -37,9 +33,6 @@ public class PantallaMenu extends PantallaBase {
         cabecera.setPosition(altoEnPx / 2, 300);
         cabecera.setAlignment(Align.top);
         cabecera.setFontScale(2, 2);
-
-        //carga de archivo de traduccion
-        I18NBundle traductor = I18NBundle.createBundle(Gdx.files.internal("idiomas/idioma"));
 
         //se crean los botones
         jugar = new TextButton(traductor.get("pantallaMenu.jugar"), skin);
@@ -55,7 +48,7 @@ public class PantallaMenu extends PantallaBase {
         buttons.row();
         buttons.add(salir).height(50).width(200).padBottom(30);
 
-        //Funcionalidad al Boton jugar
+        //Funcionalidad del Boton jugar
         jugar.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 juego.setScreen(juego.getPantallaIngreso());
