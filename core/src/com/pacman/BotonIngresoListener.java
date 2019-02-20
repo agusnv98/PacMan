@@ -23,7 +23,7 @@ public class BotonIngresoListener extends InputListener {
         this.bd = bd;
         this.usuarioTextField = campoUsuario;
         this.contrasenaTextField = campoContra;
-        this.juego=juego;
+        this.juego = juego;
     }
 
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -31,12 +31,14 @@ public class BotonIngresoListener extends InputListener {
         TextButton boton = new TextButton("Ok", this.skin);
         ventana.button(boton);
         if (this.bd.logIn(this.usuarioTextField.getText(), this.contrasenaTextField.getText())) {
-            ventana.text("Bienvenido");
+            ventana.text("Bienvenido"+this.usuarioTextField.getText());
+            ventana.show(this.escenario);
+            juego.setNombreJugador(this.usuarioTextField.getText());
             juego.setScreen(juego.getPantallaJuegoPrincipal());
         } else {
             ventana.text("Ocurrio un error, reingrese sus datos");
+            ventana.show(this.escenario);
         }
-        ventana.show(this.escenario);
         return true;
     }
 

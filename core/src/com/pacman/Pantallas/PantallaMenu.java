@@ -13,7 +13,7 @@ import com.pacman.JuegoPrincipal;
 
 public class PantallaMenu extends PantallaBase {
 
-    private TextButton jugar, opciones, salir;
+    private TextButton jugar, rankings, salir;
     private Table buttons;
     private Label cabecera;
 
@@ -42,16 +42,23 @@ public class PantallaMenu extends PantallaBase {
                 juego.setScreen(juego.getPantallaIngreso());
             }
         });
-        opciones = new TextButton(traductor.get("pantallaMenu.opciones"), skin);
+
+        rankings = new TextButton(traductor.get("pantallaMenu.rankings"), skin);
+        //Funcionalidad del Boton rankings
+        rankings.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                juego.setScreen(juego.getPantallaRanking());
+            }
+        });
+
         salir = new TextButton(traductor.get("pantallaMenu.salir"), skin);
         buttons = new Table();
-        buttons.debug();
-        buttons.setFillParent(true);     //redimensiona el tamaño de la tabla al del stage
+        buttons.setFillParent(true);                       //redimensiona el tamaño de la tabla al del stage
         buttons.add(cabecera).height(50).width(200).padBottom(60);
         buttons.row();
         buttons.add(jugar).height(50).width(200).padBottom(30);
         buttons.row();
-        buttons.add(opciones).height(50).width(200).padBottom(30);
+        buttons.add(rankings).height(50).width(200).padBottom(30);
         buttons.row();
         buttons.add(salir).height(50).width(200).padBottom(30);
         Gdx.input.setInputProcessor(escenario);

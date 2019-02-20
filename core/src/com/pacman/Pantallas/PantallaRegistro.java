@@ -51,7 +51,6 @@ public class PantallaRegistro extends PantallaBase {
 
         //se crea la tabla que contiene los elementos en pantalla
         this.tabla = new Table();
-        tabla.debug();
         this.tabla.setFillParent(true);
         this.tabla.add(this.titulo).padBottom(30);
         this.tabla.row();

@@ -32,6 +32,7 @@ public class BotonRegistroListener extends InputListener {
         ventana.button(boton);
         if (this.bd.crearJugador(this.usuarioTextField.getText(), this.contrasenaTextField.getText(), 0)) {
             ventana.text("Jugador creado");
+            juego.setNombreJugador(this.usuarioTextField.getText());
             juego.setScreen(juego.getPantallaJuegoPrincipal());
         } else {
             ventana.text("El jugador ya existe");
