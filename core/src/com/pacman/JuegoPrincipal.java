@@ -24,7 +24,7 @@ public class JuegoPrincipal extends Game {
 
     @Override
     public void create() {
-        Gdx.input.setCatchBackKey(true);
+        Gdx.input.setCatchBackKey(true);  //se bloquea el boton back, para que no se cierre la aplicacion
         //Metodo que se llama cuando la aplicación es creada (antes de iniciar el game loop)
         //en este se inicializan las pantallas y se establece la pantalla principal
         this.pantallaJuegoPrincipal = new PantallaJuegoPrincipal(this);
@@ -32,7 +32,7 @@ public class JuegoPrincipal extends Game {
         this.pantallaIngreso = new PantallaIngreso(this, baseDeDatos);
         this.pantallaRegistro = new PantallaRegistro(this, baseDeDatos);
         this.pantallaMenu = new PantallaMenu(this);
-        setScreen(this.pantallaMenu);
+        setScreen(this.pantallaFinDelJuego);
     }
 
     public PantallaMenu getPantallaMenu() {

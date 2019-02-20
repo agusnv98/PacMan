@@ -27,10 +27,9 @@ public abstract class PantallaBase implements Screen {
 
     //Aspectos de visualizacion
     protected OrthographicCamera camera;
-    protected FitViewport viewport;
+    protected FitViewport viewport,stageViewport;
     protected SpriteBatch batch;
     protected OrthogonalTiledMapRenderer tiledMapRenderer;
-    protected FitViewport stageViewport;
     protected Skin skin;
 
     //Mapa y Escenario
@@ -60,8 +59,10 @@ public abstract class PantallaBase implements Screen {
     @Override
     public void resize(int width, int height) {
         //metodo que se llama cuando las dimensiones de la pantalla cambian
-        this.viewport.update(width, height);
-        this.camera.position.set(this.camera.viewportWidth / 2, this.camera.viewportHeight / 2, 0);
+
+        // se redimensiona el viewport del escenario y se acomoda la camara
+        escenario.getViewport().update(width, height, true);
+
     }
 
     @Override
@@ -79,6 +80,7 @@ public abstract class PantallaBase implements Screen {
         //metodo que se ejecuta cuando se minimiza la aplicacion
     }
 
+
     @Override
     public void dispose() {
         //metodo que se ejecuta cuando se cierra la aplicacion y elimina los recursos innecesarios
@@ -91,7 +93,7 @@ public abstract class PantallaBase implements Screen {
         this.mapa = new TmxMapLoader().load("map/map.tmx");
         MapProperties prop = mapa.getProperties();
         this.anchoEnTiles = prop.get("width", Integer.class);
-        this.altoEnTiles = prop.get("height", Integer.class) + 2;
+        this.altoEnTiles = (prop.get("height", Integer.class) + 2);
         int tilePixelWidth = prop.get("tilewidth", Integer.class);
         int tilePixelHeight = prop.get("tileheight", Integer.class);
         this.anchoEnPx = this.anchoEnTiles * tilePixelWidth;
@@ -100,7 +102,7 @@ public abstract class PantallaBase implements Screen {
         //System.out.println("Pantalla tiles ancho "+anchoEnTiles+" Alto "+altoEnTiles);
 
         //se establece el tamaño de la pantalla
-        Gdx.graphics.setWindowedMode((int) this.anchoEnPx, (int) this.altoEnPx);
+        Gdx.graphics.setWindowedMode(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         //camara – se determina lo que se puede ver, y se usa para renderizar las imagenes
         //viewport – controla como se muestra lo renderizaro por la camara

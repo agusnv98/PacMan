@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -17,11 +18,10 @@ public class PantallaRegistro extends PantallaBase {
 
     private BaseDeDatos bd;
 
-    private TextField usuarioTextField;
-    private TextField contrasenaTextField;
-    private TextButton ingreso,retroceso;
-    private Table campos;
-    private BitmapFont fuente;
+    private TextField usuarioTextField, contrasenaTextField;
+    private TextButton ingreso, retroceso;
+    private Label titulo;
+    private Table tabla;
 
     public PantallaRegistro(JuegoPrincipal juego, BaseDeDatos bd) {
         super(juego);
@@ -32,9 +32,9 @@ public class PantallaRegistro extends PantallaBase {
     public void show() {
         super.show();
         establecerCamara();
-        this.fuente = new BitmapFont();
-        this.fuente.setColor(0, 204, 204, 1);
         this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
+        this.titulo = new Label(traductor.get("pantallaRegistro.titulo"),skin);
+        this.titulo.setFontScale(1f);
         this.usuarioTextField = new TextField(traductor.get("pantallaIngreso/Registro.usuario"), this.skin);
         this.contrasenaTextField = new TextField(traductor.get("pantallaIngreso/Registro.contrasena"), this.skin);
         this.contrasenaTextField.setPasswordMode(true);
@@ -48,15 +48,20 @@ public class PantallaRegistro extends PantallaBase {
                 juego.setScreen(juego.getPantallaMenu());
             }
         });
-        this.campos = new Table();
-        this.campos.setFillParent(true);
-        this.campos.add(this.usuarioTextField).height(50).width(200).padBottom(30);
-        this.campos.row();
-        this.campos.add(this.contrasenaTextField).height(50).width(200).padBottom(30);
-        this.campos.row();
-        this.campos.add(this.ingreso).height(50).width(200).padBottom(30);
+
+        //se crea la tabla que contiene los elementos en pantalla
+        this.tabla = new Table();
+        tabla.debug();
+        this.tabla.setFillParent(true);
+        this.tabla.add(this.titulo).padBottom(30);
+        this.tabla.row();
+        this.tabla.add(this.usuarioTextField).height(50).width(200).padBottom(30);
+        this.tabla.row();
+        this.tabla.add(this.contrasenaTextField).height(50).width(200).padBottom(30);
+        this.tabla.row();
+        this.tabla.add(this.ingreso).height(50).width(200).padBottom(30);
         Gdx.input.setInputProcessor(this.escenario);
-        this.escenario.addActor(campos);
+        this.escenario.addActor(tabla);
         this.retroceso.setPosition(10, altoEnPx - 10 - retroceso.getHeight());
         this.escenario.addActor(retroceso);
     }
@@ -65,9 +70,6 @@ public class PantallaRegistro extends PantallaBase {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        this.batch.begin();
-        this.fuente.draw(this.batch, traductor.get("pantallaRegistro.titulo"), (this.anchoEnPx / 2) - (this.fuente.getRegion().getRegionWidth() / 3.3f), this.altoEnPx - 30);
-        this.batch.end();
         this.escenario.act();
         this.escenario.draw();
     }
