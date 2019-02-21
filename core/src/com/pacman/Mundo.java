@@ -1,7 +1,6 @@
 package com.pacman;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapLayer;
@@ -13,7 +12,9 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.pacman.Actores.*;
+import com.pacman.Actores.Fantasma;
+import com.pacman.Actores.PacMan;
+import com.pacman.Actores.Personaje;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +35,11 @@ public class Mundo {
     //variable utilizada para indicar que el juego finalizo (-1 el juego no finalizo, 0 el juegador perdio, 1 el juegador gano)
     private int finDelJuego = -1;
     private int puntaje;
+    private boolean configSonido;
     private Sound sonidoPildora, sonidoPildoraGrande;
     private AssetManager manager;
 
-    public Mundo(TiledMap mapa, Stage escenario, AssetManager manager) {
+    public Mundo(TiledMap mapa, Stage escenario, AssetManager manager, boolean sonido) {
         this.manager = manager;
         this.sonidoPildoraGrande = this.manager.get("sounds/big_pill.ogg");
         this.sonidoPildora = this.manager.get("sounds/pill.ogg");
@@ -45,6 +47,7 @@ public class Mundo {
         this.sprites = new Texture("personajes/actors.png");
         this.anchoMapa = escenario.getCamera().viewportWidth;
         this.mapa = mapa;
+        this.configSonido=sonido;
 
         // se crea el PacMan
         MapLayer capaPacman = mapa.getLayers().get("Player");
@@ -129,10 +132,14 @@ public class Mundo {
                         for (Fantasma f : this.listaFantasma) {
                             f.setEstado("debilitado");
                         }
-                        this.sonidoPildoraGrande.play();
+                        if (this.configSonido) {
+                            this.sonidoPildoraGrande.play();
+                        }
                         modificarPuntaje(500);
                     } else {
-                        this.sonidoPildora.play();
+                        if (this.configSonido) {
+                            this.sonidoPildora.play();
+                        }
                         modificarPuntaje(100);
                     }
                 }

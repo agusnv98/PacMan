@@ -1,19 +1,18 @@
 package com.pacman.Pantallas;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.utils.I18NBundle;
 import com.pacman.Actores.PacMan;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.pacman.Gamepad;
 import com.pacman.JuegoPrincipal;
 import com.pacman.Mundo;
@@ -30,7 +29,8 @@ public class PantallaJuegoPrincipal extends PantallaBase {
     private Texture sprites;
 
     private Gamepad touch;
-    private Sound sonidoJuego;
+    private boolean configSonido = true;
+    private Music sonidoJuego;
     private AssetManager manager;
 
     public PantallaJuegoPrincipal(JuegoPrincipal juego) {
@@ -45,7 +45,7 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         establecerSonido();             //se establecen los sonidos del juego
         //System.out.println("Mapa" + widthEnPx + "//" + heightEnPx);
 
-        this.mundo = new Mundo(this.mapa, this.escenario, this.manager);
+        this.mundo = new Mundo(this.mapa, this.escenario, this.manager, this.configSonido);
         this.pacman = this.mundo.getPacman();
 
         //se establece el gamePad
@@ -56,9 +56,11 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         this.escenario.addActor(this.touch);
 
         //se inicia la reproduccion del sonido del juego
-        this.sonidoJuego = this.manager.get("sounds/pac-mans-park-block-plaza-super-smash-bros-3ds.ogg");
-        this.sonidoJuego.setLooping(0, true);
-        this.sonidoJuego.play();
+        if (this.configSonido) {
+            this.sonidoJuego = this.manager.get("sounds/pac-mans-park-block-plaza-super-smash-bros-3ds.ogg");
+            this.sonidoJuego.setLooping(true);
+            this.sonidoJuego.play();
+        }
 
         //se establece el elemento que muestra el puntaje por pantalla
         this.puntajePantalla = new TextArea("Score: ", skin);
@@ -89,7 +91,7 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         this.manager.load("sounds/ghost_die.ogg", Sound.class);
         this.manager.load("sounds/pacman_die.ogg", Sound.class);
         this.manager.load("sounds/pill.ogg", Sound.class);
-        this.manager.load("sounds/pac-mans-park-block-plaza-super-smash-bros-3ds.ogg", Sound.class);
+        this.manager.load("sounds/pac-mans-park-block-plaza-super-smash-bros-3ds.ogg", Music.class);
         this.manager.finishLoading();
     }
 
@@ -142,5 +144,10 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         this.tiledMapRenderer.dispose();
         this.escenario.dispose();
         this.sprites.dispose();
+    }
+
+    public boolean cambiarConfigSonido() {
+        this.configSonido = !this.configSonido;
+        return configSonido;
     }
 }

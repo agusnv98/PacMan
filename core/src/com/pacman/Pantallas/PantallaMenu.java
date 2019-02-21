@@ -2,18 +2,29 @@ package com.pacman.Pantallas;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.pacman.BotonSonidoListener;
 import com.pacman.JuegoPrincipal;
 
 public class PantallaMenu extends PantallaBase {
 
     private TextButton jugar, opciones, salir;
+
+    private ImageButton sonido;
+    private Texture textura;
+    private TextureRegion regionTextura;
+    private TextureRegionDrawable drawable;
+
     private Table buttons;
     private Label cabecera;
 
@@ -35,6 +46,7 @@ public class PantallaMenu extends PantallaBase {
         cabecera.setFontScale(2, 2);
 
         //se crean los botones
+
         jugar = new TextButton(traductor.get("pantallaMenu.jugar"), skin);
         opciones = new TextButton(traductor.get("pantallaMenu.opciones"), skin);
         salir = new TextButton(traductor.get("pantallaMenu.salir"), skin);
@@ -55,8 +67,15 @@ public class PantallaMenu extends PantallaBase {
             }
         });
 
+        textura = new Texture("buttons/speaker.png");
+        regionTextura = new TextureRegion(textura);
+        drawable = new TextureRegionDrawable(regionTextura);
+        sonido = new ImageButton(drawable);
+        sonido.addListener(new BotonSonidoListener(this.juego, this.sonido));
+
         Gdx.input.setInputProcessor(escenario);
         escenario.addActor(buttons);
+        escenario.addActor(sonido);
     }
 
     @Override
