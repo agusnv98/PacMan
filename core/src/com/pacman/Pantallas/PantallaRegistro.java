@@ -29,6 +29,8 @@ public class PantallaRegistro extends PantallaBase {
 
     @Override
     public void show() {
+        //metodo que se ejecuta cuando se muestra por primera vez la pantalla
+        //se inicializan todos los elementos que vaya a utilizar la pantalla
         super.show();
         establecerCamara();
         this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
@@ -48,7 +50,7 @@ public class PantallaRegistro extends PantallaBase {
             }
         });
 
-        //se crea la tabla que contiene los elementos en pantalla
+        //se agregan los elementos a mostrar en la tabla que los contiene para ser mostrados en pantalla
         this.tabla = new Table();
         this.tabla.setFillParent(true);
         this.tabla.add(this.titulo).padBottom(30);
@@ -66,20 +68,10 @@ public class PantallaRegistro extends PantallaBase {
 
     @Override
     public void render(float delta) {
+        //metodo que se ejecuta en cada frame del juego
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.escenario.act();
         this.escenario.draw();
-    }
-
-    @Override
-    public void hide() {
-        Gdx.input.setInputProcessor(null);
-    }
-
-    @Override
-    public void dispose() {
-        this.escenario.dispose();
-        skin.dispose();
     }
 }

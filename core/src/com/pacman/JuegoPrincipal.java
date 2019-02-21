@@ -2,14 +2,12 @@ package com.pacman;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Intersector;
 import com.pacman.Pantallas.PantallaFinDelJuego;
 import com.pacman.Pantallas.PantallaIngreso;
 import com.pacman.Pantallas.PantallaJuegoPrincipal;
 import com.pacman.Pantallas.PantallaMenu;
 import com.pacman.Pantallas.PantallaRanking;
 import com.pacman.Pantallas.PantallaRegistro;
-import com.sun.accessibility.internal.resources.accessibility;
 
 public class JuegoPrincipal extends Game {
     //clase principal sobre la que se establece el juegp
@@ -30,6 +28,7 @@ public class JuegoPrincipal extends Game {
 
     @Override
     public void create() {
+        //metodo que se ejecuta cuando se crea la aplicacion, momento en el que se crean los elementos que se utilizaran en la aplicacion
         Gdx.input.setCatchBackKey(true);  //se bloquea el boton back, para que no se cierre la aplicacion
         //Metodo que se llama cuando la aplicación es creada (antes de iniciar el game loop)
         //en este se inicializan las pantallas y se establece la pantalla principal

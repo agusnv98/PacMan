@@ -22,8 +22,10 @@ public class PantallaMenu extends PantallaBase {
 
     @Override
     public void show() {
+        //metodo que se ejecuta cuando se muestra por primera vez la pantalla
+        //se inicializan todos los elementos que vaya a utilizar la pantalla
         super.show();
-        //se desabilita el boton de retroceso
+        //se quita al boton de retroceso del escenario
         retroceso.remove();
 
         //se establece el titulo el juego
@@ -57,6 +59,8 @@ public class PantallaMenu extends PantallaBase {
                 Gdx.app.exit();
             }
         });
+
+        //se agregan los elementos a mostrar en la tabla que los contiene para ser mostrados en pantalla
         tabla = new Table();
         tabla.setFillParent(true);                       //redimensiona el tamaño de la tabla al del stage
         tabla.add(cabecera).height(50).width(200).padBottom(60);
@@ -73,20 +77,10 @@ public class PantallaMenu extends PantallaBase {
 
     @Override
     public void render(float delta) {
+        //metodo que se ejecuta en cada frame del juego
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         escenario.act();
         escenario.draw();
-    }
-
-    @Override
-    public void hide() {
-        Gdx.input.setInputProcessor(null);
-    }
-
-    @Override
-    public void dispose() {
-        escenario.dispose();
-        skin.dispose();
     }
 }
