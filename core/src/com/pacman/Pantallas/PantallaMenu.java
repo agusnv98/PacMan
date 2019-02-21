@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -18,14 +17,15 @@ import com.pacman.JuegoPrincipal;
 
 public class PantallaMenu extends PantallaBase {
 
-    private TextButton jugar, opciones, salir;
+
+    private TextButton jugar, rankings, salir;
 
     private ImageButton sonido;
     private Texture textura;
     private TextureRegion regionTextura;
     private TextureRegionDrawable drawable;
 
-    private Table buttons;
+    private Table tabla;
     private Label cabecera;
 
     public PantallaMenu(JuegoPrincipal juego) {
@@ -34,38 +34,55 @@ public class PantallaMenu extends PantallaBase {
 
     @Override
     public void show() {
+        //metodo que se ejecuta cuando se muestra por primera vez la pantalla
+        //se inicializan todos los elementos que vaya a utilizar la pantalla
         super.show();
-        establecerCamara();
-        skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));//skin para los botones
-        //se crea la cabecera
-        //Label.LabelStyle labelStyle=new Label.LabelStyle(,Color.ORANGE);
+        //se quita al boton de retroceso del escenario
+        retroceso.remove();
+
+        //se establece el titulo el juego
         cabecera = new Label("PAC MAN", skin);
         cabecera.setSize(100, 100);
         cabecera.setPosition(altoEnPx / 2, 300);
-        cabecera.setAlignment(Align.top);
+        cabecera.setAlignment(Align.center);
         cabecera.setFontScale(2, 2);
 
         //se crean los botones
 
         jugar = new TextButton(traductor.get("pantallaMenu.jugar"), skin);
-        opciones = new TextButton(traductor.get("pantallaMenu.opciones"), skin);
-        salir = new TextButton(traductor.get("pantallaMenu.salir"), skin);
-        buttons = new Table();
-        buttons.setFillParent(true);     //redimensiona el tamaño de la tabla al del stage
-        buttons.add(cabecera).height(50).width(200).padBottom(60);
-        buttons.row();
-        buttons.add(jugar).height(50).width(200).padBottom(30);
-        buttons.row();
-        buttons.add(opciones).height(50).width(200).padBottom(30);
-        buttons.row();
-        buttons.add(salir).height(50).width(200).padBottom(30);
-
         //Funcionalidad del Boton jugar
         jugar.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 juego.setScreen(juego.getPantallaIngreso());
             }
         });
+
+        rankings = new TextButton(traductor.get("pantallaMenu.rankings"), skin);
+        //Funcionalidad del Boton rankings
+        rankings.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                juego.setScreen(juego.getPantallaRanking());
+            }
+        });
+
+        salir = new TextButton(traductor.get("pantallaMenu.salir"), skin);
+        salir.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
+
+        //se agregan los elementos a mostrar en la tabla que los contiene para ser mostrados en pantalla
+        tabla = new Table();
+        tabla.setFillParent(true);                       //redimensiona el tamaño de la tabla al del stage
+        tabla.add(cabecera).height(50).width(200).padBottom(60);
+        tabla.row();
+        tabla.add(jugar).height(50).width(200).padBottom(30);
+        tabla.row();
+        tabla.add(rankings).height(50).width(200).padBottom(30);
+        tabla.row();
+        tabla.add(salir).height(50).width(200).padBottom(30);
 
         textura = new Texture("buttons/speaker.png");
         regionTextura = new TextureRegion(textura);
@@ -74,26 +91,16 @@ public class PantallaMenu extends PantallaBase {
         sonido.addListener(new BotonSonidoListener(this.juego, this.sonido));
 
         Gdx.input.setInputProcessor(escenario);
-        escenario.addActor(buttons);
         escenario.addActor(sonido);
+        escenario.addActor(tabla);
     }
 
     @Override
     public void render(float delta) {
+        //metodo que se ejecuta en cada frame del juego
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         escenario.act();
         escenario.draw();
-    }
-
-    @Override
-    public void hide() {
-        Gdx.input.setInputProcessor(null);
-    }
-
-    @Override
-    public void dispose() {
-        escenario.dispose();
-        skin.dispose();
     }
 }

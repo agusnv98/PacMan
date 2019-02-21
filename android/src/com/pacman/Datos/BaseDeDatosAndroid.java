@@ -69,6 +69,7 @@ public class BaseDeDatosAndroid implements BaseDeDatos {
         boolean resultado = false;
         SQLiteDatabase db = this.basedeDatos.getWritableDatabase();
         Cursor cursorJugador = getJugadorByUsuario(nombre);
+        cursorJugador.moveToNext();
         if (puntos > cursorJugador.getInt(cursorJugador.getColumnIndex(JugadorContract.JugadorEntry.PUNTAJE))) {
             ContentValues valores = new ContentValues();
             valores.put(JugadorContract.JugadorEntry.PUNTAJE, puntos);
