@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.utils.I18NBundle;
 
 public class BotonIngresoListener extends InputListener {
 
@@ -18,14 +19,16 @@ public class BotonIngresoListener extends InputListener {
     private TextField usuarioTextField;
     private TextField contrasenaTextField;
     private JuegoPrincipal juego;
+    private I18NBundle traductor;
 
-    public BotonIngresoListener(Stage escenario, Skin skin, BaseDeDatos bd, TextField campoUsuario, TextField campoContra, JuegoPrincipal juego) {
+    public BotonIngresoListener(Stage escenario, Skin skin, BaseDeDatos bd, TextField campoUsuario, TextField campoContra, JuegoPrincipal juego, I18NBundle traductor) {
         this.escenario = escenario;
         this.skin = skin;
         this.bd = bd;
         this.usuarioTextField = campoUsuario;
         this.contrasenaTextField = campoContra;
         this.juego = juego;
+        this.traductor = traductor;
     }
 
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -36,12 +39,12 @@ public class BotonIngresoListener extends InputListener {
         TextButton boton = new TextButton("Ok", this.skin);
         ventana.button(boton);
         if (this.bd.logIn(this.usuarioTextField.getText(), this.contrasenaTextField.getText())) {
-            ventana.text("Bienvenido" + this.usuarioTextField.getText());
+            ventana.text(traductor.get("botonIngreso.exito") + this.usuarioTextField.getText());
             ventana.show(this.escenario);
             juego.setNombreJugador(this.usuarioTextField.getText());
             juego.setScreen(juego.getPantallaJuegoPrincipal());
         } else {
-            ventana.text("Ocurrio un error, reingrese sus datos");
+            ventana.text(traductor.get("botonIngreso.error"));
             ventana.show(this.escenario);
         }
         return true;

@@ -41,7 +41,8 @@ public class PantallaRegistro extends PantallaBase {
         this.contrasenaTextField.setPasswordMode(true);
         this.contrasenaTextField.setPasswordCharacter('•');
         this.ingreso = new TextButton(traductor.get("pantallaIngreso/Registro.botonIngreso"), this.skin);
-        this.ingreso.addListener(new BotonRegistroListener(this.escenario, this.skin, this.bd, this.usuarioTextField, this.contrasenaTextField, this.juego));
+        this.ingreso.addListener(new BotonRegistroListener(this.escenario, this.skin, this.bd, this.usuarioTextField,
+                this.contrasenaTextField, this.juego,this.traductor));
         this.retroceso = new TextButton("<", this.skin);
         //Funcionalidad del Boton retroceso
         this.retroceso.addListener(new ClickListener() {

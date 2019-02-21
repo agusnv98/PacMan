@@ -39,7 +39,8 @@ public class PantallaIngreso extends PantallaBase {
         this.contrasenaTextField.setPasswordMode(true);
         this.contrasenaTextField.setPasswordCharacter('•');
         this.ingreso = new TextButton(traductor.get("pantallaIngreso/Registro.botonIngreso"), this.skin);
-        this.ingreso.addListener(new BotonIngresoListener(this.escenario, this.skin, this.bd, this.usuarioTextField, this.contrasenaTextField, this.juego));
+        this.ingreso.addListener(new BotonIngresoListener(this.escenario, this.skin, this.bd, this.usuarioTextField,
+                this.contrasenaTextField, this.juego,this.traductor));
         this.registro = new TextButton(traductor.get("pantallaIngreso.botonRegistro"), this.skin);
 
         //Funcionalidad del Boton registro

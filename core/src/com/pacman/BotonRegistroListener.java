@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.utils.I18NBundle;
 
 public class BotonRegistroListener extends InputListener {
 
@@ -18,14 +19,18 @@ public class BotonRegistroListener extends InputListener {
     private TextField usuarioTextField;
     private TextField contrasenaTextField;
     private JuegoPrincipal juego;
+    private I18NBundle traductor;
 
-    public BotonRegistroListener(Stage escenario, Skin skin, BaseDeDatos bd, TextField campoUsuario, TextField campoContra, JuegoPrincipal juego) {
+
+    public BotonRegistroListener(Stage escenario, Skin skin, BaseDeDatos bd, TextField campoUsuario,
+                                 TextField campoContra, JuegoPrincipal juego, I18NBundle traductor) {
         this.escenario = escenario;
         this.skin = skin;
         this.bd = bd;
         this.usuarioTextField = campoUsuario;
         this.contrasenaTextField = campoContra;
         this.juego = juego;
+        this.traductor = traductor;
     }
 
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -36,11 +41,11 @@ public class BotonRegistroListener extends InputListener {
         TextButton boton = new TextButton("Ok", this.skin);
         ventana.button(boton);
         if (this.bd.crearJugador(this.usuarioTextField.getText(), this.contrasenaTextField.getText(), 0)) {
-            ventana.text("Jugador creado");
+            ventana.text(traductor.get("botonRegistro.exito"));
             juego.setNombreJugador(this.usuarioTextField.getText());
             juego.setScreen(juego.getPantallaJuegoPrincipal());
         } else {
-            ventana.text("El jugador ya existe");
+            ventana.text(traductor.get("botonRegistro.error"));
         }
         ventana.show(this.escenario);
         return true;
