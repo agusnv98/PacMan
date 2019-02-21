@@ -41,7 +41,8 @@ public class PantallaJuegoPrincipal extends PantallaBase {
 
     @Override
     public void show() {
-        //metodo que se ejecuta cuando se muestra por primera vez la aplicacion
+        //metodo que se ejecuta cuando se muestra por primera vez la pantalla
+        //se inicializan todos los elementos que vaya a utilizar la pantalla
         super.show();
         establecerSonido();             //se establecen los sonidos del juego
         //System.out.println("Mapa" + widthEnPx + "//" + heightEnPx);
@@ -73,6 +74,7 @@ public class PantallaJuegoPrincipal extends PantallaBase {
     }
 
     public void actualizarScore() {
+        //metodo que establece el texto del area de teto que muestr el puntaje por pantalla
         this.puntajePantalla.setText(traductor.get("pantallaJuegoPrincipal.puntaje") + this.mundo.getPuntaje());
         //System.out.println(this.puntajePantalla.getText());
     }
@@ -97,13 +99,6 @@ public class PantallaJuegoPrincipal extends PantallaBase {
     }
 
     @Override
-    public void hide() {
-        //metodo que se ejecuta cuando se minimiza la aplicacion
-        Gdx.input.setInputProcessor(null);
-        sonidoJuego.stop();
-    }
-
-    @Override
     public void render(float delta) {
         //metodo que se ejecuta en cada frame del juego
         //es el encargado de verificar si el juego termino o no, ademas
@@ -117,7 +112,7 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         Batch batch = this.escenario.getBatch();
         batch.begin();
         for (int i = 0; i < cantVidas; i++) {
-            batch.draw(new TextureRegion(sprites, 179, 58, 14, 14), 8f+ i, 21, 1, 1);
+            batch.draw(new TextureRegion(sprites, 179, 58, 14, 14), 8f + i, 21, 1, 1);
         }
         batch.end();
         //si el juego finalizo (estado 0 o 1), se establece la transicion a la pantalla de fin del juego
@@ -140,7 +135,15 @@ public class PantallaJuegoPrincipal extends PantallaBase {
     }
 
     @Override
+    public void hide() {
+        //metodo que se ejecuta cuando la pantalla ya no es la pantalla que se visualiza
+        sonidoJuego.stop();
+        super.dispose();
+    }
+
+    @Override
     public void resize(int width, int height) {
+        //metodo que se llama cuando las dimensiones de la pantalla cambian
         super.resize(width, height);
         this.viewport.update(width, height);
         this.camera.position.set(this.camera.viewportWidth / 2, this.camera.viewportHeight / 2, 0);
@@ -148,11 +151,10 @@ public class PantallaJuegoPrincipal extends PantallaBase {
 
     @Override
     public void dispose() {
-        //metodo que se ejecuta cuando se cierra la aplicacion y elimina los recursos innecesarios
-        this.skin.dispose();
-        this.mapa.dispose();
+        //metodo que se ejecuta cuando la pantalla debe eliminar los recursos
+        //o cuando la pantalla actual se debe eliminar, porque ya no es la pantalla mostrada
+        super.dispose();
         this.tiledMapRenderer.dispose();
-        this.escenario.dispose();
         this.sprites.dispose();
     }
 }

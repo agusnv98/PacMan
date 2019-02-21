@@ -30,7 +30,7 @@ public abstract class PantallaBase implements Screen {
 
     //Aspectos de visualizacion
     protected OrthographicCamera camera;
-    protected FitViewport viewport,stageViewport;
+    protected FitViewport viewport, stageViewport;
     protected SpriteBatch batch;
     protected OrthogonalTiledMapRenderer tiledMapRenderer;
     protected Skin skin;
@@ -49,7 +49,8 @@ public abstract class PantallaBase implements Screen {
 
     @Override
     public void show() {
-        //metodo que se ejecuta cuando se muestra por primera vez la aplicacion
+        //metodo que se ejecuta cuando se muestra por primera vez la pantalla
+        //se inicializan todos los elementos que vaya a utilizar la pantalla
 
         establecerCamara();             //se establece la camara
         this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
@@ -93,13 +94,20 @@ public abstract class PantallaBase implements Screen {
 
     @Override
     public void hide() {
-        //metodo que se ejecuta cuando se minimiza la aplicacion
+        //metodo que se ejecuta cuando la pantalla ya no es la pantalla que se visualiza
+        Gdx.input.setInputProcessor(null);
+        //cuando se va a minimizar la pantalla se deben eliminar los recursos que uso
+        dispose();
     }
 
 
     @Override
     public void dispose() {
-        //metodo que se ejecuta cuando se cierra la aplicacion y elimina los recursos innecesarios
+        //metodo que se ejecuta cuando la pantalla debe eliminar los recursos
+        //o cuando la pantalla actual se debe eliminar, porque ya no es la pantalla mostrada
+        this.skin.dispose();
+        this.escenario.dispose();
+        this.mapa.dispose();
     }
 
     protected void establecerCamara() {

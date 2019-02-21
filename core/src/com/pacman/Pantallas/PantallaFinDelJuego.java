@@ -1,20 +1,14 @@
 package com.pacman.Pantallas;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.I18NBundle;
 import com.pacman.BaseDeDatos;
 import com.pacman.JuegoPrincipal;
 
@@ -33,8 +27,8 @@ public class PantallaFinDelJuego extends PantallaBase {
 
     @Override
     public void show() {
-        //metodo que se ejecuta cuando se muestra por primera vez la aplicacion
-        //modificar lo del viweport hacer que el texto cuadre----------------------------------------
+        //metodo que se ejecuta cuando se muestra por primera vez la pantalla
+        //se inicializan todos los elementos que vaya a utilizar la pantalla
         String[] datosPartida = juego.getDatosPartida();
         super.show();
         this.titulo = new Label(traductor.get("pantallaFinDelJuego.fin"), skin);
@@ -54,6 +48,7 @@ public class PantallaFinDelJuego extends PantallaBase {
             }
         });
 
+        //se agregan los elementos a mostrar en la tabla que los contiene para ser mostrados en pantalla
         tabla = new Table();
         tabla.align(Align.center);
         tabla.setFillParent(true);
@@ -70,6 +65,7 @@ public class PantallaFinDelJuego extends PantallaBase {
         this.escenario.addActor(this.tabla);
         this.escenario.addActor(retroceso);
         this.retroceso.setPosition(10, altoEnPx - 10 - retroceso.getHeight());
+
         //se crea la ventana de dialogo si hubo un nuevo record
         if (baseDeDatos.actualizarPuntaje(datosPartida[0], Integer.parseInt(datosPartida[1]))) {
             System.out.println("Nuevo Record---------------------");
@@ -83,21 +79,8 @@ public class PantallaFinDelJuego extends PantallaBase {
     }
 
     @Override
-    public void hide() {
-        //metodo que se ejecuta cuando se minimiza la aplicacion
-        Gdx.input.setInputProcessor(null);
-    }
-
-    @Override
-    public void dispose() {
-        //metodo que se ejecuta cuando se cierra la aplicacion y elimina los recursos innecesarios
-        this.escenario.dispose();
-        skin.dispose();
-    }
-
-    @Override
     public void render(float delta) {
-        //metodo que se ejecuta en cada frame del juego y muestra el mensaje y el boton por pantalla
+        //metodo que se ejecuta en cada frame del juego
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.escenario.act();
