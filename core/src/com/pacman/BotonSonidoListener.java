@@ -9,6 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class BotonSonidoListener extends InputListener {
 
+    //Clase que extiende InputListener para manejar el comportamiento del boton del sonido
+
     private JuegoPrincipal juego;
     private ImageButton boton;
 
@@ -31,8 +33,10 @@ public class BotonSonidoListener extends InputListener {
     }
 
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        //Metodo que establece el comportamiento del boton cuando este es presionado
+        //Cambia la imagen del boton y la configaracion de sonido del juego
         if (this.juego.getPantallaJuegoPrincipal().cambiarConfigSonido()) {
-            boton.getStyle().imageUp=drawable;
+            boton.getStyle().imageUp = drawable;
         } else {
             boton.getStyle().imageUp = drawableMute;
         }

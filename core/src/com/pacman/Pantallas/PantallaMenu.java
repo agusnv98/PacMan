@@ -34,20 +34,20 @@ public class PantallaMenu extends PantallaBase {
 
     @Override
     public void show() {
-        //metodo que se ejecuta cuando se muestra por primera vez la pantalla
-        //se inicializan todos los elementos que vaya a utilizar la pantalla
+        //Metodo que se ejecuta cuando se muestra por primera vez la pantalla
+        //Se inicializan todos los elementos que vaya a utilizar la pantalla
         super.show();
-        //se quita al boton de retroceso del escenario
+        //Se quita al boton de retroceso del escenario
         retroceso.remove();
 
-        //se establece el titulo el juego
+        //Se establece el titulo el juego
         cabecera = new Label("PAC MAN", skin);
         cabecera.setSize(100, 100);
         cabecera.setPosition(altoEnPx / 2, 300);
         cabecera.setAlignment(Align.center);
         cabecera.setFontScale(2, 2);
 
-        //se crean los botones
+        //Se crean los botones
 
         jugar = new TextButton(traductor.get("pantallaMenu.jugar"), skin);
         //Funcionalidad del Boton jugar
@@ -73,9 +73,9 @@ public class PantallaMenu extends PantallaBase {
             }
         });
 
-        //se agregan los elementos a mostrar en la tabla que los contiene para ser mostrados en pantalla
+        //Se agregan los elementos a mostrar en la tabla que los contiene para ser mostrados en pantalla
         tabla = new Table();
-        tabla.setFillParent(true);                       //redimensiona el tamaño de la tabla al del stage
+        tabla.setFillParent(true);                       //Redimensiona el tamaño de la tabla al del stage
         tabla.add(cabecera).height(50).width(200).padBottom(60);
         tabla.row();
         tabla.add(jugar).height(50).width(200).padBottom(30);
@@ -89,6 +89,7 @@ public class PantallaMenu extends PantallaBase {
         drawable = new TextureRegionDrawable(regionTextura);
         sonido = new ImageButton(drawable);
         sonido.addListener(new BotonSonidoListener(this.juego, this.sonido));
+        sonido.setPosition(260, altoEnPx - 20 - sonido.getHeight());
 
         Gdx.input.setInputProcessor(escenario);
         escenario.addActor(sonido);
@@ -97,7 +98,7 @@ public class PantallaMenu extends PantallaBase {
 
     @Override
     public void render(float delta) {
-        //metodo que se ejecuta en cada frame del juego
+        //Metodo que se ejecuta en cada frame del juego
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         escenario.act();

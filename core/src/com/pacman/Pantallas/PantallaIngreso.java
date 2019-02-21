@@ -29,8 +29,8 @@ public class PantallaIngreso extends PantallaBase {
 
     @Override
     public void show() {
-        //metodo que se ejecuta cuando se muestra por primera vez la pantalla
-        //se inicializan todos los elementos que vaya a utilizar la pantalla
+        //Metodo que se ejecuta cuando se muestra por primera vez la pantalla
+        //Se inicializan todos los elementos que vaya a utilizar la pantalla
         super.show();
         this.titulo = new Label(traductor.get("pantallaIngreso.titulo"), skin);
         this.titulo.setFontScale(1f);
@@ -49,7 +49,7 @@ public class PantallaIngreso extends PantallaBase {
             }
         });
 
-        //se agregan los elementos a mostrar en la tabla que los contiene para ser mostrados en pantalla
+        //Se agregan los elementos a mostrar en la tabla que los contiene para ser mostrados en pantalla
         this.tabla = new Table();
         this.tabla.setFillParent(true);
         this.tabla.add(this.titulo).padBottom(30);
@@ -68,7 +68,7 @@ public class PantallaIngreso extends PantallaBase {
 
     @Override
     public void render(float delta) {
-        //metodo que se ejecuta en cada frame del juego
+        //Metodo que se ejecuta en cada frame del juego
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.escenario.act();

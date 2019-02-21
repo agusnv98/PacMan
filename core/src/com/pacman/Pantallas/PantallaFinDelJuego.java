@@ -13,7 +13,7 @@ import com.pacman.BaseDeDatos;
 import com.pacman.JuegoPrincipal;
 
 public class PantallaFinDelJuego extends PantallaBase {
-    //pantalla que indica que finalizo el juego y da la posibilidad de reiniciar la partida
+    //Pantalla que indica que finalizo el juego y da la posibilidad de reiniciar la partida
 
     private TextButton reiniciar;
     private Label titulo, palabraPuntaje, puntaje, palabraJugador, nombreJugador;
@@ -27,8 +27,8 @@ public class PantallaFinDelJuego extends PantallaBase {
 
     @Override
     public void show() {
-        //metodo que se ejecuta cuando se muestra por primera vez la pantalla
-        //se inicializan todos los elementos que vaya a utilizar la pantalla
+        //Metodo que se ejecuta cuando se muestra por primera vez la pantalla
+        //Se inicializan todos los elementos que vaya a utilizar la pantalla
         String[] datosPartida = juego.getDatosPartida();
         super.show();
         this.titulo = new Label(traductor.get("pantallaFinDelJuego.fin"), skin);
@@ -48,7 +48,7 @@ public class PantallaFinDelJuego extends PantallaBase {
             }
         });
 
-        //se agregan los elementos a mostrar en la tabla que los contiene para ser mostrados en pantalla
+        //Se agregan los elementos a mostrar en la tabla que los contiene para ser mostrados en pantalla
         tabla = new Table();
         tabla.align(Align.center);
         tabla.setFillParent(true);
@@ -66,7 +66,7 @@ public class PantallaFinDelJuego extends PantallaBase {
         this.escenario.addActor(retroceso);
         this.retroceso.setPosition(10, altoEnPx - 10 - retroceso.getHeight());
 
-        //se crea la ventana de dialogo si hubo un nuevo record
+        //Se crea la ventana de dialogo si hubo un nuevo record
         if (baseDeDatos.actualizarPuntaje(datosPartida[0], Integer.parseInt(datosPartida[1]))) {
             System.out.println("Nuevo Record---------------------");
             Dialog ventana = new Dialog("", this.skin);
@@ -80,7 +80,7 @@ public class PantallaFinDelJuego extends PantallaBase {
 
     @Override
     public void render(float delta) {
-        //metodo que se ejecuta en cada frame del juego
+        //Metodo que se ejecuta en cada frame del juego
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.escenario.act();

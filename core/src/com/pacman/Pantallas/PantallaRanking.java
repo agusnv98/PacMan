@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.pacman.BaseDeDatos;
@@ -26,8 +25,8 @@ public class PantallaRanking extends PantallaBase {
 
     @Override
     public void show() {
-        //metodo que se ejecuta cuando se muestra por primera vez la pantalla
-        //se inicializan todos los elementos que vaya a utilizar la pantalla
+        //Metodo que se ejecuta cuando se muestra por primera vez la pantalla
+        //Se inicializan todos los elementos que vaya a utilizar la pantalla
         super.show();
         this.tabla = new Table(this.skin);
         this.tabla.align(Align.center);
@@ -36,7 +35,7 @@ public class PantallaRanking extends PantallaBase {
         this.tabla.row();
         this.panel = new ScrollPane(tabla, skin);
 
-        //se obtienen a todos los usuarios registrados en la base de datos
+        //Se obtienen a todos los usuarios registrados en la base de datos
         ArrayList listaJugadores = this.bd.obtenerDatos();
         for (int i = 0; i < listaJugadores.size(); i++) {
             if (i % 2 == 0) {
@@ -47,7 +46,7 @@ public class PantallaRanking extends PantallaBase {
             }
         }
 
-        //se agregan los elementos a mostrar en la tabla que los contiene para ser mostrados en pantalla
+        //Se agregan los elementos a mostrar en la tabla que los contiene para ser mostrados en pantalla
         Table container = new Table(this.skin);
         container.setFillParent(true);
         System.out.println();
@@ -61,7 +60,7 @@ public class PantallaRanking extends PantallaBase {
 
     @Override
     public void render(float delta) {
-        //metodo que se ejecuta en cada frame del juego
+        //Metodo que se ejecuta en cada frame del juego
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.escenario.act();

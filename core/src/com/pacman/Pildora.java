@@ -31,16 +31,16 @@ public class Pildora extends Actor {
     }
 
     public void esComida() {
-        //metodo que establece que la pildora fue comida por el PacMan
+        //Metodo que establece que la pildora fue comida por el PacMan
         if (this.valida) {
             //System.out.println("La pildora fue comida");
             this.valida = false;
-            this.remove();                                 //se quita a la pildora de la pantalla
+            this.remove();                                 //Se quita a la pildora de la pantalla
         }
     }
 
     public boolean esValida() {
-        //metodo que indica si la pildora es valida para ser comida o no
+        //Metodo que indica si la pildora es valida para ser comida o no
         return this.valida;
     }
 

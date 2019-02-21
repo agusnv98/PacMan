@@ -17,8 +17,8 @@ import com.pacman.JuegoPrincipal;
 import com.pacman.Mundo;
 
 public class PantallaJuegoPrincipal extends PantallaBase {
-    //pantalla que se encarga de crear la partida que se va a jugar,
-    // estableciendo la camara, los sonidos, el gamepad y el elemento que muestra el puntaje por pantalla
+    //Pantalla que se encarga de crear la partida que se va a jugar,
+    //estableciendo la camara, los sonidos, el gamepad y el elemento que muestra el puntaje por pantalla
 
     private Mundo mundo;
     private PacMan pacman;
@@ -39,55 +39,55 @@ public class PantallaJuegoPrincipal extends PantallaBase {
 
     @Override
     public void show() {
-        //metodo que se ejecuta cuando se muestra por primera vez la pantalla
-        //se inicializan todos los elementos que vaya a utilizar la pantalla
+        //Metodo que se ejecuta cuando se muestra por primera vez la pantalla
+        //Se inicializan todos los elementos que vaya a utilizar la pantalla
         super.show();
-        establecerSonido();             //se establecen los sonidos del juego
+        establecerSonido();             //Se establecen los sonidos del juego
         //System.out.println("Mapa" + widthEnPx + "//" + heightEnPx);
 
         this.mundo = new Mundo(this.mapa, this.escenario, this.manager, this.configSonido);
         this.pacman = this.mundo.getPacman();
 
-        //se establece el gamePad
+        //Se establece el gamePad
         Gdx.input.setInputProcessor(escenario);
         this.touch = new Gamepad(15, this.skin, this.pacman);
         this.touch.setBounds(76, 0, 140, 140);
         this.escenario.addActor(this.touch);
 
-        //se inicia la reproduccion del sonido del juego
+        //Se inicia la reproduccion del sonido del juego
         if (this.configSonido) {
             this.sonidoJuego = this.manager.get("sounds/pac-mans-park-block-plaza-super-smash-bros-3ds.ogg");
             this.sonidoJuego.setLooping(true);
             this.sonidoJuego.play();
         }
 
-        //se establece el elemento que muestra el puntaje por pantalla
+        //Se establece el elemento que muestra el puntaje por pantalla
         this.puntajePantalla = new TextArea("Score: ", skin);
         this.puntajePantalla.setPosition(200, 336);
         this.escenario.addActor(puntajePantalla);
 
-        //se obtienen los sprites para mostrar las vidas
+        //Se obtienen los sprites para mostrar las vidas
         this.sprites = new Texture("personajes/actors.png");
 
-        //se modifica la posicion del boton de retroceso
+        //Se modifica la posicion del boton de retroceso
         this.retroceso.setPosition(10, altoEnPx - retroceso.getHeight());
     }
 
     public void actualizarScore() {
-        //metodo que establece el texto del area de teto que muestr el puntaje por pantalla
+        //Metodo que establece el texto del area de teto que muestr el puntaje por pantalla
         this.puntajePantalla.setText(traductor.get("pantallaJuegoPrincipal.puntaje") + this.mundo.getPuntaje());
         //System.out.println(this.puntajePantalla.getText());
     }
 
     @Override
     protected void establecerCamara() {
-        //metodo que utiliza al meotodo de la clase padre y agrega al renderizador del mapa, para que se muestre por pantalla
+        //Metodo que utiliza al meotodo de la clase padre y agrega al renderizador del mapa, para que se muestre por pantalla
         super.establecerCamara();
         this.tiledMapRenderer = new OrthogonalTiledMapRenderer(mapa, 1 / 16f, this.batch);
     }
 
     private void establecerSonido() {
-        //metodo que carga los sonidos que se van a usar en el juego
+        //Metodo que carga los sonidos que se van a usar en el juego
         this.manager = new AssetManager();
         this.manager.load("sounds/big_pill.ogg", Sound.class);
         this.manager.load("sounds/clear.ogg", Sound.class);
@@ -100,8 +100,8 @@ public class PantallaJuegoPrincipal extends PantallaBase {
 
     @Override
     public void render(float delta) {
-        //metodo que se ejecuta en cada frame del juego
-        //es el encargado de verificar si el juego termino o no, ademas
+        //Metodo que se ejecuta en cada frame del juego
+        //Es el encargado de verificar si el juego termino o no, ademas
         //de hacer que los elementos en el escenario actuen y se dibujen por pantalla
         this.camera.update();
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -115,7 +115,7 @@ public class PantallaJuegoPrincipal extends PantallaBase {
             batch.draw(new TextureRegion(sprites, 179, 58, 14, 14), 8f + i, 21, 1, 1);
         }
         batch.end();
-        //si el juego finalizo (estado 0 o 1), se establece la transicion a la pantalla de fin del juego
+        //Si el juego finalizo (estado 0 o 1), se establece la transicion a la pantalla de fin del juego
         //caso contrario continua con la ejecucuion del juego
         if (this.mundo.getEstadoJuego() != -1) {
             juego.setPuntajeActual(this.mundo.getPuntaje());
@@ -136,14 +136,18 @@ public class PantallaJuegoPrincipal extends PantallaBase {
 
     @Override
     public void hide() {
-        //metodo que se ejecuta cuando la pantalla ya no es la pantalla que se visualiza
-        sonidoJuego.stop();
+        //Metodo que se ejecuta cuando la pantalla ya no es la pantalla que se visualiza
+        if (configSonido) {
+            sonidoJuego.stop();
+        } else {
+            configSonido = true;
+        }
         super.dispose();
     }
 
     @Override
     public void resize(int width, int height) {
-        //metodo que se llama cuando las dimensiones de la pantalla cambian
+        //Metodo que se llama cuando las dimensiones de la pantalla cambian
         super.resize(width, height);
         this.viewport.update(width, height);
         this.camera.position.set(this.camera.viewportWidth / 2, this.camera.viewportHeight / 2, 0);
@@ -151,7 +155,7 @@ public class PantallaJuegoPrincipal extends PantallaBase {
 
     @Override
     public void dispose() {
-        //metodo que se ejecuta cuando la pantalla debe eliminar los recursos
+        //Metodo que se ejecuta cuando la pantalla debe eliminar los recursos
         //o cuando la pantalla actual se debe eliminar, porque ya no es la pantalla mostrada
         super.dispose();
         this.tiledMapRenderer.dispose();

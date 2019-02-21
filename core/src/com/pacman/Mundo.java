@@ -32,7 +32,7 @@ public class Mundo {
     private List<Pildora> listaPildora = new ArrayList<Pildora>();
     private MapLayer capaCambiosDir;
     private final int cantFantasmas = 4;
-    //variable utilizada para indicar que el juego finalizo (-1 el juego no finalizo, 0 el juegador perdio, 1 el juegador gano)
+    //Variable utilizada para indicar que el juego finalizo (-1 el juego no finalizo, 0 el juegador perdio, 1 el juegador gano)
     private int finDelJuego = -1;
     private int puntaje;
     private boolean configSonido;
@@ -47,15 +47,15 @@ public class Mundo {
         this.sprites = new Texture("personajes/actors.png");
         this.anchoMapa = escenario.getCamera().viewportWidth;
         this.mapa = mapa;
-        this.configSonido=sonido;
+        this.configSonido = sonido;
 
-        // se crea el PacMan
+        //Se crea el PacMan
         MapLayer capaPacman = mapa.getLayers().get("Player");
         Rectangle rectanguloPacMan = ((RectangleMapObject) capaPacman.getObjects().get(0)).getRectangle();
         this.pacman = new PacMan(this.sprites, rectanguloPacMan, this);
         escenario.addActor(this.pacman);
 
-        //se crean los Fantasmas
+        //Se crean los Fantasmas
         MapLayer capaFantasma = mapa.getLayers().get("Ghost");
         Rectangle rectanguloFantasma = ((RectangleMapObject) capaFantasma.getObjects().get(0)).getRectangle();
         for (int i = 0; i < this.cantFantasmas; i++) {
@@ -63,7 +63,7 @@ public class Mundo {
             escenario.addActor(this.listaFantasma.get(i));
         }
 
-        //se crean las Pildoras
+        //Se crean las Pildoras
         MapLayer capaPildoras = mapa.getLayers().get("Pill");
         for (MapObject mapObject : capaPildoras.getObjects()) {
             Rectangle rectangulo = ((RectangleMapObject) mapObject).getRectangle();
@@ -78,7 +78,7 @@ public class Mundo {
             escenario.addActor(pildoraAux);
         }
 
-        //se obtiene la capa de cambio de direccion
+        //Se obtiene la capa de cambio de direccion
         this.capaCambiosDir = mapa.getLayers().get("CambioDireccion");
     }
 
@@ -87,13 +87,13 @@ public class Mundo {
     }
 
     public float getAncho() {
-        //metodo que retorna el ancho del mapa
+        //Metodo que retorna el ancho del mapa
         return this.anchoMapa;
     }
 
     public Rectangle verificarColisionPared(Personaje personaje) {
-        //metodo que verifica si un personaje colisiono con una pared
-        //retorna los limites de la pared si colisiono el personaje, null en caso contrario
+        //Metodo que verifica si un personaje colisiono con una pared
+        //Retorna los limites de la pared si colisiono el personaje, null en caso contrario
         MapLayer capaPared = mapa.getLayers().get("Wall");
         MapObjects objetos = capaPared.getObjects();
         Rectangle pared = null;
@@ -101,7 +101,7 @@ public class Mundo {
         for (RectangleMapObject rectangleObject : objetos.getByType(RectangleMapObject.class)) {
             Rectangle rectangulo = rectangleObject.getRectangle();
             if (Intersector.overlaps(personaje.getLimites(), rectangulo)) {
-                // ocurrio una colision con una pared
+                //Ocurrio una colision con una pared
                 pared = rectangulo;
             }
         }
@@ -110,9 +110,9 @@ public class Mundo {
     }
 
     public void verificarColisionPildora() {
-        //metodo que verifica si el pacman colisiono con una pildora del mundo
-        //si hubo colision determina si es grande o no, y la remueve del mundo; si no hubo colision solo analiza a las pildoras existentes
-        //si la pildora colisionada es grande se evoluciona al pacman y debilitan los fantasmas
+        //Metodo que verifica si el pacman colisiono con una pildora del mundo
+        //Si hubo colision determina si es grande o no, y la remueve del mundo; si no hubo colision solo analiza a las pildoras existentes
+        //Si la pildora colisionada es grande se evoluciona al pacman y debilitan los fantasmas
         Pildora pildora;
         boolean seguir = true;
         int i = 0, length = this.listaPildora.size();
@@ -122,12 +122,12 @@ public class Mundo {
             pildoraAux = this.listaPildora.get(i);
             Rectangle limites = pildoraAux.getLimites();
             if (Intersector.overlaps(this.pacman.getLimites(), limites)) {
-                // ocurrio una colision con una pildora
-                // obtengo la pildora
+                //Ocurrio una colision con una pildora
+                //Obtengo la pildora
                 pildora = obtenerPildora(limites);
                 if (pildora.esValida()) {
                     if (pildora.esGrande()) {
-                        //se evoluciona al PacMan y debilitan los fantasmas
+                        //Se evoluciona al PacMan y debilitan los fantasmas
                         this.pacman.setEstado("evolucionado");
                         for (Fantasma f : this.listaFantasma) {
                             f.setEstado("debilitado");
@@ -150,7 +150,7 @@ public class Mundo {
             }
             i++;
         }
-        if (length <= 0) { //si no hay pildoras para analizar, el jugador gano
+        if (length <= 0) { //Si no hay pildoras para analizar, el jugador gano
             System.out.println("Gano el juego");
             this.setFinDelJuego(1);
         }
@@ -158,8 +158,8 @@ public class Mundo {
     }
 
     private Pildora obtenerPildora(Rectangle rectangulo) {
-        // metodo que se llama cuando hubo una colision con una pildora
-        // obtiene el objeto pildora a partir de los limites con los que se colisiono en el mundo y luego lo retorna
+        //Metodo que se llama cuando hubo una colision con una pildora
+        //Obtiene el objeto pildora a partir de los limites con los que se colisiono en el mundo y luego lo retorna
         Pildora pildora = null;
         for (Pildora pildoraAux : this.listaPildora) {
             if (pildoraAux.getLimites().equals(rectangulo)) {
@@ -170,8 +170,8 @@ public class Mundo {
     }
 
     public MapObject verificarCambioDireccion(Fantasma fantasma) {
-        //metodo que verifica si un fantasma se encuentra en posicion para cambiar de direccion
-        //las posiciones son determinadas en el mapa en la capa ColisionFantasma
+        //Metodo que verifica si un fantasma se encuentra en posicion para cambiar de direccion
+        //Las posiciones son determinadas en el mapa en la capa ColisionFantasma
         MapObject posicionCambio = null;
         boolean seguir = true;
         Vector2 direccionFantasma = fantasma.getDireccion();
@@ -180,13 +180,13 @@ public class Mundo {
         while (posicionCambio == null && i < limite && seguir) {
             MapObject mapObject = this.capaCambiosDir.getObjects().get(i);
             Rectangle rectangulo = ((RectangleMapObject) mapObject).getRectangle();
-            //se analiza si se debe hacer el cambio de direccion, solo si hubo colision
+            //Se analiza si se debe hacer el cambio de direccion, solo si hubo colision
             if (Intersector.overlaps(limitesFantasma, rectangulo)) {
-                //se establecen como limites las octavas partes de la poscion, segun el lado a analizar
-                //si el fantasma posee mas 7/8 partes del mismo sobre la posicion, se analiza el cambio de direccion
+                //Se establecen como limites las octavas partes de la poscion, segun el lado a analizar
+                //Si el fantasma posee mas 7/8 partes del mismo sobre la posicion, se analiza el cambio de direccion
 
-                //para que se valide el cambio de direccion, el fantasma debe estar en el limite de la posicion y
-                // debe seguir la direccion correspondiente al lado a analizar
+                //Para que se valide el cambio de direccion, el fantasma debe estar en el limite de la posicion y
+                //Debe seguir la direccion correspondiente al lado a analizar
                 if (direccionFantasma.x > 0) {
                     float limiteDerecho = rectangulo.getX() + ((rectangulo.getWidth() / 8) * 7);
                     boolean fantasmaEnLimiteDer = (limitesFantasma.getX() + limitesFantasma.getWidth()) >= limiteDerecho &&
@@ -231,18 +231,17 @@ public class Mundo {
     }
 
     public boolean verificarColsionFantasma() {
-        //metodo que verifica que si el PacMan colisiono con un fantasma
-        //retrona true si ocurrio la colision, false en caso contrario
+        //Metodo que verifica que si el PacMan colisiono con un fantasma
+        //Retorna true si ocurrio la colision, false en caso contrario
         int cantFantasmas = this.listaFantasma.size(), i = 0;
         boolean exito = false;
         Fantasma fantasma;
         while (!exito && i < cantFantasmas) {
             fantasma = this.listaFantasma.get(i);
             if (Intersector.overlaps(this.pacman.getLimites(), fantasma.getLimites())) {
-                //ocurrio la colision con el fantasma
-
-                //se verifica si el fantasma esta muerto, porque el PacMan puede colisionar con el fantasma
-                // cuando este esta reproduciendo su animacion de muerte
+                //Ocurrio la colision con el fantasma
+                //Se verifica si el fantasma esta muerto, porque el PacMan puede colisionar con el fantasma
+                //Cuando este esta reproduciendo su animacion de muerte
                 if (!fantasma.estaMuerto()) {
                     if (this.pacman.estaEvolucionado() && fantasma.estaDebilitado()) {
                         fantasma.setEstado("muerto");
@@ -258,17 +257,17 @@ public class Mundo {
     }
 
     public synchronized void setFinDelJuego(int condicion) {
-        //metodo utilizado para indicarle al mundo que el juego finalizo
-        //si condicion = 0, el jugador perdio
-        //si condicion = 1, el jugador gano
-        //solo se va a actualizar la condicion del juego si es la primera vez que se establece
+        //Metodo utilizado para indicarle al mundo que el juego finalizo
+        //Si condicion = 0, el jugador perdio
+        //Si condicion = 1, el jugador gano
+        //Solo se va a actualizar la condicion del juego si es la primera vez que se establece
         if (this.finDelJuego == -1 && condicion >= 0 && condicion <= 1) {
             this.finDelJuego = condicion;
         }
     }
 
     public int getEstadoJuego() {
-        //metodo utilizado para saber si el juego finalizo
+        //Metodo utilizado para saber si el juego finalizo
         return this.finDelJuego;
     }
 

@@ -2,6 +2,8 @@ package com.pacman.Datos;
 
 import android.content.ContentValues;
 
+//Clase que almacena todos los datos de un jugador
+
 public class Jugador {
 
     private String usuario;
@@ -14,19 +16,8 @@ public class Jugador {
         this.maxPuntaje = puntos;
     }
 
-    public String getUsuario() {
-        return this.usuario;
-    }
-
-    public String getContraseña() {
-        return this.contraseña;
-    }
-
-    public int getMaxPuntaje() {
-        return this.maxPuntaje;
-    }
-
     public ContentValues toContentValues() {
+        //Metodo que convierte los datos de un jugador en ContentValues para realizar consultas a la base de datos
         ContentValues valores = new ContentValues();
         valores.put(JugadorContract.JugadorEntry.USUARIO, this.usuario);
         valores.put(JugadorContract.JugadorEntry.CONTRASEÑA, this.contraseña);

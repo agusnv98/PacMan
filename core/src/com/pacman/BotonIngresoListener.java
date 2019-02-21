@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 public class BotonIngresoListener extends InputListener {
 
+    //Clase que extiende InputListener para manejar el comportamiento del boton de ingreso de usuario
+
     private Stage escenario;
     private Skin skin;
     private BaseDeDatos bd;
@@ -27,11 +29,14 @@ public class BotonIngresoListener extends InputListener {
     }
 
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        //Metodo que establece el comportamiento del boton cuando este es presionado
+        //Realiza una consulta a la base para verificar los datos ingresados por pantalla
+        //Muestra un cartel por pantalla para indicar si la operacion tuvo exito o no
         Dialog ventana = new Dialog("", this.skin);
         TextButton boton = new TextButton("Ok", this.skin);
         ventana.button(boton);
         if (this.bd.logIn(this.usuarioTextField.getText(), this.contrasenaTextField.getText())) {
-            ventana.text("Bienvenido"+this.usuarioTextField.getText());
+            ventana.text("Bienvenido" + this.usuarioTextField.getText());
             ventana.show(this.escenario);
             juego.setNombreJugador(this.usuarioTextField.getText());
             juego.setScreen(juego.getPantallaJuegoPrincipal());

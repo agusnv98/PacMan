@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.pacman.Actores.PacMan;
 
 public class Gamepad extends Touchpad {
-    //clase que utilizada para implementar el gamepad
+    //Clase utilizada para implementar el gamepad
     private PacMan pac;
 
     public Gamepad(float deadzoneRadius, Skin skin, PacMan pac) {
@@ -16,7 +16,7 @@ public class Gamepad extends Touchpad {
     @Override
     public void act(float delta) {
         //Metodo que se llama en cada frame del juego
-        //captura la posicion del knob, determinando la direccion en la que se debe mover el PacMan
+        //Captura la posicion del knob, determinando la direccion en la que se debe mover el PacMan
         //y luego se lo notifica
         super.act(delta);
         //System.out.println("X" + this.getKnobX() + "---j---" + this.getKnobY() + "Y");
