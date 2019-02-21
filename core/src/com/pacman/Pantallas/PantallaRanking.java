@@ -31,7 +31,6 @@ public class PantallaRanking extends PantallaBase {
         super.show();
         this.tabla = new Table(this.skin);
         this.tabla.align(Align.center);
-        tabla.debug();
         this.cabecera = new Label(traductor.get("pantallaRankings.titulo"), skin);
         this.tabla.add(cabecera).colspan(2);
         this.tabla.row();
