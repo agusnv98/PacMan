@@ -35,32 +35,32 @@ public abstract class Personaje extends Actor {
 
     public Personaje(Rectangle respawn, Mundo mundo) {
         this.mundo = mundo;
-        this.respawn = respawn; //se guarda la posicion a donde debe revivir el personaje
-        this.direccion = new Vector2(0, 0); //el personaje se crea quieto por defecto
-        this.estadoActual = 0; //se crea por defecto con estado izquierda
+        this.respawn = respawn; //Se guarda la posicion a donde debe revivir el personaje
+        this.direccion = new Vector2(0, 0); //El personaje se crea quieto por defecto
+        this.estadoActual = 0; //Se crea por defecto con estado izquierda
         this.limites = new Rectangle(this.respawn.getX(), this.respawn.getY(), this.respawn.getWidth() - 2, this.respawn.getHeight() - 2);
     }
 
     @Override
     public void act(float delta) {
-        //metodo que se ejecuta en cada frame del juego y realiza las acciones propias del personaje
+        //Metodo que se ejecuta en cada frame del juego y realiza las acciones propias del personaje
         this.tiempoFrame += delta;
-        if (!this.getEstado().equals("muerto")) {    //si el personaje no esta muerto se carga la animacion que este asignada en animActual
+        if (!this.getEstado().equals("muerto")) {    //Si el personaje no esta muerto se carga la animacion que este asignada en animActual
             this.frameActual = (TextureRegion) this.animActual.getKeyFrame(this.tiempoFrame);
         } else {
-            //si el personaje esta muerto se analiza si hay que reiniciar la animacion de muerte o continuar con su reproduccion
+            //Si el personaje esta muerto se analiza si hay que reiniciar la animacion de muerte o continuar con su reproduccion
             if (!this.inicioAnimMuerto) {
                 this.tiempoFrame = 0;
                 this.inicioAnimMuerto = true;
             }
             this.frameActual = (TextureRegion) this.animActual.getKeyFrame(this.tiempoFrame);
             if (this.animActual.isAnimationFinished(tiempoFrame)) {
-                //una vez que la animacion de muerte del personaje termina, este revive
+                //Una vez que la animacion de muerte del personaje termina, este revive
                 revivir();
             }
         }
         mover(delta);
-        //se verifica si el personaje esta por dar la vuelta al mundo, por alguno de sus laterales (izquierdo/derecho)
+        //Se verifica si el personaje esta por dar la vuelta al mundo, por alguno de sus laterales (izquierdo/derecho)
         //y luego se lo posiciona al lado opuesto del mapa
         if (getX() > mundo.getAncho() + this.frameActual.getRegionWidth()) {
             setPosition(0 - this.frameActual.getRegionWidth(), getY());
@@ -69,41 +69,41 @@ public abstract class Personaje extends Actor {
         }
     }
 
-    //metodo que realiza el movimiento del personaje (cada personaje implementa su propio metodo)
+    //Metodo que realiza el movimiento del personaje (cada personaje implementa su propio metodo)
     protected abstract void mover(float delta);
 
     protected void revivir() {
-        //metodo que se ejecuta cuando termina la animacion de muerte del personaje
-        //restaura al personaje en su posicion inicial y reinicia la animacion de muerte
+        //Metodo que se ejecuta cuando termina la animacion de muerte del personaje
+        //Restaura al personaje en su posicion inicial y reinicia la animacion de muerte
         this.inicioAnimMuerto = false;
         this.limites = new Rectangle(this.respawn.getX(), this.respawn.getY(), this.respawn.getWidth() - 2, this.respawn.getHeight() - 2);
         this.setXY(this.limites.getX(), this.limites.getY());
     }
 
-    //metodo que permite establecerle un estado al personaje (cada personaje implementa su propio metodo)
+    //Metodo que permite establecerle un estado al personaje (cada personaje implementa su propio metodo)
     public abstract boolean setEstado(String estado);
 
     public String getEstado() {
-        //metodo que retorna un String con el estado actual del personaje
+        //Metodo que retorna un String con el estado actual del personaje
         return this.estados.get(this.estadoActual);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        //metodo que se ejecuta en cada frame del juego
-        //se encarga de dibujar el frameActual de la animacion en la pantalla
+        //Metodo que se ejecuta en cada frame del juego
+        //Se encarga de dibujar el frameActual de la animacion en la pantalla
         batch.draw(frameActual, getX(), getY());
     }
 
     protected void setXY(float pX, float pY) {
-        //metodo auxiliar que sirve para mover tanto al personaje (Actor), como a sus limites (Rectangle)
+        //Metodo auxiliar que sirve para mover tanto al personaje (Actor), como a sus limites (Rectangle)
         setPosition(pX, pY);
         this.limites.setPosition(pX, pY);
     }
 
     public void reacomodar(Rectangle pared) {
-        //metodo que se llama cuando ocurrio una colision con una pared
-        //este metodo reacomoda, tanto horizontal como verticalmente, al personaje para simular la colision con la pared
+        //Metodo que se llama cuando ocurrio una colision con una pared
+        //Este metodo reacomoda, tanto horizontal como verticalmente, al personaje para simular la colision con la pared
 
         //System.out.println("Colision Personaje X = " + this.limites.getX() + "// Y = " + this.limites.getY() + "|| Pared X = " + pared.getX() + " // Pared Y = " + (pared.getY()));
         //System.out.println("Ancho pared " + pared.getWidth() + " //Alto " + pared.getHeight());
@@ -134,17 +134,17 @@ public abstract class Personaje extends Actor {
     }
 
     private float colisionLateral(Rectangle pared) {
-        //metodo que detecta si el personaje colisiono por alguno de sus laterales (izquierdo/derecho)
+        //Metodo que detecta si el personaje colisiono por alguno de sus laterales (izquierdo/derecho)
         //luego determina si fue en su esquina superior o inferior, y determina el desplazamiento para reacomodarlo
-        //retorna la cantidad que debe desplazarse en el ejeY
+        //Retorna la cantidad que debe desplazarse en el ejeY
         float diferenciaVertical = 0;
 
-        //determina si el personaje choco en la esquina superior por el lado derecho/izquierdo
-        //se define como colision al tercio superior del personaje
+        //Determina si el personaje choco en la esquina superior por el lado derecho/izquierdo
+        //Se define como colision al tercio superior del personaje
         float tercioSup = (this.limites.getY() + ((this.limites.getHeight() / 3) * 2));
 
-        //determina si el personaje choco en la esquina inferior por lado derecho/izquierdo
-        //se define como colision al tercio inferior del personaje
+        //Determina si el personaje choco en la esquina inferior por lado derecho/izquierdo
+        //Se define como colision al tercio inferior del personaje
         float tercioInf = this.limites.getY() + (this.limites.getHeight() / 3);
 
         if (pared.getY() <= (this.limites.getY() + this.limites.getHeight()) && pared.getY() >= tercioSup) {
@@ -165,17 +165,17 @@ public abstract class Personaje extends Actor {
     }
 
     private float colisionVertical(Rectangle pared) {
-        //metodo que detecta si el personaje colisiono por alguno de sus laterales (superior/inferior)
+        //Metodo que detecta si el personaje colisiono por alguno de sus laterales (superior/inferior)
         //luego determina si fue en su esquina izquierda o derecha, y determina el desplazamiento para reacomodarlo
-        //retorna la cantidad que debe desplazarse en el ejeY
+        //Retorna la cantidad que debe desplazarse en el ejeY
         float diferenciaHorizontal = 0;
 
-        //determino si el personaje choco en la esquina izquierda por el lado superior/inferior
-        //se define como colision al tercio izquierdo del personaje
+        //Determino si el personaje choco en la esquina izquierda por el lado superior/inferior
+        //Se define como colision al tercio izquierdo del personaje
         float tercioIzq = this.limites.getX() + (this.limites.getWidth() / 3);
 
-        //determino si el personaje choco en la esquina derecha por el lado superior/inferior
-        //se define como colision al tercio derecho del personaje
+        //Determino si el personaje choco en la esquina derecha por el lado superior/inferior
+        //Se define como colision al tercio derecho del personaje
         float tercioDer = this.limites.getX() + ((this.limites.getWidth() / 3) * 2);
 
         float bordeDerPared = pared.getX() + pared.getWidth();
@@ -198,7 +198,7 @@ public abstract class Personaje extends Actor {
     }
 
     public Vector2 getDireccion() {
-        //metodo que retorna la direccion en la que se esta moviendo el personaje
+        //Metodo que retorna la direccion en la que se esta moviendo el personaje
         return this.direccion;
     }
 }

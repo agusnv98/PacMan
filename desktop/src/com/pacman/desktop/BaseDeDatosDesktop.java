@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class BaseDeDatosDesktop implements BaseDeDatos {
 
+//Clase que se encargaria de controlar la base de datos si SQLite funcionara en escritorio
+
     @Override
     public void inicializar() {
         Gdx.app.log("BaseDeDatosDesktop", "Se intento acceder a la base de datos de escritorio");

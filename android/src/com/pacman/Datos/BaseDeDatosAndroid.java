@@ -5,12 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.badlogic.gdx.utils.XmlReader;
 import com.pacman.BaseDeDatos;
 
 import java.util.ArrayList;
 
 public class BaseDeDatosAndroid implements BaseDeDatos {
+
+    //Clase que implementa todas las consultas a la base de datos necesarias para el funcionamiento del juego
 
     private final ServicioBD basedeDatos;
 
@@ -34,13 +35,13 @@ public class BaseDeDatosAndroid implements BaseDeDatos {
         if (!cursorJugador.moveToNext()) {
             Jugador jugador = new Jugador(nombre, contraseña, puntos);
             if (db.insert(JugadorContract.JugadorEntry.NOMBRE_TABLA, null, jugador.toContentValues()) != (-1)) {
-                System.out.println("---------------------------------------Jugador " + nombre + " creado exitosamente--------------------------------");
+                //System.out.println("---------------------------------------Jugador " + nombre + " creado exitosamente--------------------------------");
                 resultado = true;
             } else {
-                System.out.println("--------------------------------------Ocurrio un error al crear al jugador " + nombre + " -----------------------------");
+                //System.out.println("--------------------------------------Ocurrio un error al crear al jugador " + nombre + " -----------------------------");
             }
         } else {
-            System.out.println("----------------------------El jugador ya se encuentra en la base de datos-----------------------------------------");
+            //System.out.println("----------------------------El jugador ya se encuentra en la base de datos-----------------------------------------");
         }
         return resultado;
     }
@@ -52,13 +53,13 @@ public class BaseDeDatosAndroid implements BaseDeDatos {
         Cursor cursorJugador = this.getJugadorByUsuario(nombre);
         if (cursorJugador.moveToNext()) {
             if (this.verificarContraseña(cursorJugador, contraseña)) {
-                System.out.println("-------------------------------------Bienvenido " + nombre + "------------------------------------------");
+                //System.out.println("-------------------------------------Bienvenido " + nombre + "------------------------------------------");
                 resultado = true;
             } else {
-                System.out.println("----------------------------------------Contraseña incorrecta-----------------------------------------");
+                //System.out.println("----------------------------------------Contraseña incorrecta-----------------------------------------");
             }
         } else {
-            System.out.println("----------------------------------------El jugador " + nombre + " no existe-----------------------------------");
+            //System.out.println("----------------------------------------El jugador " + nombre + " no existe-----------------------------------");
         }
         return resultado;
     }
@@ -75,16 +76,17 @@ public class BaseDeDatosAndroid implements BaseDeDatos {
             valores.put(JugadorContract.JugadorEntry.PUNTAJE, puntos);
             db.update(JugadorContract.JugadorEntry.NOMBRE_TABLA, valores, JugadorContract.JugadorEntry.USUARIO + " Like ?", new String[]{nombre});
             resultado = true;
-            System.out.println("-----------------------------Puntaje del jugador " + nombre + " actualizado a " + puntos + " puntos----------------------------------");
+            //System.out.println("-----------------------------Puntaje del jugador " + nombre + " actualizado a " + puntos + " puntos----------------------------------");
         } else {
-            System.out.println("------------------------------------Error al actualizar el puntaje de " + nombre + "----------------------------------------");
+            //System.out.println("------------------------------------Error al actualizar el puntaje de " + nombre + "----------------------------------------");
         }
         return resultado;
     }
 
     @Override
     public void mostrarDatos() {
-        //Metodo que muestra todos los datos almacenados en la base de datos
+        //Metodo que muestra por consola todos los datos almacenados en la base de datos
+        //Metodo para debug
         Cursor cursor = this.basedeDatos.getReadableDatabase().query(JugadorContract.JugadorEntry.NOMBRE_TABLA, null, null, null, null, null, JugadorContract.JugadorEntry.PUNTAJE + " DESC");
         System.out.println("----------------------------------------------BASE DE DATOS PACMAN----------------------------------------");
         while (cursor.moveToNext()) {

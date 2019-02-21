@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 public class BotonRegistroListener extends InputListener {
 
+    //Clase que extiende InputListener para manejar el comportamiento del boton de registro de usuario
+
     private Stage escenario;
     private Skin skin;
     private BaseDeDatos bd;
@@ -27,6 +29,9 @@ public class BotonRegistroListener extends InputListener {
     }
 
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        //Metodo que establece el comportamiento del boton cuando este es presionado
+        //Realiza una consulta a la base de datos para agregar un nuevo jugador a la misma
+        //Muestra un cartel por pantalla para indicar si la operacion tuvo exito o no
         Dialog ventana = new Dialog("", this.skin);
         TextButton boton = new TextButton("Ok", this.skin);
         ventana.button(boton);

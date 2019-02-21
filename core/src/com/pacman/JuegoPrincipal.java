@@ -10,8 +10,8 @@ import com.pacman.Pantallas.PantallaRanking;
 import com.pacman.Pantallas.PantallaRegistro;
 
 public class JuegoPrincipal extends Game {
-    //clase principal sobre la que se establece el juegp
-    //en esta se crean las diferentes pantallas y recibe la base de datos con la que se operara en el juego
+    //Clase principal sobre la que se establece el juegp
+    //En esta se crean las diferentes pantallas y recibe la base de datos con la que se operara en el juego
     public final BaseDeDatos baseDeDatos;
     private PantallaJuegoPrincipal pantallaJuegoPrincipal;
     private PantallaFinDelJuego pantallaFinDelJuego;
@@ -19,8 +19,8 @@ public class JuegoPrincipal extends Game {
     private PantallaRegistro pantallaRegistro;
     private PantallaMenu pantallaMenu;
     private PantallaRanking pantallaRanking;
-    private String nombreJugador="Vacio";
-    private int puntaje=0;
+    private String nombreJugador = "Vacio";
+    private int puntaje = 0;
 
     public JuegoPrincipal(BaseDeDatos baseDeDatos) {
         this.baseDeDatos = baseDeDatos;
@@ -28,10 +28,10 @@ public class JuegoPrincipal extends Game {
 
     @Override
     public void create() {
-        //metodo que se ejecuta cuando se crea la aplicacion, momento en el que se crean los elementos que se utilizaran en la aplicacion
-        Gdx.input.setCatchBackKey(true);  //se bloquea el boton back, para que no se cierre la aplicacion
+        //Metodo que se ejecuta cuando se crea la aplicacion, momento en el que se crean los elementos que se utilizaran en la aplicacion
+        Gdx.input.setCatchBackKey(true);  //Se bloquea el boton back, para que no se cierre la aplicacion
         //Metodo que se llama cuando la aplicación es creada (antes de iniciar el game loop)
-        //en este se inicializan las pantallas y se establece la pantalla principal
+        //En este se inicializan las pantallas y se establece la pantalla principal
         this.baseDeDatos.inicializar();
         this.pantallaJuegoPrincipal = new PantallaJuegoPrincipal(this);
         this.pantallaFinDelJuego = new PantallaFinDelJuego(this, baseDeDatos);

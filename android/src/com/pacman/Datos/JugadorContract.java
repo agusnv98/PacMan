@@ -4,7 +4,7 @@ import android.provider.BaseColumns;
 
 public class JugadorContract {
 
-    //Clase que guarda las caracteristicas de un jugador en la base de datos
+    //Clase que guarda los nombres de la table y sus columnas en un solo lugar para acceder a ellos facilmente
 
     public static abstract class JugadorEntry implements BaseColumns {
 
