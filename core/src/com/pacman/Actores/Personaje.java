@@ -148,7 +148,7 @@ public abstract class Personaje extends Actor {
         float tercioInf = this.limites.getY() + (this.limites.getHeight() / 3);
 
         if (pared.getY() <= (this.limites.getY() + this.limites.getHeight()) && pared.getY() >= tercioSup) {
-            diferenciaVertical = (tercioSup - pared.getY()) / 2;                     //obtiene un valor negativo (tercioSup <= bordeSupPared)
+            diferenciaVertical = (tercioSup - pared.getY()) / 2;                     //obtiene un valor negativo (tercioSup <= pared.getY())
             //System.out.println("Choco en la esquina superior del lado derecho/izquierdo, corrigiendo");
             //System.out.println(diferenciaVertical);
         } else {
