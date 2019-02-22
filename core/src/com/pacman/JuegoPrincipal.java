@@ -36,7 +36,6 @@ public class JuegoPrincipal extends ApplicationAdapter {
     private Label cabecera;
 
 
-
     @Override
     public void create() {//se ejecuta cuando se llama al juego
 
@@ -68,7 +67,6 @@ public class JuegoPrincipal extends ApplicationAdapter {
         buttons.add(opciones).height(50).width(200).padBottom(30);
         buttons.row();
         buttons.add(salir).height(50).width(200).padBottom(30);
-
         //Funcionalidad al Boton jugar
         jugar.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -80,8 +78,8 @@ public class JuegoPrincipal extends ApplicationAdapter {
         //menu.addActor(cabecera);
         menu.addActor(buttons);
         //TouchPad
-        MiTouch touch =new MiTouch(60,skin);
-        touch.setBounds(100,0,140,134);
+        MiTouch touch = new MiTouch(60, skin);
+        touch.setBounds(100, 0, 140, 134);
         //
         //BasicArrowButton a=new BasicArrowButton();
 
@@ -94,8 +92,6 @@ public class JuegoPrincipal extends ApplicationAdapter {
     public void show() {
         Gdx.input.setInputProcessor(menu);
     }
-
-
 
 
     @Override
