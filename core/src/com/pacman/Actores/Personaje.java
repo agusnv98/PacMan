@@ -180,11 +180,11 @@ public abstract class Personaje extends Actor {
 
         float bordeDerPared = pared.getX() + pared.getWidth();
         if (bordeDerPared <= tercioIzq && bordeDerPared >= this.limites.getX()) {
-            diferenciaHorizontal = (tercioIzq - bordeDerPared) / 2;       //obtiene un valor positivo (tercioIzq >= bordeSupPared)
+            diferenciaHorizontal = (tercioIzq - bordeDerPared) / 2;       //obtiene un valor positivo (tercioIzq >= bordeDerPared)
             //System.out.println("Choco en la esquina superior/inferior izquierda, corrigiendo");
             //System.out.println(diferenciaHorizontal);
         } else if (pared.getX() <= (this.limites.getX() + this.limites.getWidth()) && pared.getX() >= tercioDer) {
-            diferenciaHorizontal = (tercioDer - pared.getX()) / 2;      //obtiene un valor negativo (tercioDer <= bordeSupPared)
+            diferenciaHorizontal = (tercioDer - pared.getX()) / 2;      //obtiene un valor negativo (tercioDer <= pared.getX())
             //System.out.println("Choco en la esquina superior/inferior derecha, corrigiendo");
             //System.out.println(diferenciaHorizontal);
         } else {

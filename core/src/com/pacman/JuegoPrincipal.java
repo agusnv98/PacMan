@@ -9,6 +9,9 @@ import com.pacman.Pantallas.PantallaMenu;
 import com.pacman.Pantallas.PantallaRanking;
 import com.pacman.Pantallas.PantallaRegistro;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class JuegoPrincipal extends Game {
     //Clase principal sobre la que se establece el juegp
     //En esta se crean las diferentes pantallas y recibe la base de datos con la que se operara en el juego
@@ -34,11 +37,11 @@ public class JuegoPrincipal extends Game {
         //En este se inicializan las pantallas y se establece la pantalla principal
         this.baseDeDatos.inicializar();
         this.pantallaJuegoPrincipal = new PantallaJuegoPrincipal(this);
-        this.pantallaFinDelJuego = new PantallaFinDelJuego(this, baseDeDatos);
-        this.pantallaIngreso = new PantallaIngreso(this, baseDeDatos);
-        this.pantallaRegistro = new PantallaRegistro(this, baseDeDatos);
+        this.pantallaFinDelJuego = new PantallaFinDelJuego(this);
+        this.pantallaIngreso = new PantallaIngreso(this);
+        this.pantallaRegistro = new PantallaRegistro(this);
         this.pantallaMenu = new PantallaMenu(this);
-        this.pantallaRanking = new PantallaRanking(this, baseDeDatos);
+        this.pantallaRanking = new PantallaRanking(this);
         setScreen(this.pantallaMenu);
     }
 
@@ -77,5 +80,17 @@ public class JuegoPrincipal extends Game {
     public String[] getDatosPartida() {
         String[] dato = {this.nombreJugador, Integer.toString(this.puntaje)};
         return dato;
+    }
+
+    public ArrayList obtenerDatos() {
+        return this.baseDeDatos.obtenerDatos();
+    }
+
+    public boolean actualizarPuntaje(String nombre, int puntos) {
+        return this.baseDeDatos.actualizarPuntaje(nombre, puntos);
+    }
+
+    public BaseDeDatos getBD() {
+        return this.baseDeDatos;
     }
 }

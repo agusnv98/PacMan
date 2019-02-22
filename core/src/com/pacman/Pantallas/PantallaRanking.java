@@ -6,21 +6,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import com.pacman.BaseDeDatos;
 import com.pacman.JuegoPrincipal;
 
 import java.util.ArrayList;
 
 public class PantallaRanking extends PantallaBase {
 
-    private BaseDeDatos bd;
     private Table tabla;
     private Label cabecera;
     private ScrollPane panel;
 
-    public PantallaRanking(JuegoPrincipal juego, BaseDeDatos bd) {
+    public PantallaRanking(JuegoPrincipal juego) {
         super(juego);
-        this.bd = bd;
     }
 
     @Override
@@ -36,7 +33,7 @@ public class PantallaRanking extends PantallaBase {
         this.panel = new ScrollPane(tabla, skin);
 
         //Se obtienen a todos los usuarios registrados en la base de datos
-        ArrayList listaJugadores = this.bd.obtenerDatos();
+        ArrayList listaJugadores = this.juego.obtenerDatos();
         for (int i = 0; i < listaJugadores.size(); i++) {
             if (i % 2 == 0) {
                 this.tabla.add(listaJugadores.get(i).toString()).height(50).width(100);
