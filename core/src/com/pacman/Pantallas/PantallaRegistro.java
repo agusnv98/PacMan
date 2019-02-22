@@ -15,16 +15,13 @@ import com.pacman.JuegoPrincipal;
 
 public class PantallaRegistro extends PantallaBase {
 
-    private BaseDeDatos bd;
-
     private TextField usuarioTextField, contrasenaTextField;
     private TextButton ingreso, retroceso;
     private Label titulo;
     private Table tabla;
 
-    public PantallaRegistro(JuegoPrincipal juego, BaseDeDatos bd) {
+    public PantallaRegistro(JuegoPrincipal juego) {
         super(juego);
-        this.bd = bd;
     }
 
     @Override
@@ -34,15 +31,15 @@ public class PantallaRegistro extends PantallaBase {
         super.show();
         establecerCamara();
         this.skin = new Skin(Gdx.files.internal("skin/neon-ui.json"));
-        this.titulo = new Label(traductor.get("pantallaRegistro.titulo"),skin);
+        this.titulo = new Label(traductor.get("pantallaRegistro.titulo"), skin);
         this.titulo.setFontScale(1f);
         this.usuarioTextField = new TextField(traductor.get("pantallaIngreso/Registro.usuario"), this.skin);
         this.contrasenaTextField = new TextField(traductor.get("pantallaIngreso/Registro.contrasena"), this.skin);
         this.contrasenaTextField.setPasswordMode(true);
         this.contrasenaTextField.setPasswordCharacter('•');
         this.ingreso = new TextButton(traductor.get("pantallaIngreso/Registro.botonIngreso"), this.skin);
-        this.ingreso.addListener(new BotonRegistroListener(this.escenario, this.skin, this.bd, this.usuarioTextField,
-                this.contrasenaTextField, this.juego,this.traductor));
+        this.ingreso.addListener(new BotonRegistroListener(this.escenario, this.skin, this.juego.getBD(), this.usuarioTextField,
+                this.contrasenaTextField, this.juego, this.traductor));
         this.retroceso = new TextButton("<", this.skin);
         //Funcionalidad del Boton retroceso
         this.retroceso.addListener(new ClickListener() {

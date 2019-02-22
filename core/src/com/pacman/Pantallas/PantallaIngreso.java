@@ -9,22 +9,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.pacman.BaseDeDatos;
 import com.pacman.BotonIngresoListener;
 import com.pacman.JuegoPrincipal;
 
 public class PantallaIngreso extends PantallaBase {
-
-    private BaseDeDatos bd;
 
     private TextField usuarioTextField, contrasenaTextField;
     private TextButton ingreso, registro;
     private Label titulo;
     private Table tabla;
 
-    public PantallaIngreso(JuegoPrincipal juego, BaseDeDatos bd) {
+    public PantallaIngreso(JuegoPrincipal juego) {
         super(juego);
-        this.bd = bd;
     }
 
     @Override
@@ -39,7 +35,7 @@ public class PantallaIngreso extends PantallaBase {
         this.contrasenaTextField.setPasswordMode(true);
         this.contrasenaTextField.setPasswordCharacter('•');
         this.ingreso = new TextButton(traductor.get("pantallaIngreso/Registro.botonIngreso"), this.skin);
-        this.ingreso.addListener(new BotonIngresoListener(this.escenario, this.skin, this.bd, this.usuarioTextField,
+        this.ingreso.addListener(new BotonIngresoListener(this.escenario, this.skin, this.juego.getBD(), this.usuarioTextField,
                 this.contrasenaTextField, this.juego,this.traductor));
         this.registro = new TextButton(traductor.get("pantallaIngreso.botonRegistro"), this.skin);
 

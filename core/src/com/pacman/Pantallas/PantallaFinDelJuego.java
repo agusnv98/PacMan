@@ -18,11 +18,9 @@ public class PantallaFinDelJuego extends PantallaBase {
     private TextButton reiniciar;
     private Label titulo, palabraPuntaje, puntaje, palabraJugador, nombreJugador;
     private Table tabla;
-    private BaseDeDatos baseDeDatos;
 
-    public PantallaFinDelJuego(JuegoPrincipal juego, BaseDeDatos baseDeDatos) {
+    public PantallaFinDelJuego(JuegoPrincipal juego) {
         super(juego);
-        this.baseDeDatos = baseDeDatos;
     }
 
     @Override
@@ -67,7 +65,7 @@ public class PantallaFinDelJuego extends PantallaBase {
         this.retroceso.setPosition(10, altoEnPx - 10 - retroceso.getHeight());
 
         //Se crea la ventana de dialogo si hubo un nuevo record
-        if (baseDeDatos.actualizarPuntaje(datosPartida[0], Integer.parseInt(datosPartida[1]))) {
+        if (this.juego.actualizarPuntaje(datosPartida[0], Integer.parseInt(datosPartida[1]))) {
             System.out.println("Nuevo Record---------------------");
             Dialog ventana = new Dialog("", this.skin);
             TextButton boton = new TextButton("Ok", this.skin);
