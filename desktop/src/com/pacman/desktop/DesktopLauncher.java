@@ -6,8 +6,9 @@ import com.pacman.JuegoPrincipal;
 
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
-		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new JuegoPrincipal(), config);
-	}
+    public static void main(String[] arg) {
+        System.setProperty("user.name", "gasty");
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        new LwjglApplication(new JuegoPrincipal(new BaseDeDatosDesktop()), config);
+    }
 }
