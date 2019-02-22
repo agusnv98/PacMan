@@ -284,4 +284,9 @@ public class Mundo {
             fantasma.setEstado("finDebilitado");
         }
     }
+
+    public int getCantVidas() {
+        //metodo que devuelve la cantidad de vidas restantes del PacMan
+        return this.pacman.getCantVidas();
+    }
 }

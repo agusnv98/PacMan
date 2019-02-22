@@ -83,14 +83,17 @@ public class JuegoPrincipal extends Game {
     }
 
     public ArrayList obtenerDatos() {
+        //metodo que obtiene los puntajes maximos de todos los usuarios
         return this.baseDeDatos.obtenerDatos();
     }
 
     public boolean actualizarPuntaje(String nombre, int puntos) {
+        //metodo que actualiza el puntaje recibido por parametro, del jugador recibido por parametro
         return this.baseDeDatos.actualizarPuntaje(nombre, puntos);
     }
 
     public BaseDeDatos getBD() {
+        //metodo que devuelve la instancia de la base de datos del juego
         return this.baseDeDatos;
     }
 }
