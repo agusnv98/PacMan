@@ -21,7 +21,6 @@ public class PantallaJuegoPrincipal extends PantallaBase {
     //estableciendo la camara, los sonidos, el gamepad y el elemento que muestra el puntaje por pantalla
 
     private Mundo mundo;
-    private PacMan pacman;
 
     //Elementos Visuales
     private TextArea puntajePantalla;
@@ -46,11 +45,10 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         //System.out.println("Mapa" + widthEnPx + "//" + heightEnPx);
 
         this.mundo = new Mundo(this.mapa, this.escenario, this.manager, this.configSonido);
-        this.pacman = this.mundo.getPacman();
 
         //Se establece el gamePad
         Gdx.input.setInputProcessor(escenario);
-        this.touch = new Gamepad(15, this.skin, this.pacman);
+        this.touch = new Gamepad(15, this.skin, this.mundo.getPacman());
         this.touch.setBounds(76, 0, 140, 140);
         this.escenario.addActor(this.touch);
 
@@ -108,7 +106,7 @@ public class PantallaJuegoPrincipal extends PantallaBase {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.tiledMapRenderer.setView(this.camera);
         this.tiledMapRenderer.render();
-        int cantVidas = this.pacman.getCantVidas();
+        int cantVidas = this.mundo.getCantVidas();
         Batch batch = this.escenario.getBatch();
         batch.begin();
         for (int i = 0; i < cantVidas; i++) {
